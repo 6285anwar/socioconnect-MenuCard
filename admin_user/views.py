@@ -1239,6 +1239,8 @@ def register_restaurant(request):
     admin_users = DeveloperAdmin.objects.all()
 
     if request.method == 'POST':
+        r_username = request.POST["username"]
+
         r_restaurant_name = request.POST["property_name"]
         r_owner_name = request.POST["firstname"]
         r_type_of = request.POST["type_of"]
@@ -1267,6 +1269,7 @@ def register_restaurant(request):
        
         restaurant=RestaurantUser(restaurant_name=r_restaurant_name,
                                     owner_name=r_owner_name,
+                                    username=r_username,
                                     type_of=r_type_of,
                                     password=r_password,
                                     user_email=r_user_email,
@@ -1358,3 +1361,55 @@ def admin_manage_restaurant(request):
 
 
     return render(request,'admin_user/admin_manage_restaurant.html',context=context)
+
+def restaurant_approve(request, id):
+    try:
+        current_user = request.user
+        current_user.is_admin_user
+    except:
+        messages.info(request,"Please login to your account")
+        return redirect('login')
+    
+    restaurant = RestaurantUser.objects.get(id=id)
+    restaurant.status = "Active"
+    restaurant.start_date = datetime.now()
+    if int(restaurant.duration) == 7:
+        end_date = datetime.today() + relativedelta(days=+int(restaurant.duration))
+    else:
+        end_date = datetime.today() + relativedelta(months=+int(restaurant.duration))
+    restaurant.end_date = end_date
+    restaurant.save()
+    if restaurant == False:
+        html_tpl_path = 'email/emailforrestaurantmenucard.html'
+
+        context_data = {'username': restaurant.username, "hotel_owner": restaurant.owner_name,
+                        "property_name": restaurant.restaurant_name,"property_code": restaurant.property_code, "password": restaurant.password}
+        email_html_template = get_template(html_tpl_path).render(context_data)
+
+        email_msg = EmailMessage('Your registration completed',
+                                            email_html_template,
+                                            "Hudels <noreply@hudels.com>",
+                                            [restaurant.user_email],
+                                            reply_to=[settings.APPLICATION_EMAIL]
+                                            )
+        email_msg.content_subtype = 'html'
+        if restaurant.express_checkin:
+            with open(finders.find('images/checkins.png'), 'rb') as f:
+                logo = f.read()
+        if restaurant.other:
+            with open(finders.find('assets/img/socioconnects.png'), 'rb') as f:
+                logo = f.read()
+
+        with open(finders.find('images/image-2.png'), 'rb') as f:
+            tick = f.read()
+
+        logoMime = MIMEImage(logo, 'png')
+        tickMime = MIMEImage(tick, 'png')
+        tickMime.add_header('Content-ID', '<tickMime>')
+        logoMime.add_header('Content-ID', '<logoMime>')
+        email_msg.attach(logoMime)
+        email_msg.attach(tickMime)
+        email_msg.send(fail_silently=False)
+
+
+    return redirect('admin_manage_restaurant')

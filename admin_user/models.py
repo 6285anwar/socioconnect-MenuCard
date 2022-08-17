@@ -12,6 +12,8 @@ class DeveloperAdmin(AbstractUser):
     is_super_admin = models.BooleanField(default=False)
     is_hotel = models.BooleanField(default=False)
     is_sales_executives = models.BooleanField(default=False)
+    is_restaurantmenucard = models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.username

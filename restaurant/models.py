@@ -23,6 +23,7 @@ class RestaurantUser(models.Model):
     property_code = models.CharField(max_length=20)
     restaurant_name = models.CharField(max_length=80)
    
+    username = models.CharField(max_length=80,  null=True)
 
     owner_name = models.CharField(max_length=80)
     type_of = models.CharField(max_length=10, choices=TYPES, default='restaurant')

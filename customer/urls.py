@@ -16,8 +16,11 @@ urlpatterns = [
     path('rate/<str:username>', views.rate, name="rate"),
     path('contact_us', views.contact_us, name="contact_us"),
     path('email_click/<int:id>', views.email_click, name="email_click"),
+    path('restaurant_menucard', views.restaurant_menucard, name="restaurant_menucard"),
+
 
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+ 

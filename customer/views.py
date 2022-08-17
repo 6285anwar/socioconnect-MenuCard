@@ -43,7 +43,8 @@ def sendSMS(apikey, numbers, sender, message):
 #     'Jims Autos', 'This is your message')
 # print (resp)
 
-
+def restaurant_menucard(request):
+    return render(request, "restaurant_menucard.html")
 
 # Index page
 def index(request):

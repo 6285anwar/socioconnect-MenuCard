@@ -56,7 +56,8 @@ urlpatterns = [
 #--------------------- ANWAR --------------
 
     path('register_restaurant', views.register_restaurant, name="register_restaurant"),
-    path('admin_manage_restaurant', views.admin_manage_restaurant, name="admin_manage_restaurant")
+    path('admin_manage_restaurant', views.admin_manage_restaurant, name="admin_manage_restaurant"),
+    path('restaurant_approve/<int:id>',views.restaurant_approve, name="restaurant_approve"),
 
 
 

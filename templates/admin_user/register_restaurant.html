@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label class="form-label required">Restaurant Name</label>
-                            <input type="text" class="form-control" name="property_name" placeholder="Property Name"
+                            <input type="text" class="form-control" name="property_name" placeholder="Property Name" id="restaurantname"
                                 required />
                             <div class="invalid-feedback">Please provide a valid Property.</div>
                         </div>
@@ -232,7 +232,8 @@
         var a = document.getElementById("number").value;
         for (i = 1; i <= a; i++) {
             var textbox = document.createElement("textarea");
-            document.getElementById("textboxes").appendChild(textbox).value = "http://hacknasa.si/restaurantname/" + i;
+            restname = document.getElementById("restaurantname").value
+            document.getElementById("textboxes").appendChild(textbox).value = "http://hacknasa.si/"+restname+"/" + i;
 
             if (textbox.value == "") {
                 textbox.style.backgroundColor = "yellow";
