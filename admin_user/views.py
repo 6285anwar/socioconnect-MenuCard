@@ -1298,8 +1298,11 @@ def register_restaurant(request):
         restaurant.property_code =  "SC" + \
                         str(restaurant.id).zfill(5)
         restaurant.save()
-
-        for i in range(0, int(r_tablecount)):
+        
+        def range1(start, end):
+            return range(start, end+1)
+        
+        for i in range1(1, int(r_tablecount)):
             documents = request.FILES.get("qr"+str(i), False)
             tableqrcodes.objects.create(tableqr=documents,restaurantname_id=restaurant.id)
 
