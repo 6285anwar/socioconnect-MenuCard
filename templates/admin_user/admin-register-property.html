@@ -1,0 +1,557 @@
+{% extends 'admin_user/admin-base.html' %}
+{% load static %}
+{% block content %}
+<div class="page-wrapper">
+    <div class="container-xl">
+        <!-- Page title -->
+        <div class="page-header d-print-none">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h2 class="page-title">Add property</h2>
+                </div>
+                <!-- style="background-color:rgb(204, 31, 31);box-shadow: none !important;" -->
+            </div>
+            {% if messages %}
+            <span>
+             
+      
+              <div class="messages" style="text-align:center;">
+                {% for message in messages %}
+                <div style="height:50px; width:100%;padding-top:15px;" {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</div>
+                {% endfor %}
+      
+              </div>
+              
+            </span>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="page-body">
+        <div class="container-xl">
+            <fieldset class="form-fieldset">
+                <form method="post" action="register_hotel" enctype="multipart/form-data" class="needs-validation">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required">Property Name</label>
+                        <input type="text" class="form-control" name="property_name" placeholder="Property Name" required />
+                        <div class="invalid-feedback">Please provide a valid Property.</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom01"> Owner name</label>
+                        <input type="text" class="form-control" id="validationCustom01" placeholder="Owner Name" name="firstname"
+                        required  />
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="type_of">Type</label>
+                        <select name="type_of" class="form-control" id="type_of">
+                            <option value="hotel">Hotel</option>
+                            <option value="restaurant">Restaurant</option>
+                            <option value="resort">Resort</option>
+                            <option value="lodge">Lodge</option>
+                            <option value="service">Service</option>
+                            <option value="home_stay">Home Stay</option>
+                            <option value="house_boat">House Boat</option>
+                          </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="yourUsername">username</label>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text"> @ </span>
+                            <input type="text" class="form-control " id="yourUsername" name="username" placeholder="Username"
+                            aria-describedby="inputGroupPrepend" required  />
+                            <div class="invalid-feedback">Please choose a username.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom03">Password</label>
+                        <input type="text" class="form-control"  name="password"  id="validationCustom03" placeholder="Password"
+                        required />
+                        <div class="invalid-feedback">Please provide a Password</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom04">Confirm Password</label>
+                        <input type="text" class="form-control" name="confirm_password"  id="validationCustom04"
+                        placeholder="Password" required />
+                        <div class="invalid-feedback">Please provide a valid Password</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">Email</label>
+                        <input type="text" class="form-control" name="email" placeholder="E-mail" required/>
+                        <div class="invalid-feedback">Please provide a valid Email.</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom02">Mobile</label>
+                        <input type="text" class="form-control" name="mobile" placeholder="Mobile" required />
+                        <div class="valid-feedback">Valid mobile Number please</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">Logo</label>
+                        <input type="file" class="form-control" id="inputGroupFile02" placeholder="Profile Picture" name="profile_photo" required />
+                        <div class="invalid-feedback">Please provide a valid Profile</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">Address</label>
+                        <input type="text" class="form-control"  placeholder="Address" name="address" required/>
+                        <div class="invalid-feedback">Please provide a valid Address</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">City</label>
+                        <input type="text" class="form-control" name="location" placeholder="location" required />
+                        <div class="invalid-feedback">
+                            Please provide a valid Location.
+                          </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">State</label>
+                        <input type="text" class="form-control" name="state" placeholder="State" required  />
+                        <div class="invalid-feedback">
+                            Please provide a valid Property.
+                          </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">Country</label>
+                        <input type="text" class="form-control" placeholder="Country" name="country" required />
+                        <div class="invalid-feedback">Please provide a valid country</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="admin_user">Sales Exceutive</label>
+                        <select name="admin_user" class="form-control" id="admin_user">
+                            {% for admin in admin_users %}
+                            <option value="{{admin.admin_user.username}}">{{admin.admin_user.username}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                  
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8 col-lg-2 mb-4">
+                        
+                        <div class="form-selectgroup form-selectgroup-pills">
+                            <label class="form-selectgroup-item" for="wemail">
+                                <input type="checkbox" class="form-selectgroup-input" onclick="WithoutEmail(this)" id="wemail" value="True"
+                                name="without_email" />
+                                <span class="form-selectgroup-label">Without Email</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 col-lg-2 mb-4">
+                        
+                        <div id="withoutfilter" class="form-selectgroup form-selectgroup-pills">
+                            <label class="form-selectgroup-item">
+                                <input type="checkbox" name="name" id="wfilter"  class="form-selectgroup-input" />
+                                <span class="form-selectgroup-label">Without Filter</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 col-lg-2 mb-4">
+                        
+                        <div id="withoutbackend" class="form-selectgroup form-selectgroup-pills">
+                            <label class="form-selectgroup-item" for="backend">
+                                <input type="checkbox" class="form-selectgroup-input"  id="backend" value="True"
+                                name="backend" />
+                                <span class="form-selectgroup-label">Without Backend</span>
+                            </label>
+                        </div>
+                    </div>
+                 
+                    <div class="col-sm-8 col-lg-2 mb-4">
+                        
+                        <div id="ihouse" class="form-selectgroup form-selectgroup-pills">
+                            <label class="form-selectgroup-item" for="inhouse">
+                                <input type="checkbox" class="form-selectgroup-input"  id="inhouse" value="True" name="inhouse"/>
+                                <span class="form-selectgroup-label">Inhouse</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="expcheckin" class="col-sm-8 col-lg-2 mb-4">
+                        <div class="form-selectgroup form-selectgroup-pills">
+                            <label class="form-selectgroup-item" for="express_checkin">
+                                <input type="checkbox" class="form-selectgroup-input" onclick="ExpressCheckin(this)" id="express_checkin" value="True"
+                                name="express_checkin" />
+                                <span class="form-selectgroup-label">Express check-in</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-lg-2 mb-4">
+                        <div class="form-selectgroup form-selectgroup-pills">
+                            <label class="form-selectgroup-item" for="google">
+                                <input onclick="Google(this)" type="checkbox" class="form-selectgroup-input"  name="google" id="google" value="True" />
+                                <span class="form-selectgroup-label"> Google </span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div id="tripadviserr" class="col-sm-6 col-lg-2 mb-4">
+                        <div class="form-selectgroup form-selectgroup-pills">
+                            <label class="form-selectgroup-item" for="trip_adviser">
+                                <input  class="form-selectgroup-input" type="checkbox" id="trip_adviser" onclick="TripAdviser(this)" value="True" name="trip_adviser"/>
+                                <span class="form-selectgroup-label"> Tripadvisor </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="gt" class="col-sm-6 col-lg-2 mb-4">
+                        <div class="form-selectgroup form-selectgroup-pills">
+                            <label class="form-selectgroup-item" for="g_t">
+                                <input type="checkbox"  class="form-selectgroup-input" onclick="GT(this)" id="g_t" value="True" name="g_t" />
+                                <span class="form-selectgroup-label">Google & Tripadvisor</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="tg" class="col-sm-6 col-lg-2 mb-4">
+                        <div class="form-selectgroup form-selectgroup-pills">
+                            <label class="form-selectgroup-item" for="t_g">
+                                <input type="checkbox"  class="form-selectgroup-input" onclick="TG(this)"  id="t_g" value="True" name="t_g" />
+                                <span class="form-selectgroup-label">Tripadvisor & Google</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="socialmediaa" class="col-sm-6 col-lg-2 mb-4">
+                        <div class="form-selectgroup form-selectgroup-pills">
+                            <label class="form-selectgroup-item" for="social_media">
+                                <input type="checkbox" class="form-selectgroup-input" onclick="SocialMedia(this)" id="social_media" value="True" name="social_media" />
+                                <span class="form-selectgroup-label">Social media</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="whatsapp" class="col-sm-6 col-lg-2 mb-4">
+                        <div class="form-selectgroup form-selectgroup-pills">
+                            <label class="form-selectgroup-item" for="whatsappin">
+                                <input type="checkbox" class="form-selectgroup-input" id="whatsappin" value="True" name="whatsappin" />
+                                <span class="form-selectgroup-label">Whatsapp</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="col-12"></div>
+                <div class="col-lg-6"></div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">Amount</label>
+                        <input type="number" class="form-control" placeholder="Amount" name="amount" required />
+                        <div class="invalid-feedback">Please provide a valid Amount</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">Tax</label>
+                        <input type="number" class="form-control" placeholder="Tax" name="tax" required />
+                        <div class="invalid-feedback">Please provide a valid Amount</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">Total Amount</label>
+                        <input type="number" class="form-control" placeholder="Total" name="total" required />
+                        <div class="invalid-feedback">Please provide a valid Total</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="duration">Duration</label>
+                        <select name="duration" class="form-control" id="duration">
+                            <option value="7">7 Days</option>
+                            <option value="1">1 Month</option>
+                            <option value="4">4 Month</option>
+                            <option value="6">6 Month</option>
+                            <option value="12">12 Month</option>
+                            <option value="24">24 Month</option>
+                          </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">Website</label>
+                        <input type="text" class="form-control" placeholder="Website" name="website" required />
+                        <div class="invalid-feedback">Please provide a valid Profile</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">Agreement</label>
+                        <input type="file" class="form-control" id="inputGroupFile02" placeholder="Agreement" name="agreement" required/>
+                        <div class="invalid-feedback">
+                            Please provide a valid agreement
+                          </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="google_link" style="display: none" class="col-md-6 mb-2">
+                        <label class="form-label required" for="validationCustom05">Google Place ID</label>
+                        <input type="text" class="form-control" name="google_link" placeholder="Google linK" />
+                        <div class="invalid-feedback">
+                            Please provide a valid google_link.
+                          </div>
+                    </div>
+                    <div style="display: none" id="trip_adviser_link" class="col-md-6 mb-2">
+                        <label for="validationCustom05" class="form-label required">Tripadvisor Link</label>
+                        <input type="text" class="form-control" name="trip_adviser_link" placeholder="Trip adviser linK"/>
+                        <div class="invalid-feedback">
+                            Please provide a valid tripadvisor_link.
+                          </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="facebook_access_token" style="display: none" class="col-md-4 mb-3">
+                        <label class="form-label " for="validationCustom05">Facebook Access Token </label>
+                        <input type="text" class="form-control" name="facebook_access_token" placeholder="Facebook Access Token" />
+                        <div class="invalid-feedback">
+                            Please provide a valid Facebook Access Token.
+                          </div>
+                    </div>
+                    <div id="page_id" style="display: none" class="col-md-4 mb-3">
+                        <label class="form-label " for="validationCustom05">Facebook Page ID</label>
+                        <input type="text" class="form-control" name="page_id" placeholder="Facebook Page Id"/>
+                        <div class="invalid-feedback">
+                            Please provide a valid Facebook page id.
+                          </div>
+                    </div>
+                    <div id="insta_id" style="display: none" class="col-md-4 mb-3">
+                        <label class="form-label " for="validationCustom05">Instagram ID</label>
+                        <input type="text" class="form-control"  placeholder="Instagram Id" name="insta_id" />
+                        <div class="invalid-feedback">
+                            Please provide a valid Instagram Id
+                          </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="url" style="display: none" class="col-md-6 mb-2">
+                        <label for="url" class="form-label required">Rating Url</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder=" Rating Url" name="url" id="rating_url"
+                                aria-label="Rating Url" aria-describedby="button-addon2" />
+                            <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="Generate(this)">
+                                Generate url
+                            </button>
+                        </div>
+                    </div>
+                    <div id="rating_qr" style="display: none" class="col-md-6 mb-2">
+                        <label for="validationCustom05" class="form-label required">Rating QR</label>
+                        <input type="file" class="form-control" id="validationCustom07" placeholder="Qr" name="qr" />
+                        <div class="invalid-feedback">Please provide a valid Qr</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="checkin_url" style="display:none" class="col-md-6 mb-2">
+                        <label for="checkin_url1" class="form-label required">Check-in Url</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="checkin_url1" placeholder="Checkin Url" name="checkin_url"
+                                aria-label="Check-in Url" aria-describedby="button-addon2" />
+                                <div class="invalid-feedback">Please provide a valid Url</div>
+                            <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="GenerateQr(this)">
+                                Generate url
+                            </button>
+                        </div>
+                    </div>
+                    <div id="checkin_qr" style="display:none" class="col-md-6 mb-2">
+                        <label for="validationCustom05" class="form-label required">Check-in QR </label>
+                        <input type="file" class="form-control" id="validationCustom06" placeholder="Qr" name="checkin_qr" />
+                        <div class="invalid-feedback">Please provide a valid Qr</div>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <button id="checkBtn" class="btn btn-primary" type="submit">Submit form</button>
+                </div>
+            </form>
+            </fieldset>
+        </div>
+    </div>
+</div>
+<!-- ADD property form ends -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $("#checkBtn").click(function () {
+      checked = $("input[type=checkbox]:checked").length;
+
+      if (!checked) {
+        alert("You must check at least one checkbox.");
+        return false;
+      }
+    });
+  });
+
+  function Google() {
+    // Get the checkbox
+    var google = document.getElementById("google");
+    // Get the output text
+    var url = document.getElementById("url");
+    var rating_qr = document.getElementById("rating_qr");
+    var text = document.getElementById("google_link");
+    // If the checkbox is checked, display the output text
+    if (google.checked == true) {
+      text.style.display = "block";
+      url.style.display = "block";
+      rating_qr.style.display = "block";
+    } else {
+      text.style.display = "none";
+      url.style.display = "none";
+      rating_qr.style.display = "none";
+    }
+  }
+  function TripAdviser() {
+    // Get the checkbox
+    var trip_adviser = document.getElementById("trip_adviser");
+    // Get the output text
+    var url = document.getElementById("url");
+    var rating_qr = document.getElementById("rating_qr");
+    var text = document.getElementById("trip_adviser_link");
+    // If the checkbox is checked, display the output text
+    if (trip_adviser.checked == true) {
+      text.style.display = "block";
+      url.style.display = "block";
+      rating_qr.style.display = "block";
+    } else {
+      text.style.display = "none";
+      url.style.display = "none";
+      rating_qr.style.display = "none";
+    }
+  }
+
+  function GT() {
+    // Get the checkbox
+    var gt = document.getElementById("g_t");
+    var url = document.getElementById("url");
+    var rating_qr = document.getElementById("rating_qr");
+    // Get the output text
+    var trip_link = document.getElementById("trip_adviser_link");
+    var google_link = document.getElementById("google_link");
+
+    // If the checkbox is checked, display the output text
+    if (gt.checked == true) {
+      trip_link.style.display = "block";
+      google_link.style.display = "block";
+      url.style.display = "block";
+      rating_qr.style.display = "block";
+    } else {
+      google_link.style.display = "none";
+      trip_link.style.display = "none";
+      url.style.display = "none";
+      rating_qr.style.display = "none";
+    }
+  }
+  function TG() {
+    // Get the checkbox
+    var tg = document.getElementById("t_g");
+    var url = document.getElementById("url");
+    var rating_qr = document.getElementById("rating_qr");
+    // Get the output text
+    var trip_link = document.getElementById("trip_adviser_link");
+    var google_link = document.getElementById("google_link");
+
+    // If the checkbox is checked, display the output text
+    if (tg.checked == true) {
+      trip_link.style.display = "block";
+      google_link.style.display = "block";
+      url.style.display = "block";
+      rating_qr.style.display = "block";
+    } else {
+      google_link.style.display = "none";
+      trip_link.style.display = "none";
+      url.style.display = "none";
+      rating_qr.style.display = "none";
+    }
+  }
+
+  function SocialMedia() {
+    // Get the checkbox
+    var social_media = document.getElementById("social_media");
+
+    // Get the output text
+    var url = document.getElementById("url");
+    var rating_qr = document.getElementById("rating_qr");
+    var insta_id = document.getElementById("insta_id");
+    var page_id = document.getElementById("page_id");
+    var facebook_access_token = document.getElementById(
+      "facebook_access_token"
+    );
+
+    // If the checkbox is checked, display the output text
+    if (social_media.checked == true) {
+      insta_id.style.display = "block";
+      page_id.style.display = "block";
+      facebook_access_token.style.display = "block";
+      url.style.display = "block";
+      rating_qr.style.display = "block";
+    } else {
+      insta_id.style.display = "none";
+      page_id.style.display = "none";
+      facebook_access_token.style.display = "none";
+      url.style.display = "none";
+      rating_qr.style.display = "none";
+    }
+  }
+  function ExpressCheckin() {
+    var checkin = document.getElementById("express_checkin")
+    var checkin_url = document.getElementById("checkin_url")
+    var checkin_qr = document.getElementById("checkin_qr")
+
+
+    if (checkin.checked == true) {
+      checkin_url.style.display = "block";
+      checkin_qr.style.display = "block";
+    } else {
+      checkin_url.style.display = "none";
+      checkin_qr.style.display = "none";
+
+    }
+  }
+  function WithoutEmail() {
+    var wemail = document.getElementById("wemail")
+    var tripadviserr = document.getElementById("tripadviserr")
+    var gt = document.getElementById("gt")
+    var t_g = document.getElementById("t_g")
+    var socialmediaa = document.getElementById("socialmediaa")
+    var ihouse = document.getElementById("ihouse")
+    var expcheckin = document.getElementById("expcheckin")
+    var withoutfilter = document.getElementById("withoutfilter")
+    var withoutbackend = document.getElementById("withoutbackend")
+    
+
+
+    if (wemail.checked == true) {
+        
+        tripadviserr.style.display = "none";
+        gt.style.display = "none";
+        tg.style.display = "none";
+        socialmediaa.style.display = "none";
+        ihouse.style.display = "none";
+        expcheckin.style.display = "none";
+        withoutfilter.style.display = "none";
+        withoutbackend.style.display = "none";
+    } else {
+        tripadviserr.style.display = "";
+        gt.style.display = "";
+        tg.style.display = "";
+        socialmediaa.style.display = "";
+        ihouse.style.display = "";
+        expcheckin.style.display = "";
+        withoutfilter.style.display = "";
+        withoutbackend.style.display = "";
+
+    }
+  }
+  function Generate() {
+    url = document.getElementById("rating_url")
+    username = document.getElementById("yourUsername").value
+    url.value = window.location.origin + "/rate/" + username
+  }
+
+  function GenerateQr() {
+    url = document.getElementById("checkin_url1")
+    username = document.getElementById("yourUsername").value
+    url.value = window.location.origin + "/checkin/check_mobile/" + username
+  }
+</script>
+{% endblock content %}
+

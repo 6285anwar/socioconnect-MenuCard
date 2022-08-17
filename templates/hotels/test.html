@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Facebook Login JavaScript Example</title>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+    <script>
+        window.fbAsyncInit = function () {
+            // FB JavaScript SDK configuration and setup
+            FB.init({
+                appId: '3147361772161730', // FB App ID
+                cookie: true,  // enable cookies to allow the server to access the session
+                xfbml: true,
+                status: true,  // parse social plugins on this page
+                autoLogAppEvents: true,
+                version: 'v12.0' // use graph api version 2.8
+            });
+
+            // Check whether the user already logged in
+            console.log("working")
+        };
+
+        // Load the JavaScript SDK asynchronously
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        function fbLogin() {
+            FB.login(function (response) {
+                console.log(response.status)
+
+                if (response.authResponse) {
+                    var access_token = FB.getAuthResponse()['accessToken'];
+
+                    // Get and display the user profile data
+                document.getElementById('status').innerHTML = 'User cancelled login or did not fully authorize.'+ access_token;
+                    getFbUserData();
+                    
+                } else {
+                    var access_token = FB.getAuthResponse()['accessToken'];
+
+                    loginfb()
+                    document.getElementById('status').innerHTML = 'User cancelled login or did not fully authorize.'+ access_token;
+                }
+            }, {scope: 'instagram_basic, pages_show_list'});
+        }
+
+
+        // Fetch the user profile data from facebook
+        function Share() {
+            FB.ui(
+                {
+                    method: 'share',
+                    href: 'https://developers.facebook.com/docs/',
+                },
+                // callback
+                function (response) { 
+                   
+                    if (response && !response.error_message) {
+                        alert('Posting completed.');
+                    } else {
+                        alert(response.status)
+                    }
+                }
+            );
+        };
+
+    </script>
+
+
+
+    <!-- The JS SDK Login Button -->
+
+    <a href="javascript:void(0);" onclick="fbLogin();" id="fbLink">Connect</a>
+    <button onclick="Share()" id="send-button" type="button">Send</button>
+    <div id="status">
+        <input>
+    </div>
+
+
+    <div>
+
+    </div>
+
+    <!-- Load the JS SDK asynchronously -->
+</body>
+
+</html>
+

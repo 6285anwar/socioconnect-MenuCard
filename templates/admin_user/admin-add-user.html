@@ -1,0 +1,98 @@
+{% extends 'admin_user/admin-base.html' %}
+{% load static %}
+{% block content %}
+<div class="page-wrapper">
+    <div class="container-xl">
+        <!-- Page title -->
+        <div class="page-header d-print-none">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h2 class="page-title">Add User</h2>
+                </div>
+                <!-- style="background-color:rgb(204, 31, 31);box-shadow: none !important;" -->
+            </div>
+            {% if messages %}
+            <span>
+             
+      
+              <div class="messages" style="text-align:center;">
+                {% for message in messages %}
+                <div style="height:50px; width:100%;padding-top:15px;" {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</div>
+                {% endfor %}
+      
+              </div>
+              
+            </span>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="page-body">
+        <div class="container-xl">
+            <fieldset class="form-fieldset">
+                <form enctype="multipart/form-data" class="needs-validation" method="post" action="register_admin">
+                    {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required">Firstname</label>
+                        <input type="text" class="form-control"  placeholder="First name" id="validationCustom01" name="firstname" required>
+                        <div class="invalid-feedback">Please provide a valid Property.</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom01"> Lastname</label>
+                        <input type="text" class="form-control" id="validationCustom02" name="lastname" placeholder="Last name" required>
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom01"> Username</label>
+                        <input type="text" class="form-control" id="validationCustomUsername" name="username" placeholder="Username" aria-describedby="inputGroupPrepend" required>
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom01"> Email</label>
+                        <input type="email" class="form-control" name="email" id="validationCustom05" placeholder="E-mail" required>
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom03">Password</label>
+                        <input type="password" name="password" class="form-control" id="validationCustom03" placeholder="Password" required>
+                        <div class="invalid-feedback">Please provide a Password</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom04">Confirm Password</label>
+                        <input type="password" name="confirm_password" class="form-control" id="validationCustom04" placeholder="Password" required>
+
+                        <div class="invalid-feedback">Please provide a valid Password</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom01"> Designation</label>
+                        <input type="text" class="form-control" id="validationCustom05" name="designation" placeholder="Designation" required>
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom03">Profile Photo</label>
+                        <input type="file" class="form-control" id="validationCustom05" placeholder="Profile Picture" name="profile_photo" required>
+                        <div class="invalid-feedback">Please provide a Profile picture</div>
+                    </div>
+                   
+                </div>
+
+                <div class="col-12 text-center">
+                    <button id="checkBtn" class="btn btn-primary" type="submit">Submit form</button>
+                </div>
+            </form>
+            </fieldset>
+        </div>
+    </div>
+</div>
+<!-- ADD property form ends -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+{% endblock content %}
+

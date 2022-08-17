@@ -1,0 +1,367 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Hudels</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  <link href="{% static 'assets/img/socioconnects_icon.png' %}" rel="icon">
+
+  <!-- Favicons -->
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/quill/quill.snow.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/simple-datatables/style.css' %}" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  <style>
+    .print_image{
+      width:150px;
+      height:120px;
+    }
+    tr {
+      height: "300px" !important;
+    }
+
+    .head {
+      font-weight: bold;
+      font-size: 15px;
+
+    }
+
+    .val {
+      font-size: 15px;
+
+    }
+  </style>
+  <!-- =======================================================
+  * Template Name: NiceAdmin - v2.2.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  <script>
+
+  </script>
+</head>
+
+<body>
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{user.username}}</span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>{{user.username}}</h6>
+              <span>{{customer.hotel.property_name}}</span>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'logout_hotel' %}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav><!-- End Icons Navigation -->
+
+  </header><!-- End Header -->
+
+  <aside style="padding-top:50px;" id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'dashboard_hotel' %}">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'user_profile' %}">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
+        </a>
+      </li><!-- End Profile Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'total_checkin' %}">
+          <i class="bi bi-person"></i>
+          <span>Customer Details</span>
+        </a>
+      </li><!-- End Profile Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'check_mobile' user.username %}">
+          <i class="bi bi-card-list"></i>
+          <span>Registration Form</span>
+        </a>
+      </li><!-- End Register Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed dropdown-item d-flex align-items-center" data-bs-toggle="modal"
+          data-bs-target="#basicModal">
+          <i class="bi bi-person"></i>
+          <span id="contact_us">Contact Us</span>
+        </a>
+      </li>
+      {% if customer.hotel.other %}
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'hotel_dashboard' %}">
+          <i class="bi bi-toggle-on"></i>
+          <span>Check-In</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      {% endif %}
+      <li class="nav-item" style="padding-top:30px;float:left;padding-left:20px;">
+
+        <a href="{{customer.hotel.checkin_qr.url}}" download><button
+            style="background-color:#548ca8; color:white;font-weight:200; font-size:small; height:30px; width:auto;"
+            type="button" class="btn btn-success"><span>Checkin Qr Code</span> &nbsp; <i
+              class="bi bi-download"></i></button></a>
+      </li><!-- End Register Page Nav -->
+
+    </ul>
+
+  </aside><!-- End Sidebar-->
+
+  <main id="main" style="padding:0;background-color:#fff;border: 2px black; height:842px; " class="main">
+
+    <section style="padding:0;background-color:#fff;border: 2px black; height:842px;" id="details" class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body" style="border: 2px black; height:825px;border-style: solid;">
+              <!-- <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p> -->
+              <div class="card-body" style="padding-top:50px;text-align:center;">
+                <div style="text-align:center;padding-bottom:20px; padding-top:20px;"><img
+                    style="vertical-align: middle;width: 100px;height: 100px;border-radius: 50%;"
+                    src="{{customer.hotel.profile_photo.url}}" alt="Avatar" class="avatar">
+                  <h2 style="padding-top:30px;">{{customer.hotel.property_name}}</h2>
+                </div>
+                <!-- Table with stripped rows -->
+                <table style="width:100%;text-align:center;" id="table_detail" class="table-bordered">
+
+                  <tbody>
+                    <tr height="50px">
+                      <td class="head">Firstname</td>
+                      <td class="val">{{customer.firstname}}</td>
+
+                      <td class="head">Lastname</td>
+                      <td class="val">{{customer.lastname}}</td>
+                    </tr>
+                    <tr height="50px">
+                      <td class="head">Address</td>
+                      <td class="val">{{customer.address}}</td>
+
+                      <td class="head">Email</td>
+                      <td class="val">{{customer.email}}</td>
+                    </tr>
+
+                    <tr height="50px">
+                      <td class="head">Room Number</td>
+                      <td class="val">{{customer.room}}</td>
+
+                      <td class="head">Mobile</td>
+                      <td class="val">{{customer.mobile}}</td>
+                    </tr>
+
+                    <tr height="50px">
+
+
+                      <td class="head">Checkin</td>
+                      <td class="val">{{customer.check_in}}</td>
+
+                      <td class="head">Checkout</td>
+                      <td class="val">{{customer.check_out}}</td>
+
+                    </tr>
+
+                    <tr height="50px">
+                      <td class="head">Adults</td>
+                      <td class="val">{{customer.no_of_adult}}</td>
+
+                      <td class="head">Children</td>
+                      <td class="val">{{customer.no_of_children}}</td>
+                    </tr>
+
+
+                    <tr height="50px">
+                      <td class="head">Remark</td>
+                      <td class="val">{{customer.remark}}</td>
+
+                      <td class="head">Amount</td>
+                      <td class="val">{{customer.amount}}</td>
+                    </tr>
+                    <tr height="50px">
+                      <td class="head">Plan</td>
+                      <td class="val">{{customer.plan}}</td>
+
+                      <td class="head">Booking Agency</td>
+                      <td class="val">{{customer.booking_agency}}</td>
+                    </tr>
+                    <tr height="50px">
+                      <td class="head">Status</td>
+                      <td class="val">{{customer.status}}</td>
+
+                      <td class="head">Signature</td>
+                      <td class="val"><a href="{{customer.signature.url}}"><img style="width: 100px; height:60px;"
+                            src="{{customer.signature.url}}" alt=""></a></td>
+                    </tr>
+
+                  </tbody>
+                </table>
+                <!-- End Table with stripped rows -->
+                <div class="card-body" style="padding-top:150px;text-align:center;">
+                  <div style="text-align:center;padding-bottom:20px; padding-top:20px;">
+                    <span style="padding-top:30px;">{{customer.hotel.address}}</span>
+                    <br><span>{{customer.hotel.state}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+
+                <!-- Basic Modal -->
+
+                <div class="modal fade" id="basicModal" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Contact US</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body" style="text-align: center;">
+                        <h3>{{customer.hotel.admin_name.admin_user.first_name}}</h3>
+                        <h6>{{customer.hotel.admin_name.admin_user.email}}</h6>
+                        <h6>{{customer.hotel.admin_name.mobile}}</h6>
+
+                      </div>
+
+                    </div>
+                  </div>
+                </div><!-- End Basic Modal-->
+
+              </div>
+            </div>
+          </div>
+    </section>
+
+
+  </main>
+  <main id="main" style="padding-top:0;background-color:#fff;border: 2px black; height:842px; " class="main">
+
+    <section style="padding-top:100px;background-color:#fff;border: 2px black; height:842px;" id="details" class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body" style="border: 2px black; height:825px;border-style: solid;">
+              <!-- <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p> -->
+           <table style="width:100%; padding-top:30px">
+             <tbody>
+               <tr style="height:100px; width:100%;padding:30px;">
+                 <td>ID proof</td>
+                 <td><img class="print_image" src="{{customer.id_proof.url}}" alt="id"></td>
+                </tr>
+                <tr style="height:100px; width:100%">
+                  <td>ID proof</td>
+                  <td><img class="print_image" src="{{customer.id_proof_1.url}}" alt="id"></td>
+                 </tr>
+                 <tr style="height:100px; width:100%">
+                  <td>ID proof</td>
+                  <td><img class="print_image" src="{{customer.id_proof_2.url}}" alt="id"></td>
+                 </tr>
+                 <tr style="height:100px; width:100%">
+                  <td>Selfi</td>
+                  <td><img class="print_image" src="{{customer.selfi.url}}" alt="id"></td>
+                 </tr>
+                
+             </tbody>
+             
+           </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- ======= Footer ======= -->
+
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+  <script>
+    function sleep(milliseconds) {
+      return new Promise(resolve => setTimeout(resolve, milliseconds));
+    }
+    window.onload = function () {
+      window.print()
+
+
+
+    }
+  </script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.min.js"></script>
+  <!-- Vendor JS Files -->
+  <script>
+    function downloadCheckinQr() {
+      var source = "{{customer.hotel.checkin_qr.url}}"
+
+      var str = source.substring(source.lastIndexOf('/') + 1)
+      saveAs(source, str);
+    }
+  </script>
+
+</body>
+
+</html>

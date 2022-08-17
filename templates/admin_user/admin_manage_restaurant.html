@@ -1,0 +1,593 @@
+{% extends 'admin_user/admin-base.html' %} {% load static %} {% block content %}
+<div class="page-wrapper">
+    <div class="container-xl">
+        <!-- Page title -->
+        <div class="page-header d-print-none">
+            <div class="row align-items-center">
+                <div class="col">
+                    <!-- Page pre-title -->
+
+                    <h2 class="page-title">Manage Restaurant</h2>
+                </div>
+                <!-- Page title actions -->
+                <div class="col-auto ms-auto d-print-none">
+                    <div class="btn-list">
+                        <a href="#" class="btn btn-primary d-none d-sm-inline-block"
+                            data-bs-toggle="modal" data-bs-target="#modal-report">
+                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                            Create new Property
+                        </a>
+                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
+                            data-bs-target="#modal-report" aria-label="Create new report">
+                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- cards start -->
+
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-deck row-cards">
+                <div class="col-sm-6 col-lg-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="header">Properties</div>
+                                <div class="ms-auto lh-1">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false"></a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <button class="dropdown-item" onclick="TotalSales(this)">Total</button>
+                                            <button class="dropdown-item" onclick="ThisMonthSales(this)">This
+                                                month</button>
+                                            <button class="dropdown-item" onclick="TodaySales(this)">Today</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center pt-4 mt-auto">
+                                <span class="bg-blue text-white avatar">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="icon icon-tabler icon-tabler-building" width="24" height="24"
+                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <line x1="3" y1="21" x2="21" y2="21"></line>
+                                        <line x1="9" y1="8" x2="10" y2="8"></line>
+                                        <line x1="9" y1="12" x2="10" y2="12"></line>
+                                        <line x1="9" y1="16" x2="10" y2="16"></line>
+                                        <line x1="14" y1="8" x2="15" y2="8"></line>
+                                        <line x1="14" y1="12" x2="15" y2="12"></line>
+                                        <line x1="14" y1="16" x2="15" y2="16"></line>
+                                        <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16"></path>
+                                    </svg>
+                                </span>
+                                <div class="ms-4">
+                                    <div style="display:none;" id="thismonthsales">
+                                        <a class="text-body"><strong
+
+                                          style="font-size: 30px; padding: left 5px;">{{restaurant_this_month}}</strong></a>
+                                      </div>
+                                      <div id="total_sales">
+
+                                        <a class="text-body"><strong
+                                                style="font-size: 30px; padding: left 5px;">{{properties}}</strong></a>
+                                    </div>
+                                    <div style="display:none;" id="today_sales">
+                                        <a class="text-body"><strong
+                                                style="font-size: 30px; padding: left 5px;">{{restaurant_today}}</strong></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="header">Active</div>
+                                <div class="ms-auto lh-1">
+
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center pt-4 mt-auto">
+                                <span class="bg-green text-white avatar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-checks"
+                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M7 12l5 5l10 -10"></path>
+                                        <path d="M2 12l5 5m5 -5l5 -5"></path>
+                                    </svg>
+                                </span>
+                                <div class="ms-4">
+                                    <a href="#" class="text-body"><strong
+                                            style="font-size: 30px; padding: left 5px">{{active}}</strong></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="header">Inactive</div>
+                                <div class="ms-auto lh-1">
+
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center pt-4 mt-auto">
+                                <span class="bg-red text-white avatar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-ban"
+                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="12" cy="12" r="9"></circle>
+                                        <line x1="5.7" y1="5.7" x2="18.3" y2="18.3"></line>
+                                    </svg>
+                                </span>
+                                <div class="ms-4">
+                                    <a href="#" class="text-body"><strong
+                                            style="font-size: 30px; padding: left 5px">{{inactive}}</strong></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="header">Renewals</div>
+                                <div class="ms-auto lh-1">
+
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center pt-4 mt-auto">
+                                <span class="bg-orange text-white avatar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-refresh"
+                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"></path>
+                                        <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"></path>
+                                    </svg>
+                                </span>
+                                <div class="ms-4">
+                                    <a href="#" class="text-body"><strong
+                                            style="font-size: 30px; padding: left 5px">{{renewals_count}}</strong></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="header">Reviews</div>
+                                <div class="ms-auto lh-1">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false"></a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a class="dropdown-item" id="today_review_btn">Today</a>
+                                            <a class="dropdown-item" id="month_review_btn">This Month</a>
+                                            <a class="dropdown-item" id="total_review_btn">Total</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center pt-4 mt-auto">
+                                <span class="bg-yellow text-white avatar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-stars"
+                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path
+                                            d="M17.8 19.817l-2.172 1.138a0.392 .392 0 0 1 -.568 -.41l.415 -2.411l-1.757 -1.707a0.389 .389 0 0 1 .217 -.665l2.428 -.352l1.086 -2.193a0.392 .392 0 0 1 .702 0l1.086 2.193l2.428 .352a0.39 .39 0 0 1 .217 .665l-1.757 1.707l.414 2.41a0.39 .39 0 0 1 -.567 .411l-2.172 -1.138z">
+                                        </path>
+                                        <path
+                                            d="M6.2 19.817l-2.172 1.138a0.392 .392 0 0 1 -.568 -.41l.415 -2.411l-1.757 -1.707a0.389 .389 0 0 1 .217 -.665l2.428 -.352l1.086 -2.193a0.392 .392 0 0 1 .702 0l1.086 2.193l2.428 .352a0.39 .39 0 0 1 .217 .665l-1.757 1.707l.414 2.41a0.39 .39 0 0 1 -.567 .411l-2.172 -1.138z">
+                                        </path>
+                                        <path
+                                            d="M12 9.817l-2.172 1.138a0.392 .392 0 0 1 -.568 -.41l.415 -2.411l-1.757 -1.707a0.389 .389 0 0 1 .217 -.665l2.428 -.352l1.086 -2.193a0.392 .392 0 0 1 .702 0l1.086 2.193l2.428 .352a0.39 .39 0 0 1 .217 .665l-1.757 1.707l.414 2.41a0.39 .39 0 0 1 -.567 .411l-2.172 -1.138z">
+                                        </path>
+                                    </svg>
+                                </span>
+                                <div class="ms-4">
+                                    <div style="display:none" id="thismonthreview">
+                                        <a class="text-body"><strong
+                                                style="font-size: 30px; padding: left 5px;">{{reviews_this_month}}</strong></a>
+                                    </div>
+                                    <div id="total_reviews">
+                                        <a class="text-body"><strong
+                                                style="font-size: 30px; padding: left 5px;">{{reviews}}</strong></a>
+                                    </div>
+                                    <div style="display:none" id="today_review">
+                                        <a class="text-body"><strong
+                                                style="font-size: 30px; padding: left 5px;">{{reviews_today}}</strong></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="header">Check-in</div>
+                                <div class="ms-auto lh-1">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false"></a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a class="dropdown-item" id="today_checkin_btn">Today</a>
+                                            <a class="dropdown-item" id="month_checkin_btn">This Month</a>
+                                            <a class="dropdown-item" id="total_checkin_btn">Total</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center pt-4 mt-auto">
+                                <span class="bg-lime text-white avatar">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="icon icon-tabler icon-tabler-user-check" width="24" height="24"
+                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                                        <path d="M16 11l2 2l4 -4"></path>
+                                    </svg>
+                                </span>
+                                <div class="ms-4">
+                                    <div style="display:none" id="thismonthcheckin">
+                                        <a class="text-body"><strong
+                                                style="font-size: 30px; padding: left 5px;">{{checkin_this_month}}</strong></a>
+                                    </div>
+                                    <div id="total_checkin">
+                                        <a class="text-body"><strong
+                                                style="font-size: 30px; padding: left 5px;">{{checkin}}</strong></a>
+                                    </div>
+                                    <div style="display:none" id="today_checkin">
+                                        <a class="text-body"><strong
+                                                style="font-size: 30px; padding: left 5px;">{{checkin_today}}</strong></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- cards ends -->
+                <!-- <tr>
+                                        
+                    <td colspan="11">
+                        <div class="btn-list flex-nowrap">
+                            <a href="#" class="btn" id="export_button">
+                              Export
+                            </a>
+              
+                          </div>
+                    </td>
+                </tr> -->
+
+                 <!-- Approve table starts -->
+        <div class="col-12"></div>
+
+        <div class="col-lg-6"></div>
+        {% if user.is_super_admin %}
+        {% if waiting_list %}
+        <div class="col-12">
+          <div class="card">
+            <div class="table-responsive">
+              <table class="table table-vcenter table-mobile-md card-table">
+                <thead>
+                  <tr>
+                    <th class="w-8">
+                      Property Code
+                      <!-- Download SVG icon from http://tabler-icons.io/i/chevron-up -->
+                      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-sm text-dark icon-thick" width="24"
+                        height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <polyline points="6 15 12 9 18 15" />
+                      </svg>
+                    </th>
+                    <th>Property Name</th>
+                    <th>User</th>
+                    
+                    <th class="w-1"></th>
+                    <th class="w-1"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for restaurant_waiting in waiting_list %}
+                  <tr>
+                    <td data-label="Property Code"><span class="text-muted">{{restaurant_waiting.property_code}}</span></td>
+                    <td data-label="Property Name">
+
+                      <div class="font-weight-medium">{{restaurant_waiting.restaurant_name}}</div>
+                      <div class="text-muted"><a href="#" class="text-reset">{{hotel_waiting.user.email}}</a></div>
+            </div>
+          </div>
+          </td>
+          <td data-label="User">
+            <div>{{restaurant_waiting.admin_name.admin_user.username}}</div>
+            <div class="text-muted">
+              {% if user.is_super_admin %}
+              Super Admin
+              {% endif %}
+              Manager
+            </div>
+          </td>
+         
+          <td>
+            <div class="btn-list  flex-nowrap">
+              <a href="/admin_user/dashboard/super_admin_approve/{{restaurant_waiting.id}}" class="btn bg-lime">
+                Approve
+              </a>
+          </td>
+          <td>
+            <div class="btn-list flex-nowrap">
+              <a href="#" class="btn">
+                Decline
+              </a>
+
+            </div>
+          </td>
+          </tr>
+          {% endfor %}
+
+
+          </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% endif %}
+    <!-- Approve table ends -->
+
+      
+
+                <!-- Clients table starts -->
+
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header ">
+                            <h3 class="card-title">Recent Properties</h3>
+                            <div class="d-flex flex-row-reverse">
+
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row" style="padding-bottom: 10px; padding-left:5px; padding-right:5px">
+                                <div class="col-md-2">
+                                    <h6>Type</h6>
+                                    <select class="form-control" type="text" id="myInput" title="Type in a name">
+                                        <option value="">All</option>
+
+                                        <option value="hotel">Hotel</option>
+                                <option value="restaurant">Restaurant</option>
+                                <option value="coffeeshop">Coffee Shop</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <h6>Status</h6>
+                                    <select class="form-control" type="text" id="statussearch" title="Type in a name">
+                                        <option value="">All</option>
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                        <option value="Express Checkin">Waiting</option>
+                                        <option value="Deactivate">Deactivate</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <h6>Manager</h6>
+                                    <select class="form-control" type="text" id="managersearch" title="Type in a name">
+                                        <option value="">All</option>
+
+                                        {% for i in admins %}
+                                        <option value="{{i.admin_user.username}}">
+                                            {{i.admin_user.username}}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <h6>Date from</h6>
+                                    <input type="date" class="form-control" id="datefilterfrom"
+                                        data-date-split-input="true" />
+                                </div>
+                                <div class="col-md-3">
+                                    <h6>Date to</h6>
+                                    <input type="date" class="form-control" id="datefilterto"
+                                        data-date-split-input="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="dtBasicExample" class="table card-table table-vcenter text-nowrap datatable">
+                                <thead>
+
+                                    <th>
+                                        Property Code
+
+
+                                        <!-- Download SVG icon from http://tabler-icons.io/i/chevron-up -->
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-sm text-dark icon-thick" width="24" height="24"
+                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <polyline points="6 15 12 9 18 15" />
+                                        </svg>
+                                    </th>
+                                    <th>Propert Name</th>
+                                    <th>Assigned TO</th>
+                                    
+                                    <th>Location</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    
+                                    <th style="display:none;">Email</th>
+                                    <th style="display:none;">Owner Name</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+
+                                    <th>Revenue</th>
+                                    <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for rset in restaurant %}
+                                    <tr>
+                                        <td>
+                                            <span class="text-muted">{{rset.property_code}}</span>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="text-reset" tabindex="-1">{{rset.restaurant_name}}</a>
+                                        </td>
+                                        <td>{{rset.admin_name}}</td>
+                                        
+                                        <td>{{rset.location}}</td>
+                                        <td>{{rset.type_of}}</td>
+                                        <td>{{rset.status}}</td>
+                                        <td style="display:none;">{{rset.hotel_user.email}}</td>
+                                        <td style="display:none;">{{rset.hotel_user.first_name}}</td>
+                                       
+                                        <td>{{rset.start_date|date:'d/m/Y'}}</td>
+                                        <td>{{rset.end_date|date:'d/m/Y'}}</td>
+                                        <td>{{rset.amount}}</td>
+
+                                        <td class="text-end">
+                                            <span class="dropdown">
+                                                <button class="btn dropdown-toggle align-text-top"
+                                                    data-bs-boundary="viewport" data-bs-toggle="dropdown">
+                                                    Actions
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a class="dropdown-item"
+                                                        href="/admin_user/hotel_details/{{rset.id}}">Detailed View</a>
+                                                    <a class="dropdown-item"
+                                                        href="/admin_user/dashboard/update_hotel/{{rset.hotel_user.id}}">Update
+                                                        hotel</a>
+                                                    <a class="dropdown-item"
+                                                        href="/admin_user/dashboard/renewal/{{rset.id}}">Renew</a>
+                                                        <a class="dropdown-item"
+                                                        href="/admin_user/update_products/{{rset.id}}">Update Products</a>
+                                                    <!-- <a class="dropdown-item"
+                                                        href="/admin_user/manage_property/delete_hotel/{{rset.hotel_user.id}}">Delete</a> -->
+                                                    {% if rset.other %}
+                                                    <a class="dropdown-item"
+                                                        href="/admin_user/detail_hotel_review/{{rset.id}}">Total
+                                                        Reviews</a>
+                                                    {% endif %}
+                                                    {% if rset.express_checkin %}
+                                                    <a class="dropdown-item"
+                                                        href="/admin_user/detail_hotel_checkin/{{rset.id}}">Total
+                                                        Checkins</a>
+                                                    {% endif %}
+                                                </div>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="{% static 'js/manage_property.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+
+    <script>
+        $('.table-responsive').on('show.bs.dropdown', function () {
+            $('.table-responsive').css("overflow", "inherit");
+        });
+
+        $('.table-responsive').on('hide.bs.dropdown', function () {
+            $('.table-responsive').css("overflow", "auto");
+        })
+    </script>
+    <script>
+        function filterRows() {
+            var from = $("#datefilterfrom").val();
+            var to = $("#datefilterto").val();
+
+            if (!from && !to) {
+                // no value for from and to
+                return;
+            }
+
+            from = from || "1970-01-01"; // default from to a old date if it is not set
+            to = to || "2999-12-31";
+
+            var dateFrom = moment(from);
+            var dateTo = moment(to);
+
+            $("#dtBasicExample tr").each(function (i, tr) {
+                var val = $(tr).find("td:nth-child(7)").text();
+                var dateVal = moment(val, "DD/MM/YYYY");
+                var visible = dateVal.isBetween(dateFrom, dateTo, null, [])
+                    ? ""
+                    : "none"; // [] for inclusive
+                $(tr).css("display", visible);
+            });
+        }
+
+        $("#datefilterfrom").on("change", filterRows);
+        $("#datefilterto").on("change", filterRows);
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var table = $("#dtBasicExample").DataTable();
+
+            $("#myInput").on("change", function () {
+                table.columns(4).search(this.value).draw();
+            });
+            
+            $("#managersearch").on("change", function () {
+                table.columns(2).search(this.value).draw();
+            });
+            $("#statussearch").on("change", function () {
+                table.columns(5).search(this.value).draw();
+            });
+        });
+    </script>
+
+    {% endblock content %}
+    <!-- Clients table ends -->
+</div>

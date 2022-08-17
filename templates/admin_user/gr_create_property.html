@@ -1,0 +1,389 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="{% static 'assets/img/socioconnects_icon.png' %}" rel="icon" />
+
+    <title>Hudels</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'assets/vendor/quill/quill.snow.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'assets/vendor/quill/quill.bubble.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'assets/vendor/remixicon/remixicon.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'assets/vendor/simple-datatables/style.css' %}"
+      rel="stylesheet"
+    />
+
+    <!-- Template Main CSS File -->
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" />
+
+    <!-- =======================================================
+  * Template Name: NiceAdmin - v2.2.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  </head>
+
+  <body>
+    <main>
+      <div class="container">
+        <section
+          class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4"
+        >
+          <div class="container">
+            <div class="row justify-content-center">
+              <div
+                class="col-lg-12 col-md-12 d-flex flex-column align-items-center justify-content-center"
+              >
+                <div class="d-flex justify-content-center py-4">
+                  <a href="" class="logo d-flex align-items-center w-auto">
+                    <span class="d-none d-lg-block" style="color: #334257"
+                      >Review</span
+                    >
+                  </a>
+                </div>
+                <!-- End Logo -->
+
+                <div class="card mb-6">
+                  <div class="card-body">
+                    <div class="pt-4 pb-2">
+                      <h5 class="card-title text-center pb-0 fs-4">
+                        Create an Account
+                      </h5>
+                      <p class="text-center small">
+                        Enter personal details to create account
+                      </p>
+                    </div>
+
+                    {% if messages %}
+
+                    <div class="messages" style="text-align: center">
+                      {% for message in messages %}
+                      <div
+                        style="height: 50px; width: 100%; padding-top: 10px"
+                        {%
+                        if
+                        message.tags
+                        %}
+                        class="{{ message.tags }}"
+                        {%
+                        endif
+                        %}
+                      >
+                        {{ message }}
+                      </div>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <form
+                      class="row g-6 needs-validation"
+                      action="gr_property"
+                      method="post"
+                      enctype="multipart/form-data"
+                    >
+                      {% csrf_token %}
+                      <div class="col-6">
+                        <label for="yourLastName" class="form-label"
+                          >Propert Name</label
+                        >
+                        <input
+                          type="text"
+                          name="name"
+                          class="form-control"
+                          id="yourLastName"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Please, enter your property name!
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <label for="yourLastName" class="form-label"
+                          >Contact No</label
+                        >
+                        <input
+                          type="text"
+                          name="mobile"
+                          maxlength="10"
+                          class="form-control"
+                          id="yourLastName"
+                          pattern="[6789][0-9]{9}"
+                          title="Please enter valid phone number"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Please, enter your last name!
+                        </div>
+                      </div>
+
+                      <div class="col-6">
+                        <label for="yourEmail" class="form-label">Email</label>
+                        <input
+                          type="email"
+                          name="email"
+                          class="form-control"
+                          id="yourEmail"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Please enter a valid Email adddress!
+                        </div>
+                      </div>
+
+                      <!-- <div class="col-6">
+                      <label for="sts" class="form-label">State</label>
+                      <select onchange="print_city('state', this.selectedIndex);" id="sts" name="stt" class="form-control" required></select>
+
+                    </div> -->
+                      <!-- <div class="col-6">
+                      <label for="state" class="form-label">City</label>
+                      <select name="location" id ="state" class="form-control" required></select>
+                    <script language="javascript">print_state("sts");</script>
+                    </div> -->
+                      <div class="col-6">
+                        <label for="yourLastName" class="form-label"
+                          >Address</label
+                        >
+                        <input
+                          type="text"
+                          name="address"
+                          class="form-control"
+                          id="yourLastName"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Please, enter your Address!
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <label for="yourLastName" class="form-label"
+                          >City</label
+                        >
+                        <input
+                          type="text"
+                          name="location"
+                          class="form-control"
+                          id="yourLastName"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Please, enter your City!
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <label for="yourLastName" class="form-label"
+                          >State</label
+                        >
+                        <input
+                          type="text"
+                          name="stt"
+                          class="form-control"
+                          id="yourLastName"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Please, enter your State!
+                        </div>
+                      </div>
+
+                      <div class="col-6">
+                        <label for="yourLastName" class="form-label"
+                          >Amount</label
+                        >
+                        <input
+                          type="number"
+                          name="amount"
+                          class="form-control"
+                          id="yourLastName"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Please, enter the amount!
+                        </div>
+                      </div>
+
+                      <div class="col-6">
+                        <label for="yourLastName" class="form-label"
+                          >Package</label
+                        >
+                        <select
+                          class="form-control"
+                          id="package"
+                          name="package"
+                        >
+                          <option value="filter">Without Filter</option>
+                          <option value="filter">Filter</option>
+                        </select>
+                        <div class="invalid-feedback">
+                          Please, enter your Package!
+                        </div>
+                      </div>
+
+                      <div class="col-6">
+                        <label for="yourLastName" class="form-label"
+                          >Duration</label
+                        >
+                        <select
+                          class="form-control"
+                          id="duration"
+                          name="duration"
+                        >
+                          <option value="7">7 Days</option>
+                          <option value="1">1 Month</option>
+                          <option value="6">6 Months</option>
+                          <option value="12">12 Months</option>
+                        </select>
+                        <div class="invalid-feedback">
+                          Please, enter your Duration!
+                        </div>
+                      </div>
+
+                      <div class="col-6">
+                        <label for="place_id" class="form-label"
+                          >Place Id</label
+                        >
+                        <input
+                          type="text"
+                          name="place_id"
+                          class="form-control"
+                          id="place_id"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Please, enter your last name!
+                        </div>
+                      </div>
+
+                      <div class="col-6">
+                        <label for="yourLastName" class="form-label"
+                          >Agreement</label
+                        >
+                        <input
+                          type="file"
+                          name="agreement"
+                          class="form-control"
+                          id="yourLastName"
+                          required
+                        />
+
+                        <div class="invalid-feedback">
+                          Please, enter your agreement!
+                        </div>
+                      </div>
+
+                      <div class="col-12" style="padding-top: 30px">
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            name="terms"
+                            type="checkbox"
+                            value=""
+                            id="acceptTerms"
+                            required
+                          />
+                          <label class="form-check-label" for="acceptTerms"
+                            >I agree and accept the
+                            <a href="#">terms and conditions</a></label
+                          >
+                          <div class="invalid-feedback">
+                            You must agree before submitting.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-primary">
+                          Submit
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                          Reset
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+    <!-- End #main -->
+
+    <a
+      href="#"
+      class="back-to-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+    <script>
+      function Generate() {
+        url = document.getElementById("url");
+
+        url.value = "https://socioconnects.com/rate/" + username;
+      }
+    </script>
+
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Template Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script></script>
+  </body>
+</html>

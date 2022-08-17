@@ -1,0 +1,128 @@
+{% extends 'admin_user/admin-base.html' %} {% load static %} {% block content %}
+<div class="page-wrapper">
+    <div class="container-xl">
+        <!-- Page title -->
+        <div class="page-header d-print-none">
+            <div class="row align-items-center">
+                <div class="col">
+                    <!-- Page pre-title -->
+
+                    <h2 class="page-title">Manage User</h2>
+                </div>
+                <!-- Page title actions -->
+                <div class="col-auto ms-auto d-print-none">
+                    <div class="btn-list">
+
+                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
+                            data-bs-target="#modal-report" aria-label="Create new report">
+                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- cards start -->
+
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-deck row-cards">
+
+
+
+                <div class="col-12">
+                    <div class="card">
+
+                        <div class="table-responsive">
+                            <table id="dtBasicExample" class="table card-table table-vcenter text-nowrap datatable">
+                                <thead>
+
+                                    <th>
+                                        Id
+
+                                        <!-- Download SVG icon from http://tabler-icons.io/i/chevron-up -->
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-sm text-dark icon-thick" width="24" height="24"
+                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <polyline points="6 15 12 9 18 15" />
+                                        </svg>
+                                    </th>
+                                    <th>Firstname</th>
+                                    <th>Lastname</th>
+                                    <th>Username</th>
+                                    <th>Password</th>
+                                    <th>Email</th>
+                                    <th>Designation</th>
+                                    <th></th>
+<th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for admins in admin %}
+                                    <tr>
+                                        <td>
+                                            <span class="text-muted">{{admins.id}}</span>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="text-reset"
+                                                tabindex="-1">{{admins.admin_user.first_name}}</a>
+                                        </td>
+                                        
+                                        <td>{{admins.admin_user.last_name}}</td>
+                                        <td>{{admins.admin_user.username}}</td>
+                                        <td>{{admins.password}}</td>
+                                        <td>{{admins.admin_user.email}}</td>
+                                        <td>{{admins.designation}}</td>
+                                        <td>
+                                            <a class="btn btn-primary"
+                                              href="/admin_user/dashboard/manager_list/update_manager/{{admins.id}}">Update</a>
+                                          </td>
+                                        <td class="text-end">
+                                            <span class="dropdown">
+                                                <button class="btn btn-danger"
+                                                    data-bs-boundary="viewport" data-bs-toggle="dropdown">
+                                                    Delete
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a class="dropdown-item">Are you sure, you want to delete the record ?<br><br></a>
+                                                    <div style="text-align:center;">
+                                                    <a style="text-align:center;padding-left: 140px;" class="dropdown-item"
+                                                        href="/admin_user/dashboard/manager_list/delete_admin/{{admins.admin_user.id}}">Yes</a>
+                                                        <a style="text-align:center;padding-left: 140px;" class="dropdown-item">No</a>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="{% static 'js/manage_property.js' %}"></script>
+    <script>
+        $('.table-responsive').on('show.bs.dropdown', function () {
+            $('.table-responsive').css("overflow", "inherit");
+        });
+
+        $('.table-responsive').on('hide.bs.dropdown', function () {
+            $('.table-responsive').css("overflow", "auto");
+        })
+    </script>
+
+    {% endblock content %}
+    <!-- Clients table ends -->
+</div>

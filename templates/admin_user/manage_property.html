@@ -1,0 +1,247 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="{% static 'assets/img/socioconnects_icon.png' %}" rel="icon" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+  <!-- JavaScript Bundle with Popper -->
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
+  <link rel="stylesheet" type="text/css" href="{% static 'css/manage_property.css' %}" />
+
+  <style>
+    td:hover {
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  {% include 'header.html' %} {% block content %}
+
+  <div class="container col-sm-12">
+    <div class="b-example-divider"></div>
+    <div style="width: 100%; border-radius: 5px; padding-top: 50px; color: black">
+      <div>
+        <div class="row" style="padding-bottom: 20px">
+          <div class="col-md-2">
+            <h6>Package</h6>
+            <select class="form-control" type="text" id="myInput" title="Type in a name">
+              <option value="">All</option>
+
+              <option value="Trip Adviser">Trip Adviser</option>
+              <option value="Google">Google</option>
+              <option value="Express Checkin">Express Checkin</option>
+              <option value="Social Media">Social Media</option>
+              <option value="Google & Trip Adviser">
+                Google & Trip Adviser
+              </option>
+              <option value="Trip Adviser & Google">
+                Trip Adviser & Google
+              </option>
+              <option value="Express Checkin Trip Adviser & Google">
+                Express Checkin Trip Adviser & Google
+              </option>
+              <option value="Express Checkin Google & Trip Adviser">
+                Express Checkin Google & Trip Adviser
+              </option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <h6>Status</h6>
+            <select class="form-control" type="text" id="statussearch" title="Type in a name">
+              <option value="">All</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+              <option value="Express Checkin">Waiting</option>
+              <option value="Deactivate">Deactivate</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <h6>Manager</h6>
+            <select class="form-control" type="text" id="managersearch" title="Type in a name">
+              <option value="">All</option>
+
+              {% for i in admins %}
+              <option value="{{i.admin_user.username}}">
+                {{i.admin_user.username}}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-3">
+            <h6>Date from</h6>
+            <input type="date" class="form-control" id="datefilterfrom" data-date-split-input="true" />
+          </div>
+          <div class="col-md-3">
+            <h6>Date to</h6>
+            <input type="date" class="form-control" id="datefilterto" data-date-split-input="true" />
+          </div>
+        </div>
+      </div>
+
+      <table id="dtBasicExample" class="table table-hover" cellspacing="15" width="100%">
+        <thead style="font-weight: bold">
+          <tr>
+            <th scope="col">Id</th>
+
+            <th scope="col">Hotel Name</th>
+            <th scope="col">Manager</th>
+            <th scope="col">Property Code</th>
+            <th scope="col">Location</th>
+            <th scope="col">Package Type</th>
+
+            <th scope="col">Start Date</th>
+
+            <th scope="col">End date</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+            <!-- <th scope="col"></th>
+              <th scope="col"></th> -->
+            <!-- <th scope="col">Date</th> -->
+          </tr>
+        </thead>
+        <tbody style="
+              font-size: small;
+              font-weight: bold;
+              color: #37474f;
+              text-align: center;
+            ">
+          {% for hotels in hotel_list %}
+          <!-- onclick="window.location=window.location.origin+'/admin_user/hotel_details/{{hotels.id}}';" -->
+          <tr id="geeks" style="max-width: 960px !important">
+            <td>{{hotels.id}}</td>
+            <td>{{hotels.property_name}}</td>
+            <td>{{hotels.admin_name.admin_user.username}}</td>
+            <td>{{hotels.property_code}}</td>
+            <td>{{hotels.location}}</td>
+            <td>
+              {% if hotels.google %} Google <br />
+              {% endif %} {% if hotels.trip_adviser %} Trip Advisor <br />
+              {% endif %} {% if hotels.social_media %} Social Media {% endif
+              %} {% if hotels.express_checkin %} Express Checkin {% endif %}
+              {% if hotels.g_t %} Google & Trip Adviser <br />
+              {% endif %} {% if hotels.t_g %} Trip Adviser & Google <br />
+              {% endif %}
+            </td>
+
+            <td>{{hotels.start_date|date:'d/m/Y'}}</td>
+
+            <td>{{hotels.end_date|date:'d/m/Y'}}</td>
+
+            <td>
+              <span style="background-color: black" class="badge badge-secondary">{{hotels.status}}</span>
+            </td>
+            <!-- <td>{{hotels.package_type}}</td> -->
+            <!-- <td><button onclick="options_popup(this)">Options</button></td> -->
+            <td>
+              <div class="dropdown">
+                <a class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false"></a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="/admin_user/hotel_details/{{hotels.id}}">Detailed View</a>
+                  <a class="dropdown-item" href="/admin_user/dashboard/update_hotel/{{hotels.hotel_user.id}}">Update
+                    hotel</a>
+                  <a class="dropdown-item" href="/admin_user/dashboard/renewal/{{hotels.id}}">Renew</a>
+                  <a class="dropdown-item"
+                    href="/admin_user/manage_property/delete_hotel/{{hotels.hotel_user.id}}">Delete</a>
+                  {% if hotels.other %}
+                  <a class="dropdown-item" href="/admin_user/detail_hotel_review/{{hotels.id}}">Total Reviews</a>
+                  {% endif %} {% if hotels.express_checkin %}
+                  <a class="dropdown-item" href="/admin_user/detail_hotel_checkin/{{hotels.id}}">Total Checkins</a>
+                  {% endif %}
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <div id="pop_up" class="modal" style="
+                width: 200px;
+                border-radius: 10px;
+                height: 200px;
+                background-color: #f2f2f2;
+                color: #fff;
+                padding-bottom: 30px;
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                right: 50%;
+                bottom: 50%;
+                text-align: center;
+                align-content: center;
+              ">
+            <div style="padding-top: 70px">
+              <button onclick="close_popup(this)">Close</button>
+            </div>
+          </div>
+
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {% endblock %}
+</body>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script type="text/javascript" src="{% static 'js/manage_property.js' %}"></script>
+<script>
+  $(document).ready(function () {
+    $("#dtBasicExample").DataTable({ order: [[0, "desc"]] });
+  });
+</script>
+<script>
+  function filterRows() {
+    var from = $("#datefilterfrom").val();
+    var to = $("#datefilterto").val();
+
+    if (!from && !to) {
+      // no value for from and to
+      return;
+    }
+
+    from = from || "1970-01-01"; // default from to a old date if it is not set
+    to = to || "2999-12-31";
+
+    var dateFrom = moment(from);
+    var dateTo = moment(to);
+
+    $("#dtBasicExample tr").each(function (i, tr) {
+      var val = $(tr).find("td:nth-child(7)").text();
+      var dateVal = moment(val, "DD/MM/YYYY");
+      var visible = dateVal.isBetween(dateFrom, dateTo, null, [])
+        ? ""
+        : "none"; // [] for inclusive
+      $(tr).css("display", visible);
+    });
+  }
+
+  $("#datefilterfrom").on("change", filterRows);
+  $("#datefilterto").on("change", filterRows);
+</script>
+
+<script>
+  $(document).ready(function () {
+    var table = $("#dtBasicExample").DataTable();
+
+    $("#myInput").on("change", function () {
+      table.columns(5).search(this.value).draw();
+    });
+    $("#managersearch").on("change", function () {
+      table.columns(2).search(this.value).draw();
+    });
+    $("#statussearch").on("change", function () {
+      table.columns(8).search(this.value).draw();
+    });
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+</html>

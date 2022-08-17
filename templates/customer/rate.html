@@ -1,0 +1,605 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Review</title>
+	<meta charset="UTF-8">
+	<link href="{% static 'assets/img/socioconnects_icon.png' %}" rel="icon" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--===============================================================================================-->
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css' %}">
+	<link href="{% static 'css/cropper.min.css' %}" rel="stylesheet">
+
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animsition/css/animsition.min.css' %}">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/daterangepicker/daterangepicker.css' %}">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+	<style>
+		.page-header {
+			margin-top: 0;
+		}
+
+		#pageloader {
+			background: rgba(255, 255, 255, 0.8);
+			display: none;
+			height: 100%;
+			position: fixed;
+			width: 100%;
+			z-index: 9999;
+		}
+
+
+
+		#pageloader img {
+			left: 50%;
+			margin-left: -32px;
+			margin-top: -32px;
+			position: absolute;
+			top: 50%;
+		}
+
+		.checked {
+			color: orange;
+
+		}
+
+		#right_nav li {
+
+			padding: 20px;
+			font-weight: bolder;
+		}
+
+		body {
+			background-color: aquamarine;
+			position: inherit;
+			height: 100%;
+		}
+
+		.star_rating {
+			text-align: center;
+		}
+
+		input {
+			background-color: #f5f5f5;
+			
+		}
+		.input100{
+			width:80% !important;
+		}
+		#cover-spin {
+		  position:fixed;
+		  width:100%;
+		  left:0;right:0;top:0;bottom:0;
+		  background-color: rgba(255,255,255);
+		  z-index:9999;
+		  display:none;
+	  }
+	  
+	  @-webkit-keyframes spin {
+		from {-webkit-transform:rotate(0deg);}
+		to {-webkit-transform:rotate(360deg);}
+	  }
+	  
+	  @keyframes spin {
+		from {transform:rotate(0deg);}
+		to {transform:rotate(360deg);}
+	  }
+	  
+	  #cover-spin::after {
+		  content:'';
+		  display:block;
+		  position:absolute;
+		  left:48%;top:40%;
+		  width:40px;height:40px;
+		  border-style:solid;
+		  border-color:#ffad40;
+		  border-top-color:transparent;
+		  border-width: 4px;
+		  border-radius:50%;
+		  -webkit-animation: spin .8s linear infinite;
+		  animation: spin .8s linear infinite;
+	  }
+	</style>
+	<!--===============================================================================================-->
+</head>
+
+<body>
+
+
+	<div class="container-contact100">
+		
+		<div class="wrap-contact100">
+			<button style="width:50px;height:50px;padding-top:30px;" onclick="ClosePopup(this)" type="button" class="close"
+		aria-label="Close">
+		<span style="width:50px; height:50px;font-size:xx-large;right:0;" aria-hidden="true">&times;</span>
+	</button><br>
+			<form id="myform" class="contact100-form validate-form" enctype="multipart/form-data" method="POST" onsubmit="$('#cover-spin').show(0)" action="{% url 'rate' hotel.hotel_user.username %}" style="padding:10px;padding-top:30px;border-radius:10px;background-color:#f5f5f5">
+				{% csrf_token %}
+				<div style="text-align:center;padding-bottom:20px; padding-top:20px;">
+					<h3 style="padding-top:20px;">{{hotel.property_name}}</h3>
+					</div>
+					<span class="contact100-form-title">
+						Review us
+					</span>
+				
+				<div id="main_page" class="main_page">
+
+
+					<div style="border-bottom: 2px solid #d9d9d9;" class="wrap-input100 validate-input"
+						data-validate="Name is required">
+						<span class="label-input100">Name</span>
+						<div class="input100"><input height="100px;" text="text" name="name" required></div>
+
+					</div>
+					<div style="border-bottom: 2px solid #d9d9d9 !important;" class="wrap-input100 validate-input"
+						data-validate="Name is required">
+						<span class="label-input100">Mobile</span>
+						<div class="input100"><input text="text" name="mobile" required></div>
+					</div>
+					
+					{% if hotel.without_email == False %}
+					<div style="border-bottom: 2px solid #d9d9d9 !important;" class="wrap-input100 validate-input"
+						data-validate="Name is required">
+						<span class="label-input100">Email</span>
+						<div class="input100"><input text="text" name="email" required></div>
+
+					</div>
+					{% endif %}
+					<div style="border:none !important;" class="wrap-input100 validate-input"
+						data-validate="Name is required">
+						<div class="star_rating" id="onchange_star">
+							<button type="button" class="fa fa-star fa-3x" id="one" onclick="rateValue(this)"
+								value="1"></button>
+							<button type="button" class="fa fa-star fa-3x" id="two" onclick="rateValue(this)"
+								value="2"></button>
+							<button type="button" class="fa fa-star fa-3x" id="three" onclick="rateValue(this)"
+								value="3"></button>
+							<button type="button" class="fa fa-star fa-3x" id="four" onclick="rateValue(this)"
+								value="4"></button>
+							<button type="button" class="fa fa-star fa-3x" id="five" onclick="rateValue(this)"
+								value="5"></button>
+						</div>
+						<input class="input_class" type="hidden" name="rating" id="rating_value" value="0">
+					</div>
+					{% if hotel.without_filter %}
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>
+						<a class="nav-link collapsed dropdown-item d-flex align-items-center" data-bs-toggle="modal"
+							data-bs-target="#basicModal">
+							<button type="submit" class="contact100-form-btn">
+								<span>
+									Submit
+									<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+								</span>
+							</button>
+						</a>
+					</div>
+					{% else %}
+					{% if hotel.social_media %}
+					<div id="above" style="display:none;" class="container-contact100-form-btn">
+						<div class="wrap-contact100-form-btn">
+							<div class="contact100-form-bgbtn"></div>
+							<a class="nav-link collapsed dropdown-item d-flex align-items-center" data-bs-toggle="modal"
+								data-bs-target="#basicModal">
+								<button type="button" onclick="AboveText(this)" class="contact100-form-btn">
+									<span>
+										Submit
+										<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+									</span>
+								</button>
+							</a>
+						</div>
+					</div>
+					{% else %}					
+					<div id="above" style="display:none;" class="container-contact100-form-btn">
+						<div class="wrap-contact100-form-btn">
+							<div class="contact100-form-bgbtn"></div>
+							<a class="nav-link collapsed dropdown-item d-flex align-items-center" data-bs-toggle="modal"
+								data-bs-target="#basicModal">
+								<button type="submit" class="contact100-form-btn">
+									<span>
+										Submit
+										<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+									</span>
+								</button>
+							</a>
+						</div>
+					</div>
+					{% endif %}
+					<div id="below" style="display:none;" class="container-contact100-form-btn">
+						<div class="wrap-contact100-form-btn">
+							<div class="contact100-form-bgbtn"></div>
+							<a class="nav-link collapsed dropdown-item d-flex align-items-center" data-bs-toggle="modal"
+								data-bs-target="#basicModal">
+								<button type="button" onclick="BelowText(this)" class="contact100-form-btn">
+									<span>
+										Submit
+										<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+									</span>
+								</button>
+							</a>
+						</div>
+					</div>
+
+				</div>
+				<div id="below_page" style="display:none;" class="below_page">
+					<div class="wrap-input100 validate-input" data-validate="Review is required">
+						<span class="label-input100">Message</span>
+						<textarea class="input100" name="review" placeholder="Your review here..."></textarea>
+						<span class="focus-input100"></span>
+					</div>
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>
+						<a class="nav-link collapsed dropdown-item d-flex align-items-center" data-bs-toggle="modal"
+							data-bs-target="#basicModal">
+							<button type="submit" class="contact100-form-btn">
+								<span>
+									Submit
+									<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+								</span>
+							</button>
+						</a>
+					</div>
+				</div>
+				<div id="above_page" style="display:none;" class="above_page">
+					<div style="padding-top:50px;" id="images" class="container-contact100-form-btn">
+						<div style="width:250px;" class="wrap-contact100-form-btn">
+							<div class="contact100-form-bgbtn"></div>
+							<button type="button" onclick="imageButton(this)" class="contact100-form-btn">
+								<span>
+									Image
+									<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+								</span>
+							</button>
+						</div>
+					</div>
+					<div id="text" class="container-contact100-form-btn">
+						<div style="width:250px;" class="wrap-contact100-form-btn">
+							<div class="contact100-form-bgbtn"></div>
+							<button type="button" onclick="textButton(this)" class="contact100-form-btn">
+								<span>
+									Text
+									<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+								</span>
+							</button>
+						</div>
+					</div>
+					<div style="padding-bottom:50px;" id="video" class="container-contact100-form-btn">
+						<div style="width:250px;" class="wrap-contact100-form-btn">
+							<div class="contact100-form-bgbtn"></div>
+							<button type="button" onclick="videoButton(this)" class="contact100-form-btn">
+								<span>
+									Video
+									<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+								</span>
+							</button>
+						</div>
+					</div>
+				</div>
+				<!-- Basic Modal -->
+
+				<div style="display:none;" id="image_field">
+					<div style="text-align:center;padding-bottom:30px;">
+						<h4>
+							Upload Image
+						</h4>
+					</div>
+
+					<div style="border-bottom: 2px solid #d9d9d9 !important;" class="wrap-input100 validate-input"
+						data-validate="Name is required">
+						<span class="label-input100">Instagram Id</span>
+						<div class="input100"><input text="text" name="imagecaption"></div>
+
+					</div>
+					<div style="border-bottom: 2px solid #d9d9d9 !important;" class="wrap-input100 validate-input"
+						data-validate="Name is required">
+						<span class="label-input100">Facebook Id</span>
+						<div class="input100"><input text="text" name="facebook"></div>
+
+					</div>
+					<div class="wrap-input100 validate-input" data-validate="Name is required">
+						<span class="label-input100">Image</span>
+						<div class="input100">
+							<div class="file-input">
+								<input type="file" accept="image/*" name="image" id="image_file" class="file">
+								<input type="hidden" name="id_x" id="id_x" class="id_x">
+								<input type="hidden" name="id_y" id="id_y" class="id_y">
+								<input type="hidden" name="id_width" id="id_width" class="id_width">
+								<input type="hidden" name="id_height" id="id_height" class="id_height">
+
+							</div>
+						</div>
+
+						<span class="focus-input100"></span>
+
+					</div>
+
+					<span style="font-style:italic; font-size:10px;padding:5px;">* By clicking submit you accept
+						the terms and conditions and give us permission to post your image to our social
+						media.</span>
+
+				</div>
+
+				<div style="display:none;" id="video_field">
+					<div style="text-align:center;padding-bottom:30px;">
+						<h4>
+							Upload Video
+						</h4>
+					</div>
+					<div style="border-bottom: 2px solid #d9d9d9 !important;" class="wrap-input100 validate-input"
+						data-validate="Name is required">
+						<span class="label-input100">Instagram Id</span>
+						<div class="input100"><input text="text" name="videocaption"></div>
+
+					</div>
+					<div style="border-bottom: 2px solid #d9d9d9 !important;" class="wrap-input100 validate-input"
+						data-validate="Name is required">
+						<span class="label-input100">Facebook Id</span>
+						<div class="input100"><input text="text" name="facebook"></div>
+
+					</div>
+					<div class="wrap-input100 validate-input">
+						<span class="label-input100">Video</span>
+						<div class="input100">
+							<div class="file-input">
+								<input type="file" name="video" id="video" class="file">
+							</div>
+						</div>
+						<span class="focus-input100"></span>
+					</div>
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>
+						<a class="nav-link collapsed dropdown-item d-flex align-items-center" data-bs-toggle="modal"
+							data-bs-target="#basicModal">
+							<button type="submit" class="contact100-form-btn">
+								<span>
+									Submit
+									<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+								</span>
+							</button>
+						</a>
+					</div>
+					<span style="font-style:italic; font-size:10px;padding:5px;">* By clicking submit you accept
+						the terms and conditions and give us permission to post your video to our social
+						media.</span>
+				</div>
+				<div style="display:none;" id="text_field">
+					<div style="text-align:center;padding-bottom:30px;">
+						<h4>
+							Post Revivew
+						</h4>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Review is required">
+						<span class="label-input100">Text Review</span>
+						<textarea class="input100" name="text_review" placeholder="Your review here..."></textarea>
+						<span class="focus-input100"></span>
+					</div>
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>
+						<a class="nav-link collapsed dropdown-item d-flex align-items-center" data-bs-toggle="modal"
+							data-bs-target="#basicModal">
+							<button type="submit" class="contact100-form-btn">
+								<span>
+									Submit
+									<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+								</span>
+							</button>
+						</a>
+					</div>
+					<span style="font-style:italic; font-size:10px;padding:5px;"> * By clicking submit you
+						accept the terms and conditions and give us permission to post your review to our social
+						media.</span>
+				</div>
+				{% endif %}
+
+				<div class="modal fade" id="modalCrop">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title">Crop the photo</h4>
+							</div>
+							<div class="modal-body">
+								<img src="" id="image_crop" style="max-width: 100%;">
+							</div>
+							<div class="modal-footer">
+								<div class="btn-group pull-left" role="group">
+									<button type="button" class="btn btn-default js-zoom-in">
+										<span class="glyphicon glyphicon-zoom-in"></span>
+									</button>
+									<button type="button" class="btn btn-default js-zoom-out">
+										<span class="glyphicon glyphicon-zoom-out"></span>
+									</button>
+								</div>
+
+								<button type="submit" class="btn btn-primary js-crop-and-upload">Crop and
+									upload</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</form>
+		</div>
+	</div>
+
+    <div id="cover-spin"></div>
+
+	<div id="dropDownSelect1"></div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js' %}"></script>
+
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+	<script>
+		$(".selection-2").select2({
+			minimumResultsForSearch: 20,
+			dropdownParent: $('#dropDownSelect1')
+		});
+	</script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js' %}"></script>
+	<script type='text/javascript'
+		src="https://github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js' %}"></script>
+
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/js/main.js' %}"></script>
+	<script>
+		$(function () {
+
+			/* SCRIPT TO OPEN THE MODAL WITH THE PREVIEW */
+			$("#image_file").change(function () {
+				if (this.files && this.files[0]) {
+					var reader = new FileReader();
+					reader.onload = function (e) {
+						$("#image_crop").attr("src", e.target.result);
+						$("#modalCrop").modal("show");
+					}
+					reader.readAsDataURL(this.files[0]);
+				}
+			});
+
+			/* SCRIPTS TO HANDLE THE CROPPER BOX */
+			var $image = $("#image_crop");
+			var cropBoxData;
+			var canvasData;
+			$("#modalCrop").on("shown.bs.modal", function () {
+				$image.cropper({
+					viewMode: 1,
+					aspectRatio: 1 / 1,
+					minCropBoxWidth: 200,
+					minCropBoxHeight: 200,
+					ready: function () {
+						$image.cropper("setCanvasData", canvasData);
+						$image.cropper("setCropBoxData", cropBoxData);
+					}
+				});
+			}).on("hidden.bs.modal", function () {
+				cropBoxData = $image.cropper("getCropBoxData");
+				canvasData = $image.cropper("getCanvasData");
+				$image.cropper("destroy");
+			});
+
+			$(".js-zoom-in").click(function () {
+				$image.cropper("zoom", 0.1);
+			});
+
+			$(".js-zoom-out").click(function () {
+				$image.cropper("zoom", -0.1);
+			});
+
+			/* SCRIPT TO COLLECT THE DATA AND POST TO THE SERVER */
+			$(".js-crop-and-upload").click(function () {
+				var cropData = $image.cropper("getData");
+				$("#id_x").val(cropData["x"]);
+				$("#id_y").val(cropData["y"]);
+				$("#id_height").val(cropData["height"]);
+				$("#id_width").val(cropData["width"]);
+				$("#formUpload").submit();
+				$('#cover-spin').show(0)
+			});
+
+			
+		});
+		function BelowText() {
+			main_page = document.getElementById('main_page');
+			main_page.style.display = "none"
+			below_page = document.getElementById('below_page');
+			below_page.style.display = "block"
+		}
+		function AboveText() {
+			main_page = document.getElementById('main_page');
+			main_page.style.display = "none"
+			above_page = document.getElementById('above_page');
+			above_page.style.display = "block"
+		}
+		function imageButton() {
+			main_page = document.getElementById('main_page');
+			main_page.style.display = "none"
+			above_page = document.getElementById('above_page');
+			above_page.style.display = "none"
+
+			image_field = document.getElementById('image_field');
+			image_field.style.display = "block"
+		}
+		function videoButton() {
+			main_page = document.getElementById('main_page');
+			main_page.style.display = "none"
+			above_page = document.getElementById('above_page');
+			above_page.style.display = "none"
+
+			video_field = document.getElementById('video_field');
+			video_field.style.display = "block"
+		}
+		function textButton() {
+			main_page = document.getElementById('main_page');
+			main_page.style.display = "none"
+			above_page = document.getElementById('above_page');
+			above_page.style.display = "none"
+
+			text_field = document.getElementById('text_field');
+			text_field.style.display = "block"
+		}
+		function ClosePopup() {
+			main_page = document.getElementById('main_page');
+			main_page.style.display = "block"
+			above_page = document.getElementById('above_page');
+			above_page.style.display = "none"
+			text_field = document.getElementById('text_field');
+			text_field.style.display = "none"
+			video_field = document.getElementById('video_field');
+			video_field.style.display = "none"
+			image_field = document.getElementById('image_field');
+			image_field.style.display = "none"
+			below_page = document.getElementById('below_page');
+			below_page.style.display = "none"
+
+		}
+
+	</script>
+	<script>
+		$(document).ready(function () {
+			$("#myform").on("submit", function () {
+				$("#pageloader").fadeIn();
+			});//submit
+		});//document ready
+
+	</script>
+	<script src="{% static 'vendor/js/rating.js' %}"></script>
+	<script src="{% static 'vendor/js/cropper.min.js' %}"></script>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+
+
+</body>
+
+</html>

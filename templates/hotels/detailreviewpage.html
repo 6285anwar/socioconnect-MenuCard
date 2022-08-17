@@ -1,0 +1,413 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+  <title>Hudels</title>
+  <meta content="" name="description" />
+  <meta content="" name="keywords" />
+
+  <!-- Favicons -->
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet" />
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/quill/quill.snow.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/quill/quill.bubble.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/simple-datatables/style.css' %}" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" />
+
+  <style>
+    td{
+      word-wrap:break-word; 
+      white-space:normal;
+       max-width:150px;
+    }
+  </style>
+  
+</head>
+
+<body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="{% url 'hotel_dashboard' %}" class="logo d-flex align-items-center">
+        <img style="max-width:180px; max-height:180px;" src="{% static 'assets/img/socioconnects.png' %}" alt="">
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div>
+    <!-- End Logo -->
+
+    <div class="search-bar">
+      <form class="search-form d-flex align-items-center" method="POST" action="#">
+        <input type="text" name="query" placeholder="Search" title="Enter search keyword" />
+        <button type="submit" title="Search">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
+    </div>
+    <!-- End Search Bar -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+        <li class="nav-item d-block d-lg-none">
+          <a class="nav-link nav-icon search-bar-toggle" href="#">
+            <i class="bi bi-search"></i>
+          </a>
+        </li>
+        <!-- End Search Icon-->
+        {% if hotel.express_checkin %}
+        <li class="nav-item d-block">
+          <a style="
+                background-color: #548ca8;
+                color: white;
+                font-weight: 500;
+                font-size: small;
+                padding-right: 10px;
+                border-radius: 5px;
+              " class="nav-link nav-icon search-bar-toggle" href="{% url 'dashboard_hotel' %}">
+            <span>Checkin</span>
+          </a>
+        </li>
+        <!-- End Search Icon-->
+        {% endif %}
+
+        <li class="nav-item dropdown pe-3">
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="{{hotel.profile_photo.url}}" alt="{{hotel.property_name}}" class="rounded-circle" />
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{hotel.hotel_user.username}}</span> </a>
+          <!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>{{current_user.username}}</h6>
+              <span>{{hotel.property_name}}</span>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'user_profile_hotel' %}">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'logout_hotel' %}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+          </ul>
+          <!-- End Profile Dropdown Items -->
+        </li>
+        <!-- End Profile Nav -->
+      </ul>
+    </nav>
+    <!-- End Icons Navigation -->
+  </header>
+  <!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'hotel_dashboard' %}">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <!-- End Dashboard Nav -->
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'user_profile_hotel' %}">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
+        </a>
+      </li>
+      <!-- End Profile Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'detail_review' %}">
+          <i class="bi bi-file-earmark"></i>
+          <span>Customer Details</span>
+        </a>
+      </li>
+      <!-- End Blank Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed dropdown-item d-flex align-items-center" data-bs-toggle="modal"
+          data-bs-target="#basicModal">
+          <i class="bi bi-person"></i>
+          <span id="contact_us">Contact Us</span>
+        </a>
+      </li>
+
+      <li style="display: none" class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Social Media</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="">
+              <i class="bi bi-facebook"></i><span>Facebook</span>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <i class="bi bi-facebook"></i><span>Instagram</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      {% if hotel.express_checkin %}
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'dashboard_hotel' %}">
+          <i class="bi bi-toggle-on"></i>
+          <span>Review </span>
+        </a>
+      </li>
+      <!-- End Dashboard Nav -->
+      {% endif %}
+      <li class="nav-item" style="padding-top:30px;float:left;padding-left:20px;">
+
+        <a onclick="downloadQr(this)"><button
+            style="background-color:#548ca8; color:white;font-weight:200; font-size:small; height:30px; width:auto;"
+            type="button" class="btn btn-success"><span>Review Qr Code</span> &nbsp; <i
+              class="bi bi-download"></i></button></a>
+      </li>
+    </ul>
+  </aside>
+  <!-- End Sidebar-->
+  <!-- End Sidebar-->
+
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Customer Ratings</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="">Home</a></li>
+          <li class="breadcrumb-item">Tables</li>
+          <li class="breadcrumb-item active">Data</li>
+          <li class="breadcrumb-item active">View</li>
+        </ol>
+      </nav>
+    </div>
+
+    <section id="details" class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <!-- <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p> -->
+
+              <!-- Table with stripped rows -->
+              <div style="
+                    padding-top: 30px;
+                    margin-top: 30px;
+                    text-align: center;
+                    background-color: #f5f5f5;
+                    border-radius: 10px;
+
+                  "
+                >
+                  <table id="table_detail" class="table">
+                    <tbody>
+                      <tr height="50px">
+                        <td class="head">Name</td>
+                        <td class="val">{{ratings.name}}</td>
+
+                        <td class="head">Email</td>
+                        <td class="val">{{ratings.email}}</td>
+                      </tr>
+                      <tr height="50px">
+                        <td class="head">Rating</td>
+                        <td class="val">{{ratings.ratings}}</td>
+
+                        <td class="head">Mobile</td>
+                        <td class="val">{{ratings.phone_number}}</td>
+                      </tr>
+                      {% if ratings.hotel.social_media %}
+                      <tr height="50px">
+                        <td class="head">Image</td>
+                        <td class="val">
+                          <a href="{{ratings.images.url}}"
+                            ><img
+                              style="width: 100px; height: 60px"
+                              src="{{ratings.images.url}}"
+                              alt=" "
+                          /></a>
+                        </td>
+
+                        <td class="head">Video</td>
+                        <td class="val">
+                          <a href="{{ratings.video.url}}"
+                            ><img
+                              style="width: 100px; height: 60px"
+                              src="{{ratings.video.url}}"
+                              alt=" "
+                          /></a>
+                        </td>
+                      </tr>
+                      <tr height="50px">
+                        <td class="head">Instagram Id</td>
+                        <td class="val">{{ratings.instagramid}}</td>
+
+                        <td class="head">Facebook Id</td>
+                        <td class="val">{{ratings.facebookid}}</td>
+                      </tr>
+
+                      {% endif %}
+
+                      {% if ratings.hotel.inhouse %}
+                      <tr height="50px">
+                        <td class="head">Review Title</td>
+                        <td class="val">{{ratings.title_review}}</td>
+
+                        <td class="head">Trip type</td>
+                        <td class="val">{{ratings.trip_type}}</td>
+                      </tr>
+                     
+                      <tr height="50px">
+                        <td class="head">Is it a classic Hotel?</td>
+                        <td class="val">{{ratings.classic}}</td>
+
+                        <td class="head">Is laundry available? </td>
+                        <td class="val">{{ratings.loaundry}}</td>
+                      </tr>
+                      <tr height="50px">
+                        <td class="head">Is contactless Check-in available?</td>
+                        <td class="val">{{ratings.contactless_checkin}}</td>
+
+                        <td class="head">Is breakfast available? </td>
+                        <td class="val">{{ratings.breakfast}}</td>
+                      </tr>
+                      <tr height="50px">
+                        <td class="head">Is good for business? </td>
+                        <td class="val">{{ratings.business}}</td>
+
+                        <td class="head">Clean </td>
+                        <td class="val">{{ratings.clean}}</td>
+                      </tr>
+                      <tr height="50px">
+                        <td class="head">Room</td>
+                        <td class="val">{{ratings.room}}</td>
+                        <td class="head">Service</td>
+                        <td class="val">{{ratings.service}}</td>
+                      </tr>
+                      {% endif %}
+                      <tr height="50px">
+                        <td class="head">Date</td>
+                        <td class="val">{{ratings.date}}</td>
+                        {% if ratings.text_review %}
+                        <td class="head">Text Review</td>
+                        <td class="val">{{ratings.text_review}}</td>
+                        {% endif %}
+                      </tr>
+                      {% if ratings.review %}
+                      <tr height="50px">
+                        <td class="head">Review</td>
+                        <td class="val">{{ratings.review}}</td>
+
+                       
+                      </tr>
+                      {% endif %}
+                    </tbody>
+                  </table>
+                </div>
+
+              <!-- End Table with stripped rows -->
+            </div>
+          </div>
+          <div class="card-body">
+            <!-- Basic Modal -->
+
+            <!-- End Basic Modal-->
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="card-body">
+
+      <!-- Basic Modal -->
+
+      <div class="modal fade" id="basicModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Contact Us</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+              <h3>{{hotel.admin_name.admin_user.first_name}} {{hotel.admin_name.admin_user.last_name}}</h3>
+              <h6>{{hotel.admin_name.admin_user.email}}</h6>
+              <h6>{{hotel.admin_name.mobile}}</h6>
+
+            </div>
+
+          </div>
+        </div>
+      </div><!-- End Basic Modal-->
+      <!-- End Page Title -->
+  </main>
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>Hudels</span></strong>. All Rights Reserved
+    </div>
+  </footer>
+  <!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.min.js"></script>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/apexcharts/apexcharts.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/chart.js/chart.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/echarts/echarts.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/quill/quill.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
+  <script src="{% static 'assets/vendor/tinymce/tinymce.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script>
+    function downloadQr() {
+
+      var source = "{{hotel.qr_code.url}}"
+
+      var str = source.substring(source.lastIndexOf('/') + 1)
+      saveAs(source, str);
+    }
+  </script>
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}' %}"></script>
+</body>
+
+</html>

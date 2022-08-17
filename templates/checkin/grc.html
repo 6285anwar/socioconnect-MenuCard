@@ -1,0 +1,302 @@
+{% load static %}
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Print</title>
+  <!-- CSS files -->
+  <!-- <link href="./dist/css/tabler.min.css" rel="stylesheet"/>
+    <link href="./dist/css/tabler-flags.min.css" rel="stylesheet"/>
+    <link href="./dist/css/tabler-payments.min.css" rel="stylesheet"/>
+    <link href="./dist/css/tabler-vendors.min.css" rel="stylesheet"/>
+    <link href="./dist/css/demo.min.css" rel="stylesheet"/> -->
+
+  <link href="{% static 'assets/img/socioconnects_icon.png' %}" rel="icon" />
+  <link href="{% static 'assets/img/socioconnects_icon.png' %}" rel="apple-touch-icon" />
+
+  <link href="{% static 'admin/css/tabler.min.css'%}" rel="stylesheet" />
+  <link href="{% static 'admin/css/tabler-flags.min.css'%}" rel="stylesheet" />
+  <link href="{% static 'admin/css/tabler-payments.min.css'%}" rel="stylesheet" />
+  <link href="{% static 'admin/css/tabler-vendors.min.css'%}" rel="stylesheet" />
+  <link href="{% static 'admin/css/demo.min.css'%}" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+</head>
+
+<body>
+  <div class="page">
+    <div class="page-wrapper">
+      <div class="container-xl">
+        <!-- Page title -->
+        <div class="page-header d-print-none">
+          <div class="row align-items-center">
+            <div class="col">
+              <h2 class="page-title">GRC</h2>
+            </div>
+            <!-- Page title actions -->
+            <div class="col-auto ms-auto d-print-none">
+              <button type="button" class="btn btn-primary" onclick="javascript:window.print();">
+                <!-- Download SVG icon from http://tabler-icons.io/i/printer -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                  stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2" />
+                  <path d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4" />
+                  <rect x="7" y="13" width="10" height="8" rx="2" />
+                </svg>
+                Print
+              </button>
+              <button type="button" class="btn btn-primary" id="download">
+                <!-- Download SVG icon from http://tabler-icons.io/i/printer -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-down-line" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M15 12h3.586a1 1 0 0 1 .707 1.707l-6.586 6.586a1 1 0 0 1 -1.414 0l-6.586 -6.586a1 1 0 0 1 .707 -1.707h3.586v-6h6v6z"></path>
+                  <path d="M15 3h-6"></path>
+               </svg>
+                Download
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="page-body" id="grc">
+        <div class="container-xl">
+          <div class="card card-lg">
+            <div class="card-body" style="background-color:#fbf5ed;">
+              <div class="row">
+                
+                <div class="col-6">
+                  <h1>GUEST REGISTRATION FORM</h1>
+                </div>
+                <div class="col-6 text-end">
+                  <p class="h3">{{customer.hotel.property_name}}</p>
+                  <address>
+                    {{customer.hotel.location}}<br />
+                    {{customer.hotel.state}}<br />
+                    {{customer.hotel.country}}<br />
+                  </address>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th colspan="2" class="text-center" style="background-color: #ffad40;color:#fff">
+                        GUEST DETAILS
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        Name : {{customer.firstname}} {{customer.lastname}}
+                      </td>
+                      <td>Mobile Number : {{customer.mobile}}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">Address: {{customer.address}}</td>
+                    </tr>
+                    <tr>
+                      
+                        <td style="width: 50%">
+                          Email : {{customer.email}}
+                        </td>
+                        <td style="width: 50%">
+                          GRC Number :  {{customer.grc_no}}
+                        </td>
+                    </tr>
+                    <tr>
+                      <td style="width: 50%">
+                        Check-in Date : {{customer.check_in}}
+                      </td>
+                      <td style="width: 50%">
+                        Check-out Date : {{customer.check_out}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Adults : {{customer.no_of_adult}}</td>
+                      <td>Children : {{customer.no_of_children}}</td>
+                    </tr>
+                    <tr>
+                      <td>Mode of Payement : {{customer.payment_type}}</td>
+                      <td>Purpose of visit : {{customer.purpose_of_visit}}</td>
+                    </tr>
+                  </tbody>
+
+                  <thead>
+                    <tr>
+                      <th colspan="2" class="text-center" style="background-color: #ffad40;color:#fff">
+                        Forgieners Only
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td colspan="2">Nationality : {{customer.nationality}}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        Passport No/Registration No : {{customer.passport_no}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Date of Issue : {% if customer.nationality != "indian" %}{{customer.date_of_issue}}{% else %} None {% endif %}</td>
+                      <td>Date of Expiry : {% if customer.nationality != "indian" %}{{customer.date_of_expiry}} {% else %} None {% endif %}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        Date of arrival in India :{% if customer.nationality != "indian" %} {{customer.date_of_arrival}} {% else %} None {% endif %}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">Visa No :{{customer.visa_no}}</td>
+                    </tr>
+                    <tr>
+                      <td>Date of Issue :{% if customer.nationality != "indian" %} {{customer.date_of_issue_visa}} {% else %} None {% endif %}</td>
+                      <td>Date of Expiry :{% if customer.nationality != "indian" %} {{customer.date_of_expiry_visa}} {% else %} None {% endif %}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">Whether Employed in India : {{customer.employed_india}}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        Proposed Duration of Stay In India : {{customer.duration_stay_india}}
+                      </td>
+                    </tr>
+                  </tbody>
+
+                  <thead>
+                    <tr>
+                      <th colspan="2" class="text-center" style="background-color: #ffad40;color:#fff">
+                        HOTEL USE
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Room Number : {{customer.room}}</td>
+                      <td>Room Type : {{customer.plan}}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">Room rate : {{customer.amount}}</td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2">
+                        Booked By : {{customer.booking_agency}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">Remarks : {{customer.remark}}</td>
+                    </tr>
+                    <tr>
+                      <td class="val">
+                        Front Office <a href="#"><img style="width: 100px; height: 60px" src="#" alt="" /></a>
+                      </td>
+                      <td class="val">
+                        Guest Signature <a href="{{customer.signature.url}}"><img style="width: 100px; height: 60px"
+                            src="{{customer.signature.url}}" alt="" /></a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                
+              </div>
+              <div class="table-responsive" style="padding-top: 55px;">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th colspan="2" class="text-center" style="background-color: #ffad40;color:#fff">
+                        Guest Documents
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th colspan="2">Guest Photo</th>
+                      
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="val">
+                        <a href="{{customer.selfi.url}}"><img style="width: 3.386in; height: 1.885in"
+                          src="{{customer.selfi.url}}" /></a>
+                      </td>
+                    
+                    </tr>
+                    <tr>
+                      <th colspan="2" style="padding-top: 8px;" >Guest Id</th>
+                    </tr>
+                    
+                    <tr>
+                      <td colspan="2" class="val">
+                        <a href="{{customer.selfi.url}}"><img style="width: 3.386in; height: 2.126in"
+                          src="{{customer.selfi.url}}" /></a>
+                      </td>
+                      
+                    </tr>
+                    {% for id in other_doc %}
+                    <!-- <tr>
+                      <tr>
+                        <th>Guest ID</th>
+                      </tr>
+                    <td class="val">
+                      <a href="{{id.id_proofs.url}}"><img style="width: 100px; height: 60px" src="{{id.id_proofs.url}}" /></a>
+                    </td>
+                    
+                  </tr> -->
+                  <tr>
+                    <th colspan="2"  >Other Guest Id</th>
+                  
+                  </tr>
+                  
+                  <tr>
+                    <td colspan="2" class="val">
+                      <a href="{{id.id_proofs.url}}"><img style="width: 3.386in; height: 2.126in"
+                          src="{{id.id_proofs.url}}" alt=" " /></a>
+                    </td>
+                    
+                  </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+                <div style="text-align:right;padding-top: 30px !important;">
+                <span class="h6">Made by</span>  <img style="max-width:100px;max-height:100px;" src="{% static 'images/logo.png' %}" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{% static 'admin/js/tabler.min.js'%}"></script>
+  <script src="{% static 'admin/js/demo.min.js'%}"></script>
+
+  <script>
+    window.onload = function () {
+      document.getElementById("download").addEventListener("click", () => {
+        const invoice = this.document.getElementById("grc");
+        console.log(invoice);
+        console.log(window);
+        var opt = {
+          margin: [1, 0, 1, 0],
+          filename: "{{customer.firstname}}"+"{{customer.id}}"+".pdf",
+          image: { type: "jpeg", quality: 1 },
+          html2canvas: {
+            dpi: 300,
+            scale: 4,
+            letterRendering: true,
+            useCORS: true,
+          },
+          jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+        };
+        html2pdf().from(invoice).set(opt).save();
+      });
+    };
+  </script>
+</body>
+
+</html>

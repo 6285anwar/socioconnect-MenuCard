@@ -1,0 +1,82 @@
+{% extends 'admin_user/admin-base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="page-wrapper">
+    <div class="container-xl">
+      <!-- Page title -->
+      <div class="page-header d-print-none">
+        <div class="row align-items-center">
+          <div class="col">
+            <h2 class="page-title">Renew Property</h2>
+          </div>
+        </div>
+       
+  
+      </div>
+    </div>
+  
+    <div class="page-body">
+      <div class="container-xl">
+            <fieldset class="form-fieldset">
+            <form enctype="multipart/form-data" class="needs-validation" method="post" action="renew_hotel">
+                {% csrf_token %}
+                    <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label required">Property Name</label>
+                        <input type="text" class="form-control" id="validationCustom02" name="property_name" placeholder="Property name" value={{hotel.property_name}} required>
+                        <div class="invalid-feedback">Please provide a valid Property.</div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label required" for="validationCustom01">Property Code</label>
+                        <input type="text" class="form-control" id="validationCustom01" placeholder="Property Code" name="property_code" value={{hotel.property_code}} required>
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label required" for="duration">Duration</label>
+                            <select name="duration" class="form-control" id="duration">
+                              <option value="7">7 Days</option>
+                              <option value="1">1 Month</option>
+                              <option value="4">4 Month</option>
+                              <option value="6">6 Month</option>
+                              <option value="12">12 Month</option>
+                              <option value="24">24 Month</option>
+                            </select>
+                          </div>
+                      <div class="col-md-6 mb-3">
+                        <label class="form-label required" for="validationCustom05">Amount</label>
+                        <input type="text" class="form-control" name="amount" id="validationCustom05" placeholder="amount" required>
+                        <div class="invalid-feedback">
+                          Please provide a valid .
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label required" for="validationCustom05">Agreement</label>
+                            <input type="file" class="form-control" id="validationCustom05" placeholder="Agreement" name="agreement" required>
+                            <div class="invalid-feedback">
+                              Please provide a valid Profile
+                            </div>
+                          </div>
+                    
+                    
+                    </div>
+                   
+                    </div>
+    
+                    <div class="col-12 text-center">
+                        <button id="checkBtn" class="btn btn-primary" type="submit">Submit form</button>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}

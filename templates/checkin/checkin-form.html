@@ -1,0 +1,560 @@
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Check-in Form</title>
+  <!-- CSS files -->
+  <link href="{% static 'admin/css/tabler.min.css'%}" rel="stylesheet" />
+  <link href="{% static 'admin/css/tabler-flags.min.css'%}" rel="stylesheet" />
+  <link href="{% static 'admin/css/tabler-payments.min.css'%}" rel="stylesheet" />
+  <link href="{% static 'admin/css/tabler-vendors.min.css'%}" rel="stylesheet" />
+  <link href="{% static 'admin/css/demo.min.css'%}" rel="stylesheet" />
+  <style>
+    .checkinform {
+
+
+      margin: 25px;
+
+      display: flex;
+      justify-content: center;
+    }
+    #cover-spin {
+      position:fixed;
+      width:100%;
+      left:0;right:0;top:0;bottom:0;
+      background-color: rgba(255,255,255);
+      z-index:9999;
+      display:none;
+  }
+  
+  @-webkit-keyframes spin {
+    from {-webkit-transform:rotate(0deg);}
+    to {-webkit-transform:rotate(360deg);}
+  }
+  
+  @keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+  }
+  
+  #cover-spin::after {
+      content:'';
+      display:block;
+      position:absolute;
+      left:48%;top:40%;
+      width:40px;height:40px;
+      border-style:solid;
+      border:none;
+      border-top-color:transparent;
+      border-width: 4px;
+      border-radius:50%;
+      -webkit-animation: spin .8s linear infinite;
+      animation: spin .8s linear infinite;
+  }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="page-body">
+      <div class="checkinform">
+        <form method="POST" action="{% url 'checkin' username %}" enctype="multipart/form-data" onsubmit="$('#cover-spin').show(0)">
+          {% csrf_token %}
+          <fieldset class="form-fieldset" style="width: 375px;">
+            <div class="mb-3" style="display: flex;justify-content: center;">
+              <img src="{{hotel_profile.url}}" style="width: 45%; ">
+            </div>
+            <div class="mb-3" style="display: flex;justify-content: center;">
+              <h4 style="padding-top:20px;">{{hotel_name}}</h4>
+            </div>
+            <div class="mb-3" style="display: flex;justify-content: center;">
+              <label class="form-label">Guest Registration Form</label>
+            </div>
+            <div class="mb-3" style="display: flex;justify-content: center;">
+              <span>
+                {% if messages %}
+      
+                <div class="messages" style="text-align: center">
+                  {% for message in messages %}
+                  <div style="height: 50px; width: 100%; padding-top: 10px" {% if message.tags %} class="{{ message.tags }}"
+                    {% endif %}>
+                    {{ message }}
+                  </div>
+                  {% endfor %}
+                </div>
+                {% endif %}
+              </span>
+            </div>
+            <div class="mb-3">
+              <label class="form-label required">Full name</label>
+              <input value="{{customer.firstname}}" type="text" name="firstname" required class="form-control"  />
+            </div>
+            <div class="mb-3">
+              <label class="form-label required">Last name</label>
+              <input value="{{customer.lastname}}" type="text" value="{{customer_phone.lastname}}" name="lastname" required class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label required">Email</label>
+              <input value="{{customer.email}}" type="email" name="email" required class="form-control" required/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Phone number</label>
+              <input type="text" class="form-control" value="{{phone}}" name="mobile" readonly/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Address</label>
+              <input type="text" class="form-control" value="{{customer.address}}" name="address" id="address" required/>
+            </div>
+            {% if customer.id %}
+            <div class="mb-3">
+              <label class="form-label">Nationality</label>
+              <select onchange="NationalityChange(this)" class="form-select" id="nationality" name="nationality"
+                required>
+                <option value="{{customer.nationality}}">{{customer.nationality}}</option>
+              </select>
+            </div>
+            <div id="forgieres" style="display:none;">
+            <div class="mb-3">
+              <label class="form-label">Passport Number</label>
+              <input type="text" class="form-control" name="passport_no"  />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Date of Issue</label>
+              <input type="date" class="form-control" name="date_of_issue">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Date of Expiry</label>
+              <input type="date" class="form-control" name="date_of_expiry">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Date Of Arrival in india</label>
+              <input type="date" class="form-control" name="date_of_arrival">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Visa Number</label>
+              <input type="text" class="form-control" name="visa_no" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Date of Issue</label>
+              <input type="date" class="form-control" name="date_of_issue_visa">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Date of Expiry</label>
+              <input type="date" class="form-control" name="date_of_expiry_visa">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Wheather Employed in India</label>
+              <div class="input100">
+                <select class="form-control" name="employed_india">
+                  <option value="False">No</option>
+                  <option value="True">Yes</option>
+                </select>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Duration in India</label>
+              <input type="number" class="form-control" name="duration_in_india">
+            </div>
+           
+          </div>
+          {% else %}
+          <div class="mb-3">
+            <label class="form-label">Nationality</label>
+            <select onchange="NationalityChange(this)" class="form-select" id="nationality" name="nationality"
+              required>
+              <option value="">-- select one --</option>
+              <option value="afghan">Afghan</option>
+              <option value="albanian">Albanian</option>
+              <option value="algerian">Algerian</option>
+              <option value="american">American</option>
+              <option value="andorran">Andorran</option>
+              <option value="angolan">Angolan</option>
+              <option value="antiguans">Antiguans</option>
+              <option value="argentinean">Argentinean</option>
+              <option value="armenian">Armenian</option>
+              <option value="australian">Australian</option>
+              <option value="austrian">Austrian</option>
+              <option value="azerbaijani">Azerbaijani</option>
+              <option value="bahamian">Bahamian</option>
+              <option value="bahraini">Bahraini</option>
+              <option value="bangladeshi">Bangladeshi</option>
+              <option value="barbadian">Barbadian</option>
+              <option value="barbudans">Barbudans</option>
+              <option value="batswana">Batswana</option>
+              <option value="belarusian">Belarusian</option>
+              <option value="belgian">Belgian</option>
+              <option value="belizean">Belizean</option>
+              <option value="beninese">Beninese</option>
+              <option value="bhutanese">Bhutanese</option>
+              <option value="bolivian">Bolivian</option>
+              <option value="bosnian">Bosnian</option>
+              <option value="brazilian">Brazilian</option>
+              <option value="british">British</option>
+              <option value="bruneian">Bruneian</option>
+              <option value="bulgarian">Bulgarian</option>
+              <option value="burkinabe">Burkinabe</option>
+              <option value="burmese">Burmese</option>
+              <option value="burundian">Burundian</option>
+              <option value="cambodian">Cambodian</option>
+              <option value="cameroonian">Cameroonian</option>
+              <option value="canadian">Canadian</option>
+              <option value="cape verdean">Cape Verdean</option>
+              <option value="central african">Central African</option>
+              <option value="chadian">Chadian</option>
+              <option value="chilean">Chilean</option>
+              <option value="chinese">Chinese</option>
+              <option value="colombian">Colombian</option>
+              <option value="comoran">Comoran</option>
+              <option value="congolese">Congolese</option>
+              <option value="costa rican">Costa Rican</option>
+              <option value="croatian">Croatian</option>
+              <option value="cuban">Cuban</option>
+              <option value="cypriot">Cypriot</option>
+              <option value="czech">Czech</option>
+              <option value="danish">Danish</option>
+              <option value="djibouti">Djibouti</option>
+              <option value="dominican">Dominican</option>
+              <option value="dutch">Dutch</option>
+              <option value="east timorese">East Timorese</option>
+              <option value="ecuadorean">Ecuadorean</option>
+              <option value="egyptian">Egyptian</option>
+              <option value="emirian">Emirian</option>
+              <option value="equatorial guinean">Equatorial Guinean</option>
+              <option value="eritrean">Eritrean</option>
+              <option value="estonian">Estonian</option>
+              <option value="ethiopian">Ethiopian</option>
+              <option value="fijian">Fijian</option>
+              <option value="filipino">Filipino</option>
+              <option value="finnish">Finnish</option>
+              <option value="french">French</option>
+              <option value="gabonese">Gabonese</option>
+              <option value="gambian">Gambian</option>
+              <option value="georgian">Georgian</option>
+              <option value="german">German</option>
+              <option value="ghanaian">Ghanaian</option>
+              <option value="greek">Greek</option>
+              <option value="grenadian">Grenadian</option>
+              <option value="guatemalan">Guatemalan</option>
+              <option value="guinea-bissauan">Guinea-Bissauan</option>
+              <option value="guinean">Guinean</option>
+              <option value="guyanese">Guyanese</option>
+              <option value="haitian">Haitian</option>
+              <option value="herzegovinian">Herzegovinian</option>
+              <option value="honduran">Honduran</option>
+              <option value="hungarian">Hungarian</option>
+              <option value="icelander">Icelander</option>
+              <option value="indian" selected>Indian</option>
+              <option value="indonesian">Indonesian</option>
+              <option value="iranian">Iranian</option>
+              <option value="iraqi">Iraqi</option>
+              <option value="irish">Irish</option>
+              <option value="israeli">Israeli</option>
+              <option value="italian">Italian</option>
+              <option value="ivorian">Ivorian</option>
+              <option value="jamaican">Jamaican</option>
+              <option value="japanese">Japanese</option>
+              <option value="jordanian">Jordanian</option>
+              <option value="kazakhstani">Kazakhstani</option>
+              <option value="kenyan">Kenyan</option>
+              <option value="kittian and nevisian">Kittian and Nevisian</option>
+              <option value="kuwaiti">Kuwaiti</option>
+              <option value="kyrgyz">Kyrgyz</option>
+              <option value="laotian">Laotian</option>
+              <option value="latvian">Latvian</option>
+              <option value="lebanese">Lebanese</option>
+              <option value="liberian">Liberian</option>
+              <option value="libyan">Libyan</option>
+              <option value="liechtensteiner">Liechtensteiner</option>
+              <option value="lithuanian">Lithuanian</option>
+              <option value="luxembourger">Luxembourger</option>
+              <option value="macedonian">Macedonian</option>
+              <option value="malagasy">Malagasy</option>
+              <option value="malawian">Malawian</option>
+              <option value="malaysian">Malaysian</option>
+              <option value="maldivan">Maldivan</option>
+              <option value="malian">Malian</option>
+              <option value="maltese">Maltese</option>
+              <option value="marshallese">Marshallese</option>
+              <option value="mauritanian">Mauritanian</option>
+              <option value="mauritian">Mauritian</option>
+              <option value="mexican">Mexican</option>
+              <option value="micronesian">Micronesian</option>
+              <option value="moldovan">Moldovan</option>
+              <option value="monacan">Monacan</option>
+              <option value="mongolian">Mongolian</option>
+              <option value="moroccan">Moroccan</option>
+              <option value="mosotho">Mosotho</option>
+              <option value="motswana">Motswana</option>
+              <option value="mozambican">Mozambican</option>
+              <option value="namibian">Namibian</option>
+              <option value="nauruan">Nauruan</option>
+              <option value="nepalese">Nepalese</option>
+              <option value="new zealander">New Zealander</option>
+              <option value="ni-vanuatu">Ni-Vanuatu</option>
+              <option value="nicaraguan">Nicaraguan</option>
+              <option value="nigerien">Nigerien</option>
+              <option value="north korean">North Korean</option>
+              <option value="northern irish">Northern Irish</option>
+              <option value="norwegian">Norwegian</option>
+              <option value="omani">Omani</option>
+              <option value="pakistani">Pakistani</option>
+              <option value="palauan">Palauan</option>
+              <option value="panamanian">Panamanian</option>
+              <option value="papua new guinean">Papua New Guinean</option>
+              <option value="paraguayan">Paraguayan</option>
+              <option value="peruvian">Peruvian</option>
+              <option value="polish">Polish</option>
+              <option value="portuguese">Portuguese</option>
+              <option value="qatari">Qatari</option>
+              <option value="romanian">Romanian</option>
+              <option value="russian">Russian</option>
+              <option value="rwandan">Rwandan</option>
+              <option value="saint lucian">Saint Lucian</option>
+              <option value="salvadoran">Salvadoran</option>
+              <option value="samoan">Samoan</option>
+              <option value="san marinese">San Marinese</option>
+              <option value="sao tomean">Sao Tomean</option>
+              <option value="saudi">Saudi</option>
+              <option value="scottish">Scottish</option>
+              <option value="senegalese">Senegalese</option>
+              <option value="serbian">Serbian</option>
+              <option value="seychellois">Seychellois</option>
+              <option value="sierra leonean">Sierra Leonean</option>
+              <option value="singaporean">Singaporean</option>
+              <option value="slovakian">Slovakian</option>
+              <option value="slovenian">Slovenian</option>
+              <option value="solomon islander">Solomon Islander</option>
+              <option value="somali">Somali</option>
+              <option value="south african">South African</option>
+              <option value="south korean">South Korean</option>
+              <option value="spanish">Spanish</option>
+              <option value="sri lankan">Sri Lankan</option>
+              <option value="sudanese">Sudanese</option>
+              <option value="surinamer">Surinamer</option>
+              <option value="swazi">Swazi</option>
+              <option value="swedish">Swedish</option>
+              <option value="swiss">Swiss</option>
+              <option value="syrian">Syrian</option>
+              <option value="taiwanese">Taiwanese</option>
+              <option value="tajik">Tajik</option>
+              <option value="tanzanian">Tanzanian</option>
+              <option value="thai">Thai</option>
+              <option value="togolese">Togolese</option>
+              <option value="tongan">Tongan</option>
+              <option value="trinidadian or tobagonian">Trinidadian or Tobagonian</option>
+              <option value="tunisian">Tunisian</option>
+              <option value="turkish">Turkish</option>
+              <option value="tuvaluan">Tuvaluan</option>
+              <option value="ugandan">Ugandan</option>
+              <option value="ukrainian">Ukrainian</option>
+              <option value="uruguayan">Uruguayan</option>
+              <option value="uzbekistani">Uzbekistani</option>
+              <option value="venezuelan">Venezuelan</option>
+              <option value="vietnamese">Vietnamese</option>
+              <option value="welsh">Welsh</option>
+              <option value="yemenite">Yemenite</option>
+              <option value="zambian">Zambian</option>
+              <option value="zimbabwean">Zimbabwean</option>
+            </select>
+          </div>
+          <div id="forgieres" style="display:none;">
+          <div class="mb-3">
+            <label class="form-label">Passport Number</label>
+            <input type="tel" class="form-control" name="passport_no" />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Date of Issue</label>
+            <input type="date" class="form-control" name="date_of_issue">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Date of Expiry</label>
+            <input type="date" class="form-control" name="date_of_expiry">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Date Of Arrival in india</label>
+            <input type="date" class="form-control" name="date_of_arrival" >
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Visa Number</label>
+            <input type="tel" class="form-control" name="visa_no" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Date of Issue</label>
+            <input type="date" class="form-control" name="date_of_issue_visa">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Date of Expiry</label>
+            <input type="date" class="form-control" name="date_of_expiry_visa">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Wheather Employed in India</label>
+            <div class="input100">
+              <select class="form-control" name="employed_india">
+                <option value="False">No</option>
+                <option value="True">Yes</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Duration in India</label>
+            <input type="number" class="form-control" name="duration_in_india">
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Id Proof</label>
+          <input type="file" class="form-control" name="idp" id="idp" class="file" >
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Id Proof Backside</label>
+          <input type="file" class="form-control" name="idp_back" id="idp_back" class="file" >
+        </div>
+       
+        {% endif %}
+        <div class="mb-3">
+          <label class="form-label">Purpose of Visit</label>
+          <input type="text" class="form-control" name="purpose"/>
+        </div> 
+            <div class="mb-3">
+              <label class="form-label">Number of Adults</label>
+              <input type="number" class="form-control" name="no_of_adults" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Number of Children</label>
+              <input type="number" class="form-control" name="no_of_children" required />
+            </div>
+    
+            <div class="mb-3">
+              <label class="form-label">Guest Photo</label>
+              <input type="file" class="form-control" name="selfi" accept="image/*" capture="user" >
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Signature</label>
+            
+          <div class="wrap-input100">
+            <div class="input100">
+              <canvas id="signature" width="350" height="150" style="border: 1px solid #ddd" required></canvas>
+            </div>
+            <span class="focus-input100"></span>
+            <input id="input_id" name="sign" type="hidden" />
+            <div class="wrap-input100">
+              <button class="btn btn-light " type="button" id="clear-signature" href="" style="margin-top:4px;">
+                Clear
+              </button>
+              <button class="btn btn-success " type="button" id="image_btn" href="" style="margin-top:4px;" onclick="return send(this)">
+                Verify
+              </button><br>
+              
+                <input type="checkbox" id="verify" name="verify" required />
+              
+              <span class="label-input100">I here by declare that all informations are true and i have
+                duly signed on this form.</span>
+             
+              <span class="focus-input100"></span>
+            </div>
+          </div>
+            </div>
+            <div class="mb-3" style="display: flex;justify-content: center;">
+              <button class="btn btn-primary" type="submit">Submit form</button>
+            </div>
+          </fieldset>
+          </form>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  <div id="cover-spin">
+		<div class='progress' id="progress_div">
+			<!-- <div class='bar' id='bar1'></div> -->
+			<div class='percent' id='percent1'>
+			  <div style="position: fixed;text-align:center;align-items: center;justify-content: center;top:50%;left: 50%;transform: translate(-50%, -50%);-webkit-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);"><div>
+				<img src="{% static 'images/Rocket.gif' %}" style="padding:40px;" alt="Alt">
+					  </div><h4>This can take some time depending on the user's Internet connection</h4>
+			  <br><span>Please wait ....</span></div>
+		  
+		  <div id="wrapper">
+			<div id="content">
+			</div>
+		  </div>
+		  
+		  <input type="hidden" id="progress_width" value="0">
+	</div>
+  <!-- Libs JS -->
+  <!-- Tabler Core -->
+  <script src="{% static 'admin/js/tabler.min.js'%}"></script>
+  <script src="{% static 'admin/js/demo.min.js'%}"></script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
+  <script type="text/javascript"
+    src="https://github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
+  <script src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    $("#verify").click(function () {
+      return false;
+    });
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "UA-23581568-13");
+
+    jQuery(document).ready(function ($) {
+      var canvas = document.getElementById("signature");
+      var signaturePad = new SignaturePad(canvas);
+
+      $("#clear-signature").on("click", function () {
+        document.getElementById("verify").checked = false;
+        signaturePad.clear();
+      });
+    });
+   
+    function send() {
+      var canvas = document.getElementById("signature");
+      var input_id = document.getElementById("input_id");
+      var img = canvas.toDataURL("image/png");
+      input_id.value = img;
+      document.getElementById("verify").checked = true;
+    }
+  </script>
+  <script>
+    function NationalityChange() {
+      var nationality = document.getElementById("nationality")
+      var forgieres = document.getElementById("forgieres")
+
+      var value = nationality.options[nationality.selectedIndex].text;
+      if (value.toLowerCase() == "indian") {
+        forgieres.style.display = "none"
+      } else {
+        forgieres.style.display = ""
+      }
+    }
+  </script>
+  <script>
+    window.onload = function () {
+      var nationality = document.getElementById("nationality")
+      var forgieres = document.getElementById("forgieres")
+
+      var value = nationality.options[nationality.selectedIndex].text;
+      if (value.toLowerCase() == "indian") {
+        forgieres.style.display = "none"
+      } else {
+        forgieres.style.display = ""
+      }
+    }
+  </script>
+
+</body>
+
+</html>

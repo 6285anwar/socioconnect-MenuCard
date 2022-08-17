@@ -1,0 +1,231 @@
+{% extends 'admin_user/admin-base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="container-xl">
+        <!-- Page title -->
+        <div class="page-header d-print-none">
+            <div class="row align-items-center">
+                <div class="col">
+                    <!-- Page pre-title -->
+
+                    <h2 class="page-title">{{hotel.property_name}}</h2>
+                </div>
+                <!-- Page title actions -->
+                
+            </div>
+        </div>
+    </div>
+    <!-- cards start -->
+
+    <div class="page-body">
+        <div class="container-xl">
+
+            <div class="col-12">
+                <div class="card">
+                  <div class="table-responsive"  style="padding:50px;">
+
+                    <table class="table table-vcenter table-mobile-md card-table">
+                      <tbody>
+                        <tr>
+                          <td colspan="4" style="text-align: center; height:20px"><h2>Hotel Details</h2></td>
+                        </tr>
+                      </tbody>
+                      <tbody>
+                       
+                       <tr>
+
+                           <td class="headingclass"><strong>Property Code</strong></td>
+                           <td class="valueclass">{{hotel.property_code}}</td>
+                           <td class="headingclass"><strong>Property Name</strong></td>
+                           <td class="valueclass">{{hotel.property_name}}</td>
+                       </tr>
+                       <tr>
+                        <td class="headingclass"><strong>Name</strong></td>
+                        <td class="valueclass">{{hotel.hotel_user.first_name}} {{hotel.hotel_user.last_name}}</td>
+                        <td class="headingclass"><strong>Email</strong></td>
+                        <td class="valueclass">{{hotel.hotel_user.email}}</td>
+                    </tr>
+                    <tr>
+                        <td class="headingclass"><strong>Mobile No</strong></td>
+                        <td class="valueclass">{{hotel.mobile}}</td>
+                        <td class="headingclass"><strong>Username</strong></td>
+                        <td class="valueclass">{{hotel.hotel_user.username}}</td>
+                    </tr>
+                    <tr>
+                        <td class="headingclass"><strong>Password</strong></td>
+                        <td class="valueclass">{{hotel.password}}</td>
+                        <td class="headingclass"><strong>website</strong></td>
+                        <td class="valueclass">{{hotel.website}}</td>
+                    </tr>
+                    <tr>
+                        <td class="headingclass"><strong>Amount</strong></td>
+                        <td class="valueclass">{{hotel.amount}}</td>
+                        <td class="headingclass"><strong>Tax</strong></td>
+                        <td class="valueclass">{{hotel.tax}}</td>
+                    </tr>
+                    <tr>
+                      <td class="headingclass"><strong>Renewals</strong></td>
+                      <td class="valueclass">{{renewals}}</td>
+                      <td class="headingclass"><strong>Last Renewal Date</strong></td>
+                      <td class="valueclass">{{renewals_date.renew_date}}</td>
+                      
+                  </tr>
+                    <tr>
+                        <td class="headingclass"><strong>Total</strong></td>
+                        <td class="valueclass">{{hotel.total}}</td>
+                        <td class="headingclass"><strong>Review Url</strong></td>
+                        <td class="valueclass">{{hotel.url}}</td>
+                    </tr>
+                    <tr>
+                      
+                      <td class="headingclass"><strong>Check-in Url</strong></td>
+                      <td class="valueclass">{{hotel.url_checkin}}</td>
+                      <td class="headingclass"><strong>Admin name</strong></td>
+                      <td class="valueclass">{{hotel.admin_name.admin_user.username}}</td>
+                  </tr>
+                    <tr>
+                        <td class="headingclass"><strong>Type</strong></td>
+                        <td class="valueclass">{{hotel.type_of}}</td>
+                        <td class="headingclass"><strong>Duration</strong></td>
+                        <td class="valueclass">{{hotel.duration}}</td>
+                    </tr>
+                    <tr>
+                        <td class="headingclass"><strong>Package Type</strong></td>
+                        <td class="valueclass" class="val"> {% if hotel.google %}
+
+   
+                            Google
+                           {% endif %}
+                           {% if hotel.trip_adviser %}
+                           Trip Advisor
+                           {% endif %}
+                           {% if hotel.g_t %}
+                          Google & Trip Adviser
+                           {% endif %}
+                           {% if hotel.t_g %}
+                           Trip Adviser & Google
+                           {% endif %}
+                           {% if hotel.social_media %}
+                          Social Media <br>
+                           {% endif %}
+                           {% if hotel.express_checkin %}
+                          Express Checkin
+                           {% endif %}</td>
+
+                           <td class="headingclass"><strong>City</strong></td>
+                           <td class="valueclass">{{hotel.location}}</td>
+                    </tr>
+                    <tr>
+                        <td class="headingclass"><strong>State</strong></td>
+                        <td class="valueclass">{{hotel.state}}</td>
+                        <td class="headingclass"><strong>Country</strong></td>
+                        <td class="valueclass">{{hotel.country}}</td>
+                    </tr>
+                    <tr>
+                        <td class="headingclass"><strong>Start Date</strong></td>
+                        <td class="valueclass">{{hotel.start_date}}</td>
+                        <td class="headingclass"><strong>End Date</strong></td>
+                        <td class="valueclass">{{hotel.end_date}}</td>
+                    </tr>
+                    <tr>
+                        <td class="headingclass"><strong>Google Place Id</strong></td>
+                        <td class="valueclass">{{hotel.google_link}}</td>
+                        <td class="headingclass"><strong>Trip Adviser Link</strong></td>
+                        <td class="valueclass">{{hotel.trip_adviser_link}}</td>
+                    </tr>
+                    <tr>
+                        <td class="headingclass"><strong>Status</strong></td>
+                        <td class="valueclass">{{hotel.status}}</td>
+                        <td class="headingclass"><strong>Address</strong></td>
+                        <td class="valueclass">{{hotel.address}}</td>
+                    </tr>
+                    <tr>
+                        <td class="headingclass"><strong>Page Id</strong></td>
+                        <td class="valueclass">{{hotel.page_id}}</td>
+                        <td class="headingclass"><strong>Instagram Id</strong></td>
+                        <td class="valueclass">{{hotel.insta_id}}</td>
+                    </tr>
+                    <tr>
+                        <td class="headingclass"><strong>Rating Qr</strong></td>
+                        <td class="valueclass"><a href="{{hotel.qr_code.url}}"><img style="width: 100px; height: 60px"
+                            src="{{hotel.qr_code.url}}" /></a></td>
+                        <td class="headingclass"><strong>Logo</strong></td>
+                        <td class="valueclass"><a href="{{hotel.profile_photo.url}}"><img style="width: 100px; height: 60px"
+                            src="{{hotel.profile_photo.url}}" alt="" /></a></td>
+                    </tr>
+                    <tr>
+                        <td class="headingclass"><strong>Checkin Qr</strong></td>
+                        <td class="valueclass"><a href="{{hotel.checkin_qr.url}}"><img style="width: 100px; height: 60px"
+                            src="{{hotel.checkin_qr.url}}" alt="" /></a></td>
+                        <td class="headingclass"><strong>Agreement</strong></td>
+                        <td class="valueclass"><a href="{{hotel.agreement.url}}"><img style="width: 100px; height: 60px"
+
+                            src="{{hotel.agreement.url}}" alt="" /></a></td>
+                    </tr>
+                      </tbody>
+                    </table>
+                    
+              </div>
+              <div class="col-12 text-center mt-2 md-2 pd-2">
+                <a href="{% url 'deactivate' hotel.id %}" >  <button style="border:none;background-color:#f59f00;width:130px;" id="checkBtn" class="btn btn-primary" type="submit">
+                    {%if hotel.status == "Active" %}Deactivate {% else %} Activate {% endif %} </button></a>
+                    
+            
+                    <a class="btn btn-success" style="border:none;background-color:#0ca678;width:130px;"
+                    data-bs-toggle="modal" data-bs-target="#basicModal">
+                    <i class="bi bi-person"></i>
+                    <span id="contact_us">Update Token</span>
+                  </a>
+              </div>
+              <div class="card-body">
+                <!-- Basic Modal -->
+      
+                <div class="modal fade" id="basicModal" tabindex="-1">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <div class="heding" style="text-align:center;">
+                          <h5 class="modal-title">Update Facebook Access Token</h5>
+      
+                        </div>
+      
+      
+      
+                      </div>
+                      <div class="modal-body" style="text-align: center;">
+                        <form enctype="multipart/form-data" class="needs-validation" method="post"
+                          action="{% url 'update_token' hotel.id %}">
+                          {% csrf_token %}
+                          <div class="row">
+                            <div class="col-md-12 mb-12">
+                              <label for="validationCustom01">Access Token</label>
+                              <input type="text" class="form-control" id="validationCustom01" placeholder="Access Token"
+                                name="access_token" value="{{hotel.facebook_access_token}}" required>
+                              <div class="valid-feedback">
+                                Looks good!
+                              </div>
+                            </div>
+      
+                            <!-- </div> -->
+                          </div>
+                          <div style="text-align: center;padding-top:50px;">
+                            <button style="text-align: center;width:50%;" class="btn btn-primary"
+                              type="submit">Submit</button>
+                          </div>
+      
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End Basic Modal-->
+              </div>
+            </div>
+          </div>
+         </div>
+   </div>
+</div>
+{% endblock content %}
+<!-- Clients table ends -->

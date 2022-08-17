@@ -1,0 +1,636 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+  <title>Hudels</title>
+  <meta content="" name="description" />
+  <meta content="" name="keywords" />
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/socioconnects_icon.png' %}" rel="icon" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet" />
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/quill/quill.snow.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/quill/quill.bubble.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/simple-datatables/style.css' %}" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" />
+  <style>
+    tr {
+      height: "300px" !important;
+    }
+
+    .head {
+      font-weight: 300 !important;
+      font-size: 15px;
+    }
+
+    table,
+    th,
+    td {
+      border: 1px solid #fff !important;
+      border-collapse: collapse !important;
+    }
+
+    .val {
+      font-size: 15px;
+      font-weight: 400 !important;
+    }
+
+    .form-control {
+      background-color: #f5f5f5 !important;
+      border: none !important;
+    }
+  </style>
+  <!-- =======================================================
+  * Template Name: NiceAdmin - v2.2.0
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  <script></script>
+</head>
+
+<body>
+  <header id="header" class="header fixed-top d-flex align-items-center">
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="" class="logo d-flex align-items-center">
+        <img style="max-height: 200px; max-width: 200px" src="{% static 'images/checkin.png' %}" alt="Profile"
+          class="" />
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div>
+    <!-- End Logo -->
+
+    <!-- End Search Bar -->
+
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+        <!-- End Search Icon-->
+        {% if customer.hotel.other %}
+        <li class="nav-item d-block">
+          <a style="
+                background-color: #548ca8;
+                color: white;
+                font-weight: 500;
+                font-size: small;
+                padding-right: 10px;
+                border-radius: 5px;
+              " class="nav-link nav-icon search-bar-toggle" href="{% url 'hotel_dashboard' %}">
+            <span>Reviews</span>
+          </a>
+        </li>
+        <!-- End Search Icon-->
+        {% endif %}
+        <li class="nav-item dropdown pe-3">
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="{{customer.hotel.profile_photo.url}}" alt="Profile" class="rounded-circle" />
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{user.username}}</span> </a>
+          <!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>{{user.username}}</h6>
+              <span>{{customer.hotel.property_name}}</span>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'logout_hotel' %}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+          </ul>
+          <!-- End Profile Dropdown Items -->
+        </li>
+        <!-- End Profile Nav -->
+      </ul>
+    </nav>
+    <!-- End Icons Navigation -->
+  </header>
+  <!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+
+  <aside style="padding-top: 50px" id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'dashboard_hotel' %}">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <!-- End Search Icon-->
+      
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'user_profile' %}">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
+        </a>
+      </li>
+      <!-- End Profile Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'total_checkin' %}">
+          <i class="bi bi-person"></i>
+          <span>Guest Details</span>
+        </a>
+      </li>
+      <!-- End Profile Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'check_mobile' user.username %}">
+          <i class="bi bi-card-list"></i>
+          <span>Registration Form</span>
+        </a>
+      </li>
+      <!-- End Register Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed dropdown-item d-flex align-items-center" data-bs-toggle="modal"
+          data-bs-target="#basicModal">
+          <i class="bi bi-person"></i>
+          <span id="contact_us">Contact Us</span>
+        </a>
+      </li>
+      {% if customer.hotel.other %}
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'hotel_dashboard' %}">
+          <i class="bi bi-toggle-on"></i>
+          <span>Check-In</span>
+        </a>
+      </li>
+      <!-- End Dashboard Nav -->
+      {% endif %}
+
+      <li class="nav-item" style="padding-top: 30px; float: left; padding-left: 20px">
+        <a onclick="downloadCheckinQr(this)"><button style="
+                background-color: #548ca8;
+                color: white;
+                font-weight: 200;
+                font-size: small;
+                height: 30px;
+                width: auto;
+              " type="button" class="btn btn-success">
+            <span>Download Qr Code</span> &nbsp;
+            <i class="bi bi-download"></i></button></a>
+      </li>
+      <!-- End Register Page Nav -->
+    </ul>
+  </aside>
+  <!-- End Sidebar-->
+
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Guest Check-In Details</h1>
+    </div>
+    <!-- End Page Title -->
+
+    <section id="details" class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div id="grc" class="card">
+            <div class="card-body">
+              <!-- <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p> -->
+              <div  class="card-body" style="padding-top: 30px; text-align: center">
+                <h4>Guest Check-In Details</h4>
+              </div>
+              <!-- Table with stripped rows -->
+              <div id="detail_table" style="
+                        padding-top: 30px;
+                        text-align: center;
+                        background-color: #f5f5f5;
+                        border-radius: 10px;
+                  ">
+                <table id="table_detail" class="table">
+                  <tbody>
+                    <tr height="50px">
+                      <td class="head">Firstname</td>
+                      <td class="val">{{customer.firstname}}</td>
+
+                      <td class="head">Lastname</td>
+                      <td class="val">{{customer.lastname}}</td>
+                    </tr>
+                    <tr height="50px">
+                      <td class="head">Address</td>
+                      <td class="val">{{customer.address}}</td>
+
+                      <td class="head">Email</td>
+                      <td class="val">{{customer.email}}</td>
+                    </tr>
+                    <tr height="50px">
+                      <td class="head">Id Proof</td>
+                      <td class="val">
+                        {% if customer.id_proof %}
+                        <a href="{{customer.id_proof.url}}"><img style="width: 100px; height: 60px"
+                            src="{{customer.id_proof.url}}" alt=" " /></a>
+                            {% endif %}
+                            {% if customer.id_proof_back %}
+                            <a href="{{customer.id_proof_back.url}}"><img style="width: 100px; height: 60px"
+                              src="{{customer.id_proof_back.url}}" alt=" " /></a>
+                            {% endif %}
+                      </td>
+                      <td class="head">Nationality</td>
+                      <td class="val">{{customer.nationality}}</td>
+                    </tr>
+                    {% if customer.nationality != "indian" %}
+                    <tr height="50px">
+                      
+                     
+                      <td class="head">Duration of Stay in India</td>
+                      <td class="val">{{customer.duration_stay_india}}</td>
+                     
+                    </tr>
+                   
+                    <tr height="50px">
+                      <td class="head">Passport Number</td>
+                      <td class="val">{{customer.passport_no}}</td>
+
+                      <td class="head">Date of issue</td>
+                      <td class="val">{{customer.date_of_issue}}</td>
+                    </tr>
+                    <tr height="50px">
+                      <td class="head">Date of expiry</td>
+                      <td class="val">{{customer.date_of_expiry}}</td>
+
+                      <td class="head">Date of Arrival</td>
+                      <td class="val">{{customer.date_of_arrival}}</td>
+                    </tr>
+                    <tr height="50px">
+                      <td class="head">Visa Number</td>
+                      <td class="val">{{customer.visa_no}}</td>
+
+                      <td class="head">Date of issue</td>
+                      <td class="val">{{customer.date_of_issue_visa}}</td>
+                    </tr><tr height="50px">
+                      <td class="head">Date of expiry</td>
+                      <td class="val">{{customer.date_of_expiry_visa}}</td>
+
+                      <td class="head">Whether Employed in India</td>
+                      <td class="val">{{customer.employed_india}}</td>
+                    </tr>
+                    {% endif %}
+                    <tr height="50px">
+                      <td class="head">Check-in</td>
+                      <td class="val">{{customer.check_in}}</td>
+
+                      <td class="head">Check-out</td>
+                      <td class="val">{{customer.check_out}}</td>
+                    </tr>
+
+                    <tr height="50px">
+                      <td class="head">Adults</td>
+                      <td class="val">{{customer.no_of_adult}}</td>
+
+                      <td class="head">Children</td>
+                      <td class="val">{{customer.no_of_children}}</td>
+                    </tr>
+                    <tr height="50px">
+                      <td class="head">Guest Photo</td>
+                      <td class="val">
+                        {% if customer.selfi.url %}
+                        <a href="{{customer.selfi.url}}"><img style="width: 100px; height: 60px"
+                            src="{{customer.selfi.url}}" /></a>
+                        {% endif %}    
+                      </td>
+
+                      <td class="head">Mobile</td>
+                      <td class="val">{{customer.mobile}}</td>
+                    </tr>
+                    <tr height="50px">
+                      <td class="head">Status</td>
+                      <td class="val">{{customer.status}}</td>
+
+                      <td class="head">Room Number</td>
+                      <td class="val">{{customer.room}}</td>
+                    </tr>
+                    <tr height="50px">
+                      <td class="head">Purpose of Visit</td>
+                      <td class="val">{{customer.purpose_of_visit}}</td>
+
+                      <td class="head">GRC No</td>
+                      <td class="val">{{customer.grc_no}}</td>
+                    </tr>
+                    {% if customer.status == "approved" %}
+                    <tr height="50px">
+                      <td class="head">Amount</td>
+                      <td class="val">{{customer.amount}}</td>
+
+                      <td class="head">Plan</td>
+                      <td class="val">{{customer.plan}}</td>
+                    </tr>
+                    <tr height="50px">
+                      <td class="head">Remarks</td>
+                      <td class="val">{{customer.remark}}</td>
+
+                      <td class="head">Booking Agency</td>
+                      <td class="val">{{customer.booking_agency}}</td>
+                    </tr>
+                   
+                    <tr height="50px">
+                      <td class="head">Mode of Payment</td>
+                      <td class="val">{{customer.payment_type}}</td>
+                      <td class="head">Signature</td>
+                      <td class="val">
+                        <a href="{{customer.signature.url}}"><img style="width: 100px; height: 60px"
+                            src="{{customer.signature.url}}" alt="" /></a>
+                      </td>
+                    </tr>
+
+                    {% endif %}
+                  </tbody>
+
+                </table>
+                {% if other_doc %}
+                <div><div style="padding:10px;">
+                  <h6>Documents</h6>
+                </div>
+                <table width="100%" style="padding:30px; word-wrap: break-word;">
+
+                    {% for id in other_doc %}
+                    <tr>
+                    <td class="head">Guest Id</td>
+                    <td class="val">
+                      {% if id.id_proofs %}
+                      <a href="{{id.id_proofs.url}}"><img style="width: 100px; height: 60px" src="{{id.id_proofs.url}}" /></a>
+                      {% endif %}
+                    </td>
+                    <td class="val">
+                      {% if id.id_proofs_back %}
+                      <a href="{{id.id_proofs_back.url}}"><img style="width: 100px; height: 60px" src="{{id.id_proofs_back.url}}" /></a>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  
+                </table>
+              </div>
+              {% endif %}
+                {% if customer.status == "waiting" %}
+                <div style="padding-top:30px;">
+                  <h6>For Hotel staff use only</h6>
+                </div>
+                {% endif %}
+                <form action="{% url 'approve' customer.id %}" method="post" enctype="multipart/form-data">
+                  {% csrf_token %} {% if customer.status == "waiting" %}
+                  <table id="table_detail" class="table">
+                    <tbody>
+                      <tr height="50px">
+                        <td class="head">Room No</td>
+                        <td class="val">
+                          <input type="text" id="room" name="room" class="form-control" required />
+                        </td>
+
+                        <td class="head">Remark</td>
+                        <td class="val">
+                          <input id="remark" type="text" name="remark" class="form-control" />
+                        </td>
+                      </tr>
+                     
+                      <tr height="50px">
+                        <td class="head">Amount</td>
+                        <td class="val">
+                          <input id="amount" value="0" type="number" name="amount" class="form-control" />
+                        </td>
+
+                        <td class="head">Room Type</td>
+                        <td class="val">
+                          <input id="plan" type="text" name="plan" class="form-control" />
+                        </td>
+                      </tr>
+                      <tr height="50px">
+                        <td class="head">Booking Agency</td>
+                        <td class="val">
+                          <input id="booking_agency" type="text" name="booking_agency" class="form-control" />
+                        </td>
+
+                        <td class="head">Check-Out</td>
+                        <td class="val">
+                          <input id="checkout" type="date" name="checkout" class="form-control"/>
+                        </td>
+                      </tr>
+                      
+                      <tr height="50px">
+                        <td class="head">Mode of Payment</td>
+                        <td class="val">
+                          <select id="mode_of_payment" name="mode_of_payment" class="form-control" required>
+                            <option value="Cash">Cash</option>
+                            <option value="Card">Card</option>
+                            <option value="UPI">UPI</option>
+                            <option value="Company">Company</option>
+                          </select>
+                        </td>
+                      </tr>
+                     
+                    </tbody>
+                  </table>
+                  <div class="row" style="padding-top: 30px">
+                    <div id="divbtn" class="button_div" style="display: inline-block">
+                      <div class="buttons" style="display: inline-block">
+                        <button class="btn btn-success" style="
+                              border: none;
+                              background-color: #03506f;
+                              width: 130px;
+                            " type="submit">
+                          Approve
+                        </button>
+                      </div>
+                      <div class="buttons" style="display: inline-block">
+                        <a href="{% url 'reject' customer.id %}"><button style="
+                                border: none;
+                                background-color: #03506f;
+                                width: 130px;
+                              " class="btn btn-danger" type="button">
+                            Reject
+                          </button></a>
+                      </div>
+                      {% endif %}
+                      <div class="buttons" style="display: inline-block">
+                        <a href="{% url 'edit_customer' customer.id %}">
+                          <button style="
+                                border: none;
+                                background-color: #03506f;
+                                color: #fff;
+                                width: 130px;
+                              " class="btn btn-warning" type="button">
+                            Edit
+                          </button></a>
+                      </div>
+                      <div class="buttons" style="display: inline-block">
+                        <a href="{% url 'print_customer' customer.id %}">
+                          <button style="
+                                border: none;
+                                background-color: #03506f;
+                                width: auto;
+                              " class="btn btn-success" type="button">
+                            Print/Download
+                          </button></a>
+                      </div>
+                     
+                    <!-- <input id="Datetime" class="form-control" type="datetime-local" name="checkout"> -->
+                  </div>
+                </form>
+              </div>
+
+              <!-- End Table with stripped rows -->
+            </div>
+          </div>
+
+          <div class="card-body">
+            <!-- Basic Modal -->
+
+            <div class="modal fade" id="basicModal" tabindex="-1">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Contact US</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body" style="text-align: center">
+                    <h3>
+                      {{customer.hotel.admin_name.admin_user.first_name}}
+                    </h3>
+                    <h6>{{customer.hotel.admin_name.admin_user.email}}</h6>
+                    <h6>{{customer.hotel.admin_name.mobile}}</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End Basic Modal-->
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Basic Modal -->
+
+          <div class="modal fade" id="basicModal" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Contact US</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="text-align: center">
+                  <h3>
+                    {{customer.hotel.admin_name.admin_user.first_name}}
+                  </h3>
+                  <h6>
+                    {{customer.hotel.admin_name.admin_user.email}}
+                  </h6>
+                  <h6>{{customer.hotel.admin_name.mobile}}</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Basic Modal-->
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="print-btn"></div>
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>Hudels</span></strong>. All Rights Reserved
+    </div>
+  </footer>
+  <!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+  <script>
+    function Print() {
+      var prtContent = document.getElementById("print_section");
+      var WinPrint = window.open(
+        "",
+        "",
+        "left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0"
+      );
+      WinPrint.document.write(prtContent.innerHTML);
+      WinPrint.document.close();
+      WinPrint.focus();
+      WinPrint.print();
+      WinPrint.close();
+    }
+  </script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.min.js"></script>
+  <!-- Vendor JS Files -->
+
+  <script src="{% static 'assets/vendor/apexcharts/apexcharts.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/chart.js/chart.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/echarts/echarts.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/quill/quill.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
+  <script src="{% static 'assets/vendor/tinymce/tinymce.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}' %}"></script>
+  
+  <script>
+    function downloadCheckinQr() {
+      var source = "{{customer.hotel.checkin_qr.url}}"
+
+      var str = source.substring(source.lastIndexOf('/') + 1)
+      saveAs(source, str);
+    }
+  </script>
+  <script>
+    window.onload = function () {
+      var divbtn = document.getElementsByClassName("buttons");
+      
+
+      document.getElementById("download")
+        .addEventListener("click", () => {
+          for(var i=0, len=divbtn.length; i<len; i++){
+            divbtn[i].style["display"] = "none"
+            }
+          const grc = this.document.getElementById("grc")
+
+          var opt = {
+            filename: "grc"
+          };
+    
+          html2pdf().from(grc).set(opt).save()
+         
+        })
+
+    }
+  </script>
+</body>
+
+</html>

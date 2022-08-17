@@ -1,0 +1,295 @@
+{% extends 'admin_user/admin-base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+<div class="page-wrapper">
+    <div class="container-xl">
+        <!-- Page title -->
+        <div class="page-header d-print-none">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h2 class="page-title">Add Restaurant</h2>
+                </div>
+                <!-- style="background-color:rgb(204, 31, 31);box-shadow: none !important;" -->
+            </div>
+            {% if messages %}
+            <span>
+                <div class="messages" style="text-align:center;">
+                    {% for message in messages %}
+                    <div style="height:50px; width:100%;padding-top:15px;" {% if message.tags %}
+                        class="{{ message.tags }}" {% endif %}>{{ message }}</div>
+                    {% endfor %}
+                </div>
+            </span>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="page-body">
+        <div class="container-xl">
+            <fieldset class="form-fieldset">
+                <form method="post" action="register_restaurant" enctype="multipart/form-data" class="needs-validation">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required">Restaurant Name</label>
+                            <input type="text" class="form-control" name="property_name" placeholder="Property Name"
+                                required />
+                            <div class="invalid-feedback">Please provide a valid Property.</div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom01"> Owner name</label>
+                            <input type="text" class="form-control" id="validationCustom01" placeholder="Owner Name"
+                                name="firstname" required />
+                            <div class="valid-feedback">Looks good!</div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="type_of">Type</label>
+                            <select name="type_of" class="form-control" id="type_of">
+                                <option value="hotel">Hotel</option>
+                                <option value="restaurant">Restaurant</option>
+                                <option value="coffeeshop">Coffee Shop</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="yourUsername">username</label>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text"> @ </span>
+                                <input type="text" class="form-control " id="yourUsername" name="username"
+                                    placeholder="Username" aria-describedby="inputGroupPrepend" required />
+                                <div class="invalid-feedback">Please choose a username.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom03">Password</label>
+                            <input type="text" class="form-control" name="password" id="validationCustom03"
+                                placeholder="Password" required onChange="onChange()" />
+                            <div class="invalid-feedback">Please provide a Password</div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom04">Confirm Password</label>
+                            <input type="text" class="form-control" name="confirm_password" id="validationCustom04"
+                                placeholder="Password" required onChange="onChange()" />
+                            <div class="invalid-feedback">Please provide a valid Password</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom05">Email</label>
+                            <input type="text" class="form-control" name="email" placeholder="E-mail" required />
+                            <div class="invalid-feedback">Please provide a valid Email.</div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom02">Mobile</label>
+                            <input type="text" class="form-control" name="mobile" placeholder="Mobile" required />
+                            <div class="valid-feedback">Valid mobile Number please</div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom05">Logo</label>
+                            <input type="file" class="form-control" id="inputGroupFile02" placeholder="Profile Picture"
+                                name="profile_photo" required />
+                            <div class="invalid-feedback">Please provide a valid Profile</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom05">Address</label>
+                            <input type="text" class="form-control" placeholder="Address" name="address" required />
+                            <div class="invalid-feedback">Please provide a valid Address</div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom05">City</label>
+                            <input type="text" class="form-control" name="location" placeholder="location" required />
+                            <div class="invalid-feedback">
+                                Please provide a valid Location.
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom05">State</label>
+                            <input type="text" class="form-control" name="state" placeholder="State" required />
+                            <div class="invalid-feedback">
+                                Please provide a valid Property.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom05">Country</label>
+                            <input type="text" class="form-control" placeholder="Country" name="country" required />
+                            <div class="invalid-feedback">Please provide a valid country</div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="admin_user">Sales Exceutive</label>
+                            <select name="admin_user" class="form-control" id="admin_user">
+                                {% for admin in admin_users %}
+                                <option value="{{admin.id}}">{{admin.username}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 mb-2">
+                            <label for="table-count" class="form-label required">Table Count</label>
+                            <div class="input-group mb-3">
+                                <input type="number" class="form-control" id="number" placeholder="Table Count"
+                                    name="tablecount" value="" aria-label="Check-in Url"
+                                    aria-describedby="button-addon2" />
+                                <div class="invalid-feedback">Please provide a table count</div>
+                                <button class="btn btn-outline-secondary" type="button" id="btn"
+                                    onclick="textbox();filebox();">
+                                    Generate url
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12"></div>
+                    <div class="col-lg-6"></div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom05">Amount</label>
+                            <input type="number" class="form-control" placeholder="Amount" name="amount" required />
+                            <div class="invalid-feedback">Please provide a valid Amount</div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom05">Tax</label>
+                            <input type="number" class="form-control" placeholder="Tax" name="tax" required />
+                            <div class="invalid-feedback">Please provide a valid Amount</div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom05">Total Amount</label>
+                            <input type="number" class="form-control" placeholder="Total" name="total" required />
+                            <div class="invalid-feedback">Please provide a valid Total</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="duration">Duration</label>
+                            <select name="duration" class="form-control" id="duration">
+                                <option value="7">7 Days</option>
+                                <option value="1">1 Month</option>
+                                <option value="4">4 Month</option>
+                                <option value="6">6 Month</option>
+                                <option value="12">12 Month</option>
+                                <option value="24">24 Month</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom05">Website</label>
+                            <input type="text" class="form-control" placeholder="Website" name="website" required />
+                            <div class="invalid-feedback">Please provide a valid Profile</div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom05">Agreement</label>
+                            <input type="file" class="form-control" id="inputGroupFile02" placeholder="Agreement"
+                                name="agreement" required />
+                            <div class="invalid-feedback">
+                                Please provide a valid agreement
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-md-6 " id="textboxes">
+
+                        </div>
+                        <div class="col-md-6 " id="fileboxs">
+
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-12 text-center">
+                        <button id="checkBtn" class="btn btn-primary" type="submit">Submit form</button>
+                    </div>
+                </form>
+            </fieldset>
+        </div>
+    </div>
+</div>
+<!-- ADD property form ends -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- <script>
+    $(document).ready(function () {
+        $("#checkBtn").click(function () {
+            checked = $("input[type=checkbox]:checked").length;
+
+            if (!checked) {
+                alert("You must check at least one checkbox.");
+                return false;
+            }
+        });
+    });
+</script> -->
+
+<!-- table qr -->
+
+<script type="text/javascript">
+    function textbox() {
+        $('#textboxes').empty();
+        var a = document.getElementById("number").value;
+        for (i = 1; i <= a; i++) {
+            var textbox = document.createElement("textarea");
+            document.getElementById("textboxes").appendChild(textbox).value = "http://hacknasa.si/restaurantname/" + i;
+
+            if (textbox.value == "") {
+                textbox.style.backgroundColor = "yellow";
+            }
+            else {
+                textbox.style.backgroundColor = "white";
+                textbox.style.width = "100%"
+                textbox.style.height = "32px"
+                textbox.style.marginTop = "0px"
+                textbox.className = "form-control"
+                textbox.readOnly = true
+            }
+        }
+    }
+    function filebox() {
+        $('#fileboxs').empty();
+        var a = document.getElementById("number").value;
+        for (i = 1; i <= a; i++) {
+
+            var filebox = document.createElement("input");
+            filebox.setAttribute("type", "file");
+
+            document.getElementById("fileboxs").appendChild(filebox).name="qr"+i;
+
+            if (filebox.value == "") {
+                filebox.style.backgroundColor = "white";
+                // filebox.name = "qrfile"
+                filebox.className = "form-control"
+                filebox.multiple=true
+            }
+            else {
+                filebox.style.backgroundColor = "white";
+                // filebox.name = "qrfile"
+                filebox.className = "form-control"
+                filebox.multiple=true
+
+
+            }
+        }
+    }
+
+</script>
+
+
+<!-- Password checker -->
+
+<script>
+    function onChange() {
+        const p = document.querySelector('input[name=password]');
+        const confirm = document.querySelector('input[name=confirm_password]');
+        if (confirm.value === p.value) {
+            confirm.setCustomValidity('');
+        } else {
+            confirm.setCustomValidity('Passwords do not match');
+        }
+    }
+</script>
+
+
+{% endblock content %}

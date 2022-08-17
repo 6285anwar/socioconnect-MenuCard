@@ -1,0 +1,520 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="{% static 'assets/img/socioconnects_icon.png' %}" rel="icon" />
+
+    <title>Hudels</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'assets/vendor/quill/quill.snow.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'assets/vendor/quill/quill.bubble.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'assets/vendor/remixicon/remixicon.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'assets/vendor/simple-datatables/style.css' %}"
+      rel="stylesheet"
+    />
+
+    <!-- Template Main CSS File -->
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" />
+  <style>
+    .checkbox {
+      display: inline-block;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  {% include 'header.html' %} {% block content %}
+
+  <div class="container col-sm-12" style="width: 100%; padding-top: 100px">
+    {% if messages %}
+      <span>
+       
+
+        <div class="messages" style="text-align:center;">
+          {% for message in messages %}
+          <div style="height:50px; width:100%;padding-top:15px;" {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</div>
+          {% endfor %}
+
+        </div>
+        
+      </span>
+      {% endif %}
+    <form enctype="multipart/form-data" class="needs-validation" method="post" action="register_hotel">
+      {% csrf_token %}
+
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="">Property Name</label>
+          <input type="text" class="form-control" name="property_name" placeholder="Property Name" required />
+          <div class="invalid-feedback">Please provide a valid Property.</div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label for="validationCustom01">Owner name</label>
+          <input type="text" class="form-control" id="validationCustom01" placeholder="Owner Name" name="firstname"
+            required />
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="type_of">Type</label>
+          <select name="type_of" class="form-control" id="type_of">
+            <option value="hotel">Hotel</option>
+            <option value="restaurant">Restaurant</option>
+            <option value="resort">Resort</option>
+            <option value="lodge">Lodge</option>
+            <option value="service">Service</option>
+            <option value="home_stay">Home Stay</option>
+            <option value="house_boat">House Boat</option>
+          </select>
+        </div>
+        <!-- <div class="col-md-4 mb-3">
+          <label for="validationCustom02">Last name</label>
+          <input type="text" class="form-control" name="lastname" placeholder="Last name" required />
+          <div class="valid-feedback">Looks good!</div>
+        </div> -->
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="yourUsername">Username</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroupPrepend">@</span>
+            </div>
+            <input type="text" class="form-control" id="yourUsername" name="username" placeholder="Username"
+              aria-describedby="inputGroupPrepend" required />
+            <div class="invalid-feedback">Please choose a username.</div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="validationCustom03">Password</label>
+          <input type="password" name="password" class="form-control" id="validationCustom03" placeholder="Password"
+            required />
+          <div class="invalid-feedback">Please provide a Password</div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="validationCustom04">Confirm Password</label>
+          <input type="password" name="confirm_password" class="form-control" id="validationCustom04"
+            placeholder="Password" required />
+          <div class="invalid-feedback">Please provide a valid Password</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <label for="validationCustom05">E-Mail</label>
+          <input type="email" class="form-control" name="email" placeholder="E-mail" required />
+          <div class="invalid-feedback">Please provide a valid Email.</div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="validationCustom02">Mobile</label>
+          <input type="text" class="form-control" name="mobile" placeholder="Mobile" required />
+          <div class="valid-feedback">Valid mobile Number please</div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <label for="validationCustom05">Logo</label>
+          <input type="file" class="form-control" placeholder="Profile Picture" name="profile_photo" required />
+          <div class="invalid-feedback">Please provide a valid Profile</div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="validationCustom05">Address</label>
+            <input type="text" class="form-control" placeholder="Address" name="address" required />
+            <div class="invalid-feedback">Please provide a valid Address</div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="validationCustom05">City</label>
+            <input type="text" class="form-control" name="location" placeholder="location" required />
+            <div class="invalid-feedback">
+              Please provide a valid Location.
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="validationCustom05">State</label>
+            <input type="text" class="form-control" name="state" placeholder="State" required />
+            <div class="invalid-feedback">
+              Please provide a valid Property.
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="validationCustom05">Country</label>
+            <input type="text" class="form-control" placeholder="Country" name="country" required />
+            <div class="invalid-feedback">Please provide a valid country</div>
+          </div>
+          <div class="col-md-4 mb-3" style="padding-top:30px;">
+          <div class="checkbox">
+            <label for="backend">Without Backend</label>
+            <input type="checkbox" id="backend" value="True"
+              name="backend" />
+          </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mb-2" style="text-align: center; display: inline-block">
+            <div class="checkbox">
+              <label for="google">Google</label>
+
+              <input onclick="Google(this)" type="checkbox" name="google" id="google" value="True" />
+            </div>
+            <div class="checkbox">
+              <label for="inhouse">Inhouse</label>
+
+              <input type="checkbox" name="inhouse" id="inhouse" value="True" />
+            </div>
+            <div class="checkbox" style="display:none;" id="without_filter_div">
+              <label for="without_filter">Without Filter</label>
+
+              <input type="checkbox" name="without_filter" id="without_filter" value="True" />
+            </div>
+            <div class="checkbox">
+              <label for="trip_adviser">Tripadvisor</label>
+              <input type="checkbox" id="trip_adviser" onclick="TripAdviser(this)" value="True" name="trip_adviser" />
+            </div>
+            <div class="checkbox">
+              <label for="g_t">Google & Tripadvisor</label>
+              <input class="gt" type="checkbox" onclick="GT(this)" id="g_t" value="True" name="g_t" />
+            </div>
+            <div class="checkbox">
+              <label for="t_g">Tripadvisor & Google</label>
+              <input class="gt" onclick="TG(this)" type="checkbox" id="t_g" value="True" name="t_g" />
+            </div>
+            <div class="checkbox">
+              <label for="social_media">Social Media</label>
+              <input type="checkbox" onclick="SocialMedia(this)" id="social_media" value="True" name="social_media" />
+            </div>
+            <div class="checkbox">
+              <label for="express_checkin">Express Checkin</label>
+              <input type="checkbox" onclick="ExpressCheckin(this)" id="express_checkin" value="True"
+                name="express_checkin" />
+            </div>
+            
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="validationCustom05">Amount</label>
+            <input type="text" class="form-control" placeholder="Amount" name="amount" required />
+            <div class="invalid-feedback">Please provide a valid Amount</div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="validationCustom05">Tax</label>
+            <input type="text" class="form-control" placeholder="Tax" name="tax" required />
+            <div class="invalid-feedback">Please provide a valid Amount</div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="validationCustom05">Total</label>
+            <input type="text" class="form-control" placeholder="Total" name="total" required />
+            <div class="invalid-feedback">Please provide a valid Total</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label for="duration">Duration</label>
+            <select name="duration" class="form-control" id="duration">
+              <option value="7">7 Days</option>
+              <option value="1">1 Month</option>
+              <option value="4">4 Month</option>
+              <option value="6">6 Month</option>
+              <option value="12">12 Month</option>
+              <option value="24">24 Month</option>
+            </select>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="validationCustom05">Website</label>
+            <input type="text" class="form-control" placeholder="Website" name="website" required />
+            <div class="invalid-feedback">Please provide a valid Profile</div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="validationCustom05">Agreement</label>
+            <input type="file" class="form-control" placeholder="Agreement" name="agreement" required />
+            <div class="invalid-feedback">
+              Please provide a valid agreement
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div style="display: none" id="trip_adviser_link" class="col-md-6 mb-2">
+            <label for="validationCustom05">Tripadvisor link</label>
+            <input type="text" class="form-control" name="trip_adviser_link" placeholder="Trip adviser linK" />
+            <div class="invalid-feedback">
+              Please provide a valid tripadvisor_link.
+            </div>
+          </div>
+          <div id="google_link" style="display: none" class="col-md-6 mb-2">
+            <label for="validationCustom05">Google Place Id</label>
+            <input type="text" class="form-control" name="google_link" placeholder="Google linK" />
+            <div class="invalid-feedback">
+              Please provide a valid google_link.
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="row">
+        <div id="page_id" style="display: none" class="col-md-4 mb-3">
+          <label for="validationCustom05">Facebook Page Id</label>
+          <input type="text" class="form-control" name="page_id" placeholder="Facebook Page Id" />
+          <div class="invalid-feedback">
+            Please provide a valid Facebook page id.
+          </div>
+        </div>
+        <div id="facebook_access_token" style="display: none" class="col-md-4 mb-3">
+          <label for="validationCustom05">Facebook Access Token</label>
+          <input type="text" class="form-control" name="facebook_access_token" placeholder="Facebook Access Token" />
+          <div class="invalid-feedback">
+            Please provide a valid Facebook page id.
+          </div>
+        </div>
+        <div id="insta_id" style="display: none" class="col-md-4 mb-3">
+          <label for="validationCustom05">Instagram Id</label>
+          <input type="text" class="form-control" placeholder="Instagram Id" name="insta_id" />
+          <div class="invalid-feedback">
+            Please provide a valid Instagram Id
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div id="url" style="display: none" class="col-md-6 mb-2">
+          <label for="url">Rating Url</label>
+          <input type="text" class="form-control" placeholder="Url" name="url" id="rating_url" />
+          <div class="invalid-feedback">Please provide a valid Url</div>
+          <button type="button" class="btn btn-success" onclick="Generate(this)">
+            Generate Rating Url
+          </button>
+        </div>
+        <div id="rating_qr" style="display: none" class="col-md-6 mb-2">
+          <label for="validationCustom05">Rating Qr</label>
+          <input type="file" class="form-control" id="validationCustom07" placeholder="Qr" name="qr" />
+          <div class="invalid-feedback">Please provide a valid Qr</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-2" id="checkin_url" style="display:none">
+          <label for="checkin_url1">Checkin Url</label>
+          <input type="text" class="form-control" id="checkin_url1" placeholder="Checkin Url" name="checkin_url" />
+          <div class="invalid-feedback">Please provide a valid Url</div>
+          <button type="button" class="btn btn-success" onclick="GenerateQr(this)">
+            Generate Checkin Url
+          </button>
+        </div>
+        <div class="col-md-6 mb-2" id="checkin_qr" style="display:none">
+          <label for="validationCustom05">Checkin Qr</label>
+          <input type="file" class="form-control" id="validationCustom06" placeholder="Qr" name="checkin_qr" />
+          <div class="invalid-feedback">Please provide a valid Qr</div>
+        </div>
+      </div>
+  </div>
+
+  <div style="text-align: center; padding-top: 50px">
+    <button id="checkBtn" style="text-align: center; width: 50%" class="btn btn-primary" type="submit">
+      Submit form
+    </button>
+  </div>
+  </form>
+  </div>
+  {% endblock %}
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $("#checkBtn").click(function () {
+      checked = $("input[type=checkbox]:checked").length;
+
+      if (!checked) {
+        alert("You must check at least one checkbox.");
+        return false;
+      }
+    });
+  });
+
+  function Google() {
+    // Get the checkbox
+    var google = document.getElementById("google");
+    var without_filter_div = document.getElementById("without_filter_div");
+    // Get the output text
+    var url = document.getElementById("url");
+    var rating_qr = document.getElementById("rating_qr");
+    var text = document.getElementById("google_link");
+    // If the checkbox is checked, display the output text
+    if (google.checked == true) {
+      text.style.display = "block";
+      url.style.display = "block";
+      rating_qr.style.display = "block";
+      without_filter_div.style.display = ""
+    } else {
+      text.style.display = "none";
+      url.style.display = "none";
+      rating_qr.style.display = "none";
+      without_filter_div.style.display = "none"
+
+    }
+  }
+  function TripAdviser() {
+    // Get the checkbox
+    var trip_adviser = document.getElementById("trip_adviser");
+    // Get the output text
+    var url = document.getElementById("url");
+    var rating_qr = document.getElementById("rating_qr");
+    var text = document.getElementById("trip_adviser_link");
+    // If the checkbox is checked, display the output text
+    if (trip_adviser.checked == true) {
+      text.style.display = "block";
+      url.style.display = "block";
+      rating_qr.style.display = "block";
+    } else {
+      text.style.display = "none";
+      url.style.display = "none";
+      rating_qr.style.display = "none";
+    }
+  }
+
+  function GT() {
+    // Get the checkbox
+    var gt = document.getElementById("g_t");
+    var url = document.getElementById("url");
+    var rating_qr = document.getElementById("rating_qr");
+    // Get the output text
+    var trip_link = document.getElementById("trip_adviser_link");
+    var google_link = document.getElementById("google_link");
+
+    // If the checkbox is checked, display the output text
+    if (gt.checked == true) {
+      trip_link.style.display = "block";
+      google_link.style.display = "block";
+      url.style.display = "block";
+      rating_qr.style.display = "block";
+    } else {
+      google_link.style.display = "none";
+      trip_link.style.display = "none";
+      url.style.display = "none";
+      rating_qr.style.display = "none";
+    }
+  }
+  function TG() {
+    // Get the checkbox
+    var tg = document.getElementById("t_g");
+    var url = document.getElementById("url");
+    var rating_qr = document.getElementById("rating_qr");
+    // Get the output text
+    var trip_link = document.getElementById("trip_adviser_link");
+    var google_link = document.getElementById("google_link");
+
+    // If the checkbox is checked, display the output text
+    if (tg.checked == true) {
+      trip_link.style.display = "block";
+      google_link.style.display = "block";
+      url.style.display = "block";
+      rating_qr.style.display = "block";
+    } else {
+      google_link.style.display = "none";
+      trip_link.style.display = "none";
+      url.style.display = "none";
+      rating_qr.style.display = "none";
+    }
+  }
+
+  function SocialMedia() {
+    // Get the checkbox
+    var social_media = document.getElementById("social_media");
+
+    // Get the output text
+    var url = document.getElementById("url");
+    var rating_qr = document.getElementById("rating_qr");
+    var insta_id = document.getElementById("insta_id");
+    var page_id = document.getElementById("page_id");
+    var facebook_access_token = document.getElementById(
+      "facebook_access_token"
+    );
+
+    // If the checkbox is checked, display the output text
+    if (social_media.checked == true) {
+
+      insta_id.style.display = "block";
+      page_id.style.display = "block";
+      facebook_access_token.style.display = "block";
+      url.style.display = "block";
+      rating_qr.style.display = "block";
+      
+    } else {
+      insta_id.style.display = "none";
+      page_id.style.display = "none";
+      facebook_access_token.style.display = "none";
+      url.style.display = "none";
+      rating_qr.style.display = "none";
+    }
+  }
+  function ExpressCheckin() {
+    var checkin = document.getElementById("express_checkin")
+    var checkin_url = document.getElementById("checkin_url")
+    var checkin_qr = document.getElementById("checkin_qr")
+    if (checkin.checked == true) {
+      checkin_url.style.display = "block";
+      checkin_qr.style.display = "block";
+    } else {
+      checkin_url.style.display = "none";
+      checkin_qr.style.display = "none";
+
+    }
+  }
+  function Generate() {
+    url = document.getElementById("rating_url")
+    username = document.getElementById("yourUsername").value
+    url.value = window.location.origin + "/rate/" + username
+  }
+
+  function GenerateQr() {
+    url = document.getElementById("checkin_url1")
+    username = document.getElementById("yourUsername").value
+    url.value = window.location.origin + "/checkin/check_mobile/" + username
+  }
+</script>
+
+</html>

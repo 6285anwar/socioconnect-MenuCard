@@ -1,0 +1,152 @@
+{% extends 'admin_user/admin-base.html' %} {% load static %} {% block content %}
+
+<div class="page-wrapper">
+    <div class="container-xl">
+        <!-- Page title -->
+        <div class="page-header d-print-none">
+            <div class="row align-items-center">
+                <div class="col">
+                    <!-- Page pre-title -->
+
+                    <h2 class="page-title">Total Check-in</h2>
+                </div>
+                <!-- Page title actions -->
+               
+            </div>
+        </div>
+    </div>
+    <!-- cards start -->
+
+    <div class="page-body">
+        <div class="container-xl">
+
+                <!-- Clients table starts -->
+
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header " >
+                            <h3 class="card-title">Recent Check-in</h3>
+                            <div class="d-flex flex-row-reverse" >
+                           
+                            </div> 
+                        </div>
+                        <div>
+                            <div class="row" style="padding-bottom: 10px; padding-left:5px; padding-right:5px">
+                                <div class="col-md-3">
+                                    <h6>Status</h6>
+                                    <select class="form-control" type="text" id="myInput" title="Type in a name">
+                                      <option></option>
+                                      <option value="approved">Approved</option>
+                                      <option value="rejected">Rejected</option>
+                                      <option value="waiting">Waiting</option>
+                                    </select>
+                                  </div>
+                        
+                                  <div class="col-md-3">
+                                    <h6>Hotel</h6>
+                                    <select class="form-control" type="text" id="hotelsearch" title="Type in a name">
+                                      <option></option>
+                                      {% for i in hotels %}
+                                      <option value="{{i.property_name}}">{{i.property_name}}</option>
+                                      {% endfor %}
+                                    </select>
+                                  </div>
+                              <div class="col-md-3">
+                                <h6>Date from</h6>
+                                <input type="date" class="form-control" id="datefilterfrom" data-date-split-input="true" />
+                              </div>
+                              <div class="col-md-3" >
+                                <h6>Date to</h6>
+                                <input type="date" class="form-control" id="datefilterto" data-date-split-input="true" />
+                              </div>
+                            </div>
+                          </div>
+                        <div class="table-responsive">
+                            <table id="dtBasicExample" class="table card-table table-vcenter text-nowrap datatable">
+                                <thead>
+                              
+                                        
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Customer</th>
+                                    <th scope="col">Hotel</th>
+                                    <th scope="col">Email</th>
+                        
+                                    <th scope="col">Mobile</th>
+                        
+                                    <th scope="col">Check-in</th>
+                        
+                                    <th scope="col">Check-out</th>
+                        
+                                    <th scope="col">Status</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for customer in customers %}
+                                    <tr>
+                                        <td>{{customer.id}}</td>
+                                        <td>{{customer.firstname}} {{customer.lastname}}</td>
+                                        <td>{{customer.hotel.property_name}}</td>
+                                        <td>{{customer.email}}</td>
+                                        <td>{{customer.mobile}}</td>
+                                        <td>{{customer.check_in|date:'d/m/Y'}}</td>
+                                        <td>{{customer.check_out|date:'d/m/Y'}}</td>
+                            
+                                        <td>{{customer.status}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="{% static 'js/manage_property.js' %}"></script>
+ 
+    <script>
+        function filterRows() {
+          var from = $("#datefilterfrom").val();
+          var to = $("#datefilterto").val();
+      
+          if (!from && !to) {
+            // no value for from and to
+            return;
+          }
+      
+          from = from || "1970-01-01"; // default from to a old date if it is not set
+          to = to || "2999-12-31";
+      
+          var dateFrom = moment(from);
+          var dateTo = moment(to);
+      
+          $("#dtBasicExample tr").each(function (i, tr) {
+            var val = $(tr).find("td:nth-child(6)").text();
+            var dateVal = moment(val, "DD/MM/YYYY");
+            var visible = dateVal.isBetween(dateFrom, dateTo, null, [])
+              ? ""
+              : "none"; // [] for inclusive
+            $(tr).css("display", visible);
+          });
+        }
+      
+        $("#datefilterfrom").on("change", filterRows);
+        $("#datefilterto").on("change", filterRows);
+      </script>
+      <script>
+        $(document).ready(function () {
+          var table = $("#dtBasicExample").DataTable();
+      
+          $("#myInput").on("change", function () {
+            table.columns(7).search(this.value).draw();
+          });
+          $("#hotelsearch").on("change", function () {
+            table.columns(2).search(this.value).draw();
+          });
+        });
+      </script>
+    
+    <!-- Clients table ends -->
+</div>
+{% endblock content %}

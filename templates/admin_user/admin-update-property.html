@@ -1,0 +1,351 @@
+{% extends 'admin_user/admin-base.html' %}
+{% load static %}
+{% block content %}
+<div class="page-wrapper">
+    <div class="container-xl">
+        <!-- Page title -->
+        <div class="page-header d-print-none">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h2 class="page-title">Update {{hotel.property_name}} </h2>
+                </div>
+                <!-- style="background-color:rgb(204, 31, 31);box-shadow: none !important;" -->
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="page-body">
+        <div class="container-xl">
+            <fieldset class="form-fieldset">
+                <form method="post" action="{% url 'update_hotel_function' id %}" enctype="multipart/form-data" class="needs-validation">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required">Property Name</label>
+                        <input type="text" class="form-control" name="property_name" placeholder="Property Name" value="{{hotel.property_name}}" required />
+                        <div class="invalid-feedback">Please provide a valid Property.</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom01"> Owner name</label>
+                        <input type="text" class="form-control" id="validationCustom01" placeholder="Owner Name" name="firstname" value="{{user.first_name}}"
+                        required  />
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="type_of">Type</label>
+                        <select name="type_of" class="form-control" value={{hotel.type_of}} id="type_of">
+                            <option value="hotel">Hotel</option>
+                            <option value="restaurant">Restaurant</option>
+                            <option value="resort">Resort</option>
+                            <option value="lodge">Lodge</option>
+                            <option value="service">Service</option>
+                            <option value="home_stay">Home Stay</option>
+                            <option value="house_boat">House Boat</option>
+                          </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="yourUsername">username</label>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text"> @ </span>
+                            <input type="text" class="form-control " id="yourUsername" name="username" value="{{user.username}}" placeholder="Username"
+                            aria-describedby="inputGroupPrepend" required  />
+                            <div class="invalid-feedback">Please choose a username.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom03">Password</label>
+                        <input type="text" class="form-control"  name="password" value="{{hotel.password}}" id="validationCustom03" placeholder="Password"
+                        required />
+                        <div class="invalid-feedback">Please provide a Password</div>
+                    </div>
+                    {% if hotel_all %}
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">Manager</label>
+                        <select name="admin_user" class="form-control" default="{{hotel.admin_name.admin_user.username}}" id="admin_user">
+                            {% for hotelss in hotel_all %}
+                            <option value="{{hotelss.admin_user.username}}">{{hotelss.admin_user.username}}</option>
+                            {% endfor %}
+                          </select>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">Email</label>
+                        <input type="text" class="form-control" name="email" placeholder="E-mail" value="{{user.email}}" required/>
+                        <div class="invalid-feedback">Please provide a valid Email.</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom02">Mobile</label>
+                        <input type="text" class="form-control" name="mobile" value={{hotel.mobile}} placeholder="Mobile" required />
+                        <div class="valid-feedback">Valid mobile Number please</div>
+                    </div>
+                    <!-- <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">Logo</label>
+                        <input type="file" class="form-control" id="inputGroupFile02" placeholder="Profile Picture" name="profile_photo" required />
+                        <div class="invalid-feedback">Please provide a valid Profile</div>
+                    </div> -->
+                    {% if hotel.profile_photo %}
+                    <div id="logo"  class="col-md-4 mb-3 ">
+                        <label for="validationCustom05" class="form-label required">Logo</label>
+                        <label class="form-selectgroup-item ">
+                              <div class="form-selectgroup-label-content d-flex align-items-center">
+                                <a href="{{hotel.profile_photo.url}}"><span class="avatar me-3" style="background-image: url({{hotel.profile_photo.url}})"></span></a>
+                                <div>
+                                    <input type="file" class="form-control"   name="profile_photo" />
+                                </div>
+                              </div>
+                          </label>
+                        <div class="invalid-feedback">Please provide logo</div>
+                    </div>
+                    {% else %}
+                    <div id="logo"  class="col-md-4 mb-3 ">
+                        <label for="validationCustom05" class="form-label required">Logo</label>
+                        <label class="form-selectgroup-item ">
+                              <div class="form-selectgroup-label-content d-flex align-items-center">
+                               
+                                <div>
+                                    <input type="file" class="form-control"   name="profile_photo" />
+                                </div>
+                              </div>
+                          </label>
+                        <div class="invalid-feedback">Please provide logo</div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">Address</label>
+                        <input type="text" class="form-control" value="{{hotel.address}}"  placeholder="Address" name="address" required/>
+                        <div class="invalid-feedback">Please provide a valid Address</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">City</label>
+                        <input type="text" class="form-control" name="location" placeholder="City" value="{{hotel.location}}" required />
+                        <div class="invalid-feedback">
+                            Please provide a valid Location.
+                          </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">State</label>
+                        <input type="text" class="form-control" name="state" value="{{hotel.state}}" placeholder="State" required  />
+                        <div class="invalid-feedback">
+                            Please provide a valid Property.
+                          </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">Country</label>
+                        <input type="text" class="form-control" placeholder="Country" name="country" value="{{hotel.country }}" required />
+                        <div class="invalid-feedback">Please provide a valid country</div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">Website</label>
+                        <input type="text" class="form-control" placeholder="Website" value="{{hotel.website}}" name="website" required />
+                        <div class="invalid-feedback">Please provide a valid Profile</div>
+                    </div>
+                    <!-- <div class="col-md-4 mb-3">
+                        <label class="form-label required" for="validationCustom05">Agreement</label>
+                        <input type="file" class="form-control" id="inputGroupFile02" placeholder="Agreement" name="agreement" required/>
+                        <div class="invalid-feedback">
+                            Please provide a valid agreement
+                          </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom05">Amount</label>
+                            <input type="number" class="form-control" placeholder="Amount" name="amount" value="{{hotel.amount }}" required />
+                            <div class="invalid-feedback">Please provide a valid amount</div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom05">Tax</label>
+                            <input type="number" class="form-control" placeholder="Tax" value="{{hotel.tax}}" name="tax" required />
+                            <div class="invalid-feedback">Please provide a valid tax</div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label required" for="validationCustom05">Total</label>
+                            <input type="number" class="form-control" placeholder="Total" name="total" value="{{hotel.total}}" required/>
+                            <div class="invalid-feedback">
+                                Please provide a valid total
+                              </div>
+                        </div>
+                    {% if hotel.agreement %}
+                    <div id="agreements"  class="col-md-4 mb-3 ">
+                        <label for="validationCustom05" class="form-label required">Agreement</label>
+                        <label class="form-selectgroup-item ">
+                              <div class="form-selectgroup-label-content d-flex align-items-center">
+                                <a href="{{hotel.agreement.url}}"><span class="avatar me-3" style="background-image: url({{hotel.agreement.url}})"></span></a>
+                                <div>
+                                    <input type="file" class="form-control" value="{{hotel.agreement.url}}" placeholder="Agreement" name="agreement" />
+                                </div>
+                              </div>
+                          </label>
+                        <div class="invalid-feedback">Please provide a valid Agreement</div>
+                    </div>
+                    {% else %}
+                    <div id="agreements"  class="col-md-4 mb-3 ">
+                        <label for="validationCustom05" class="form-label required">Agreement</label>
+                        <label class="form-selectgroup-item ">
+                              <div class="form-selectgroup-label-content d-flex align-items-center">
+                                <div>
+                                    <input type="file" class="form-control" placeholder="Agreement" name="agreement" />
+                                </div>
+                              </div>
+                          </label>
+                        <div class="invalid-feedback">Please provide a valid Agreement</div>
+                    </div>
+                    {% endif %}
+                </div>
+                
+              
+                    
+                <div class="row">
+                   
+                </div>
+                {% if hotel.other %}
+                <div class="row">
+                    <div id="google_link"  class="col-md-6 mb-2">
+                        <label class="form-label required" for="validationCustom05">Google Place ID</label>
+                        <input type="text" class="form-control" name="google_link" value="{{hotel.google_link}}" placeholder="Google linK" />
+                        <div class="invalid-feedback">
+                            Please provide a valid google_link.
+                          </div>
+                    </div>
+                    {% if hotel.trip_advisor or hotel.g_t or hotel.t_g %}
+                    <div  id="trip_adviser_link" class="col-md-6 mb-2">
+                        <label for="validationCustom05" class="form-label required">Tripadvisor Link</label>
+                        <input type="text" class="form-control" value="{{hotel.trip_adviser_link}}" name="trip_adviser_link" placeholder="Trip adviser linK"/>
+                        <div class="invalid-feedback">
+                            Please provide a valid tripadvisor_link.
+                          </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                {% if hotel.social_media %}
+                <div class="row">
+         
+                    <div id="page_id"  class="col-md-4 mb-3">
+                        <label class="form-label " for="validationCustom05">Facebook Page ID</label>
+                        <input type="text" class="form-control" name="page_id" placeholder="Facebook Page Id" value="{{hotel.page_id}}"/>
+                        <div class="invalid-feedback">
+                            Please provide a valid Facebook page id.
+                          </div>
+                    </div>
+                    <div id="insta_id"  class="col-md-4 mb-3">
+                        <label class="form-label " for="validationCustom05">Instagram ID</label>
+                        <input type="text" class="form-control"  placeholder="Instagram Id" name="insta_id" value="{{hotel.insta_id}}" />
+                        <div class="invalid-feedback">
+                            Please provide a valid Instagram Id
+                          </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="row">
+                    {% if hotel.other %}
+                    <div id="url"  class="col-md-6 ">
+                        <label for="url" class="form-label required">Rating Url</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder=" Rating Url" name="url" id="rating_url" value="{{hotel.url}}" aria-label="Rating Url" aria-describedby="button-addon2" />
+                            <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="Generate(this)">
+                                Generate url
+                            </button>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if hotel.express_checkin %}
+                    <div id="checkin_url"  class="col-md-6 mb-2">
+                        <label for="checkin_url1" class="form-label required">Check-in Url</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="checkin_url1" placeholder="Checkin Url" name="url_checkin" value="{{hotel.url_checkin}}" aria-label="Check-in Url" aria-describedby="button-addon2" />
+                                <div class="invalid-feedback">Please provide a valid Url</div>
+                            <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="GenerateQr(this)">
+                                Generate url
+                            </button>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                </div>
+                
+                <div class="row">
+                    {% if hotel.other %}
+                    {% if hotel.qr_code %}
+                    <div id="rating_qr"  class="col-md-6 mb-2 ">
+                        <label for="validationCustom05" class="form-label required">Rating QR</label>
+                        <label class="form-selectgroup-item ">
+                              <div class="form-selectgroup-label-content d-flex align-items-center">
+                                <a href="{{hotel.qr_code.url}}"><span class="avatar me-3" style="background-image: url({{hotel.qr_code.url}})"></span></a>
+                                <div>
+                                    <input type="file" class="form-control" id="validationCustom06" placeholder="Qr" name="qr_code" />
+                                </div>
+                              </div>
+                          </label>
+                        <div class="invalid-feedback">Please provide a valid Qr</div>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                    {% if hotel.express_checkin %}
+                    {% if hotel.checkin_qr %}
+                    <div id="checkin_qr"  class="col-md-6 mb-2 ">
+                        <label for="validationCustom05" class="form-label required">Check-in QR</label>
+                        <label class="form-selectgroup-item ">
+                              <div class="form-selectgroup-label-content d-flex align-items-center">
+                                <a href="{{hotel.checkin_qr.url}}"><span class="avatar me-3" style="background-image: url({{hotel.qr_code.url}})"></span></a>
+                                <div>
+                                    <input type="file" class="form-control" id="validationCustom06" placeholder="Qr" name="checkin_qr" />
+                                </div>
+                              </div>
+                          </label>
+                        <div class="invalid-feedback">Please provide a valid Qr</div>
+                    </div>
+
+                    {% endif %}
+                    {% endif %}
+                </div>
+                
+                <div class="col-12"></div>
+                <div class="col-lg-6"></div>
+                <div class="col-12 text-center" style="text-align: center;padding-top:50px;">
+                    <button id="checkBtn" class="btn btn-primary" type="submit" >Submit form</button>
+                </div>
+            </form>
+            </fieldset>
+        </div>
+    </div>
+</div>
+<!-- ADD property form ends -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+  
+  function Generate() {
+    url = document.getElementById("rating_url")
+    username = document.getElementById("yourUsername").value
+    url.value = window.location.origin + "/rate/" + username
+  }
+
+  function GenerateQr() {
+    url = document.getElementById("checkin_url1")
+    username = document.getElementById("yourUsername").value
+    url.value = window.location.origin + "/checkin/check_mobile/" + username
+  }
+</script>
+<script>
+    window.onload = function () {
+      var username = "{{hotel.admin_name.admin_user.username}}";
+      for (let i = 0; i < admin_user.length; i++) {
+        if (username == admin_user[i].value) {
+          admin_user[i].setAttribute("selected", "selected");
+        }
+      }
+    };
+  </script>
+{% endblock content %}
+

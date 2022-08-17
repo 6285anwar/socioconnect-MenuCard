@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="{% static 'assets/img/socioconnects_icon.png' %}" rel="icon" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <!-- JavaScript Bundle with Popper -->
+
+   
+    <style>
+      .navbar-light .navbar-brand {
+        color: rgba(0, 0, 0, 0.9);
+        padding-left: 50px;
+      }
+      .navbar-brand {
+        padding-top: 0.3125rem;
+        padding-bottom: 0.3125rem;
+        margin-right: 50px;
+        font-size: 1.25rem;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      #user {
+        font-weight: bolder;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarTogglerDemo01"
+        aria-controls="navbarTogglerDemo01"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="{% url 'dashboard_admin' %}" style="padding-left:30px">Hudels</a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" style="padding-left:30px" href="{% url 'dashboard_admin' %}"
+              >Home <span class="sr-only"></span
+            ></a>
+          </li>
+          {% if user.is_authenticated %}
+          <li id="user" class="nav-item">
+            <a class="nav-link">{{user.username}}</a>
+          </li>
+
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Optional Javascript -->
+  </body>
+</html>

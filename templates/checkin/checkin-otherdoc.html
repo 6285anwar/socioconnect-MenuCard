@@ -1,0 +1,156 @@
+{% load static %}
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link href="{% static 'assets/img/socioconnects_icon.png' %}" rel="icon">
+  <title> Check-in</title>
+  <!-- CSS files -->
+  <link href="{% static 'admin/css/tabler.min.css'%}" rel="stylesheet" />
+  <link href="{% static 'admin/css/tabler-flags.min.css'%}" rel="stylesheet" />
+  <link href="{% static 'admin/css/tabler-payments.min.css'%}" rel="stylesheet" />
+  <link href="{% static 'admin/css/tabler-vendors.min.css'%}" rel="stylesheet" />
+  <link href="{% static 'admin/css/demo.min.css'%}" rel="stylesheet" />
+  <style>
+    .checkinform {
+
+
+      margin: 25px;
+
+      display: flex;
+      justify-content: center;
+    }
+
+    #cover-spin {
+      position: fixed;
+      width: 100%;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255);
+      z-index: 9999;
+      display: none;
+    }
+
+    @-webkit-keyframes spin {
+      from {
+        -webkit-transform: rotate(0deg);
+      }
+
+      to {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #cover-spin::after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 48%;
+      top: 40%;
+      width: 40px;
+      height: 40px;
+      border-style: solid;
+      border: none;
+      border-top-color: transparent;
+      border-width: 4px;
+      border-radius: 50%;
+      -webkit-animation: spin .8s linear infinite;
+      animation: spin .8s linear infinite;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="page-body">
+      <div class="checkinform">
+
+        <form method="POST" action="{% url 'other_documents' customer.id %}" enctype="multipart/form-data"
+          onsubmit="$('#cover-spin').show(0)">
+          {% csrf_token %}
+          <fieldset class="form-fieldset" style="width: 375px;">
+            <div class="mb-3" style="display: flex;justify-content: center;">
+              <img src="{{profile.url}}" style="width: 45%; ">
+            </div>
+            <div class="mb-3" style="display: flex;justify-content: center;">
+              <h4 style="padding-top:20px;">{{prop_name}}</h4>
+
+            </div>
+            <div class="mb-3" style="display: flex;justify-content: center;">
+              <label class="form-label">Guest Registration Form</label>
+
+            </div>
+            <div class="mb-3">
+              <div id="form_div">
+
+              </div>
+
+            </div>
+
+
+            <div class="mb-3" style="display: flex;justify-content: center;">
+              <button type="submit" class="btn btn-primary">Submit Form</button>
+
+            </div>
+
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  <div id="cover-spin">
+    <div class='progress' id="progress_div">
+      <!-- <div class='bar' id='bar1'></div> -->
+      <div class='percent' id='percent1'>
+        <div
+          style="position: fixed;text-align:center;align-items: center;justify-content: center;top:50%;left: 50%;transform: translate(-50%, -50%);-webkit-transform: translate(-50%, -50%);-moz-transform: translate(-50%, -50%);-o-transform: translate(-50%, -50%);-ms-transform: translate(-50%, -50%);">
+          <div>
+            <img src="{% static 'images/Rocket.gif' %}" style="padding:40px;" alt="Alt">
+          </div>
+          <h4>This can take some time depending on the user's Internet connection</h4>
+          <br><span>Please wait ....</span>
+        </div>
+
+        <div id="wrapper">
+          <div id="content">
+          </div>
+        </div>
+
+        <input type="hidden" id="progress_width" value="0">
+      </div>
+      <!-- Libs JS -->
+      <!-- Tabler Core -->
+      <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+      <script src="{% static 'admin/js/tabler.min.js'%}"></script>
+      <script src="{% static 'admin/js/demo.min.js'%}"></script>
+      <script>
+        window.onload = function () {
+          var number = "{{customer.no_of_adult}}"
+          for (let i = 1; i < number; i++) {
+            document.getElementById('form_div').innerHTML += '<div class="mb-3">' + '<label class="form-label">Quest' + i + ' Id Proof</label><div><input type="file" class = "form-control" name=document_' + i + '></div></div>'+ '<div class="mb-3">' + '<label class="form-label">Quest' + i + ' Id Proof Back</label><div><input type="file" class = "form-control" name=document_back_' + i + '></div></div>';
+          }
+        };
+
+
+      </script>
+</body>
+
+</html>

@@ -1,0 +1,374 @@
+{% extends 'admin_user/admin-base.html' %}
+{% load static %}
+{% block content %}
+<div class="page-wrapper">
+  <div class="container-xl">
+    <!-- Page title -->
+    <div class="page-header d-print-none">
+      <div class="row align-items-center">
+        <div class="col">
+          <h2 class="page-title">Add/Update Products</h2>
+        </div>
+        <!-- style="background-color:rgb(204, 31, 31);box-shadow: none !important;" -->
+      </div>
+     
+
+    </div>
+  </div>
+
+  <div class="page-body">
+    <div class="container-xl">
+      <fieldset class="form-fieldset">
+        <form enctype="multipart/form-data" class="needs-validation" method="post"
+        action="{% url 'update_products' id %}">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label class="form-label required">Property Name</label>
+              <input type="text" class="form-control" placeholder="Property name" id="validationCustom01"
+                name="property_name" value="{{hotel.property_name}}" required>
+              <div class="invalid-feedback">Please provide a valid Property.</div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label required" for="validationCustom01">Property Code</label>
+              <input type="text" class="form-control" id="validationCustom02" name="property_code"
+                placeholder="Property Code" value="{{hotel.property_code}}" required>
+              <div class="valid-feedback">Looks good!</div>
+            </div>
+            
+          </div>
+          <div class="row">
+            <div class="row">
+              <div class="col-sm-6 col-lg-2 mb-4">
+                <div class="form-selectgroup form-selectgroup-pills">
+                  <label class="form-selectgroup-item" for="without_email">
+                    <input  type="checkbox" class="form-selectgroup-input" name="without_email"
+                      id="without_email" value="True" />
+                    <span class="form-selectgroup-label"> Without Email </span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-sm-6 col-lg-2 mb-4">
+                <div class="form-selectgroup form-selectgroup-pills">
+                  <label class="form-selectgroup-item" for="without_filter">
+                    <input class="form-selectgroup-input" type="checkbox" id="without_filter"
+                      value="True" name="without_filter" />
+                    <span class="form-selectgroup-label"> Without Filter </span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-2 mb-4">
+                <div class="form-selectgroup form-selectgroup-pills">
+                  <label class="form-selectgroup-item" for="google">
+                    <input onclick="Google(this)" type="checkbox" class="form-selectgroup-input" name="google"
+                      id="google" value="True" />
+                    <span class="form-selectgroup-label"> Google </span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-sm-6 col-lg-2 mb-4">
+                <div class="form-selectgroup form-selectgroup-pills">
+                  <label class="form-selectgroup-item" for="trip_adviser">
+                    <input class="form-selectgroup-input" type="checkbox" id="trip_adviser" onclick="TripAdviser(this)"
+                      value="True" name="tripadvisor" />
+                    <span class="form-selectgroup-label"> Tripadvisor </span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-2 mb-4">
+                <div class="form-selectgroup form-selectgroup-pills">
+                  <label class="form-selectgroup-item" for="g_t">
+                    <input type="checkbox" class="form-selectgroup-input" onclick="GT(this)" id="g_t" value="True"
+                      name="g_t" />
+                    <span class="form-selectgroup-label">Google & Tripadvisor</span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-2 mb-4">
+                <div class="form-selectgroup form-selectgroup-pills">
+                  <label class="form-selectgroup-item" for="t_g">
+                    <input type="checkbox" class="form-selectgroup-input" onclick="TG(this)" id="t_g" value="True"
+                      name="t_g" />
+                    <span class="form-selectgroup-label">Tripadvisor & Google</span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-2 mb-4">
+                <div class="form-selectgroup form-selectgroup-pills">
+                  <label class="form-selectgroup-item" for="inhouse">
+                    <input type="checkbox" class="form-selectgroup-input" id="inhouse"
+                      value="True" name="inhouse" />
+                    <span class="form-selectgroup-label">Inhouse</span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-8 col-lg-2 mb-4">
+                <div class="form-selectgroup form-selectgroup-pills">
+                  <label class="form-selectgroup-item" for="express_checkin">
+                    <input type="checkbox" class="form-selectgroup-input" onclick="ExpressCheckin(this)"
+                      id="express_checkin" value="True" name="checkin" />
+                    <span class="form-selectgroup-label">Express check-in</span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-2 mb-4">
+                <div class="form-selectgroup form-selectgroup-pills">
+                  <label class="form-selectgroup-item" for="social_media">
+                    <input type="checkbox" class="form-selectgroup-input" onclick="SocialMedia(this)" id="social_media"
+                      value="True" name="social_media" />
+                    <span class="form-selectgroup-label">Social media</span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-2 mb-4">
+                <div class="form-selectgroup form-selectgroup-pills">
+                  <label class="form-selectgroup-item" for="whatsapp">
+                    <input type="checkbox" class="form-selectgroup-input" id="whatsapp"
+                      value="True" name="whatsapp" />
+                    <span class="form-selectgroup-label">Whatsapp</span>
+                  </label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="row">
+            <div id="google_link" style="display:none" class="col-md-6 mb-2">
+              <label class="form-label required" for="validationCustom05">Google Place ID</label>
+              <input type="text" class="form-control" name="google_link" placeholder="Google linK" />
+              <div class="invalid-feedback">
+                Please provide a valid google_link.
+              </div>
+            </div>
+            <div id="trip_adviser_link" style="display:none" class="col-md-6 mb-2">
+              <label for="validationCustom05" class="form-label required">Tripadvisor Link</label>
+              <input type="text" class="form-control" name="tripadvisor_link" placeholder="Trip adviser linK" />
+              <div class="invalid-feedback">
+                Please provide a valid tripadvisor_link.
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div id="facebook_access_token" style="display: none" class="col-md-4 mb-3">
+              <label class="form-label " for="validationCustom05">Facebook Access Token </label>
+              <input type="text" class="form-control" name="facebook_access_token"
+                placeholder="Facebook Access Token" />
+              <div class="invalid-feedback">
+                Please provide a valid Facebook Access Token.
+              </div>
+            </div>
+            <div id="page_id" style="display: none" class="col-md-4 mb-3">
+              <label class="form-label " for="validationCustom05">Facebook Page ID</label>
+              <input type="text" class="form-control" name="page_id" placeholder="Facebook Page Id" />
+              <div class="invalid-feedback">
+                Please provide a valid Facebook page id.
+              </div>
+            </div>
+            <div id="insta_id" style="display: none" class="col-md-4 mb-3">
+              <label class="form-label " for="validationCustom05">Instagram ID</label>
+              <input type="text" class="form-control" placeholder="Instagram Id" name="insta_id" />
+              <div class="invalid-feedback">
+                Please provide a valid Instagram Id
+              </div>
+            </div>
+            <div class="row">
+              <div id="url" style="display:none" class="col-md-6 mb-2">
+                <label for="url">Rating Url</label>
+                <input type="text" class="form-control" placeholder="Url" name="review_url" id="rating_url" />
+                <div class="invalid-feedback">Please provide a valid Url</div>
+                <button type="button" class="btn btn-success" onclick="Generate(this)">
+                  Generate Rating Url
+                </button>
+              </div>
+              <div id="rating_qr" style="display:none" class="col-md-6 mb-2">
+                <label for="validationCustom05">Rating Qr</label>
+                <input type="file" class="form-control" id="validationCustom07" placeholder="Qr" name="review_qr" />
+                <div class="invalid-feedback">Please provide a valid Qr</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-2" id="checkin_url" style="display:none">
+                <label for="checkin_url1">Checkin Url</label>
+                <input type="text" class="form-control" id="checkin_url1" placeholder="Checkin Url"
+                  name="checkin_url" />
+                <div class="invalid-feedback">Please provide a valid Url</div>
+                <button type="button" class="btn btn-success" onclick="GenerateQr(this)">
+                  Generate Checkin Url
+                </button>
+              </div>
+              <div class="col-md-6 mb-2" id="checkin_qr" style="display:none">
+                <label for="validationCustom05">Checkin Qr</label>
+                <input type="file" class="form-control" id="validationCustom06" placeholder="Qr" name="checkin_qr" />
+                <div class="invalid-feedback">Please provide a valid Qr</div>
+              </div>
+            </div>
+          </div>
+    </div>
+
+
+    <div class="col-12 text-center">
+      <button id="checkBtn" class="btn btn-primary" type="submit">Submit form</button>
+    </div>
+    </form>
+    </fieldset>
+  </div>
+</div>
+</div>
+<!-- ADD property form ends -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    $("#checkBtn").click(function () {
+      checked = $("input[type=checkbox]:checked").length;
+
+      if (!checked) {
+        alert("You must check at least one checkbox.");
+        return false;
+      }
+    });
+  });
+
+  function Google() {
+    // Get the checkbox
+    var google = document.getElementById("google");
+    // Get the output text
+    var url = document.getElementById("url");
+    var rating_qr = document.getElementById("rating_qr");
+    var text = document.getElementById("google_link");
+    // If the checkbox is checked, display the output text
+    if (google.checked == true) {
+      text.style.display = "block";
+      url.style.display = "block";
+      rating_qr.style.display = "block";
+    } else {
+      text.style.display = "none";
+      url.style.display = "none";
+      rating_qr.style.display = "none";
+    }
+  }
+  function TripAdviser() {
+    // Get the checkbox
+    var trip_adviser = document.getElementById("trip_adviser");
+    // Get the output text
+    var url = document.getElementById("url");
+    var rating_qr = document.getElementById("rating_qr");
+    var text = document.getElementById("trip_adviser_link");
+    // If the checkbox is checked, display the output text
+    if (trip_adviser.checked == true) {
+      text.style.display = "block";
+      url.style.display = "block";
+      rating_qr.style.display = "block";
+    } else {
+      text.style.display = "none";
+      url.style.display = "none";
+      rating_qr.style.display = "none";
+    }
+  }
+
+  function GT() {
+    // Get the checkbox
+    var gt = document.getElementById("g_t");
+    var url = document.getElementById("url");
+    var rating_qr = document.getElementById("rating_qr");
+    // Get the output text
+    var trip_link = document.getElementById("trip_adviser_link");
+    var google_link = document.getElementById("google_link");
+
+    // If the checkbox is checked, display the output text
+    if (gt.checked == true) {
+      trip_link.style.display = "block";
+      google_link.style.display = "block";
+      url.style.display = "block";
+      rating_qr.style.display = "block";
+    } else {
+      google_link.style.display = "none";
+      trip_link.style.display = "none";
+      url.style.display = "none";
+      rating_qr.style.display = "none";
+    }
+  }
+  function TG() {
+    // Get the checkbox
+    var tg = document.getElementById("t_g");
+    var url = document.getElementById("url");
+    var rating_qr = document.getElementById("rating_qr");
+    // Get the output text
+    var trip_link = document.getElementById("trip_adviser_link");
+    var google_link = document.getElementById("google_link");
+
+    // If the checkbox is checked, display the output text
+    if (tg.checked == true) {
+      trip_link.style.display = "block";
+      google_link.style.display = "block";
+      url.style.display = "block";
+      rating_qr.style.display = "block";
+    } else {
+      google_link.style.display = "none";
+      trip_link.style.display = "none";
+      url.style.display = "none";
+      rating_qr.style.display = "none";
+    }
+  }
+
+  function SocialMedia() {
+    // Get the checkbox
+    var social_media = document.getElementById("social_media");
+
+    // Get the output text
+    var url = document.getElementById("url");
+    var rating_qr = document.getElementById("rating_qr");
+    var insta_id = document.getElementById("insta_id");
+    var page_id = document.getElementById("page_id");
+    var facebook_access_token = document.getElementById(
+      "facebook_access_token"
+    );
+
+    // If the checkbox is checked, display the output text
+    if (social_media.checked == true) {
+      insta_id.style.display = "block";
+      page_id.style.display = "block";
+      facebook_access_token.style.display = "block";
+      url.style.display = "block";
+      rating_qr.style.display = "block";
+    } else {
+      insta_id.style.display = "none";
+      page_id.style.display = "none";
+      facebook_access_token.style.display = "none";
+      url.style.display = "none";
+      rating_qr.style.display = "none";
+    }
+  }
+  function ExpressCheckin() {
+    var checkin = document.getElementById("express_checkin")
+    var checkin_url = document.getElementById("checkin_url")
+    var checkin_qr = document.getElementById("checkin_qr")
+
+
+    if (checkin.checked == true) {
+      checkin_url.style.display = "block";
+      checkin_qr.style.display = "block";
+    } else {
+      checkin_url.style.display = "none";
+      checkin_qr.style.display = "none";
+
+    }
+  }
+  function Generate() {
+    url = document.getElementById("rating_url")
+    username = "{{hotel.hotel_user.username}}"
+    url.value = window.location.origin + "/rate/" + username
+  }
+
+  function GenerateQr() {
+    url = document.getElementById("checkin_url1")
+    username = "{{hotel.hotel_user.username}}"
+    url.value = window.location.origin + "/checkin/check_mobile/" + username
+  }
+</script>
+
+
+
+{% endblock content %}
