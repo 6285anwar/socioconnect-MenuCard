@@ -19,7 +19,7 @@ from django.template.loader import get_template
 from django.conf import settings
 from datetime import date, timedelta, datetime                         
 from django.contrib.auth import get_user_model
-from django.utils import timezone
+  
 from django.http.response import HttpResponse
 
 # Create your views here.

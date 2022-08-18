@@ -1236,7 +1236,7 @@ def register_restaurant(request):
     except:
         messages.info(request,"Please login to your account")
         return redirect('login')
-    admin_users = DeveloperAdmin.objects.all()
+    admin_users = AdminUsers.objects.all()
 
     if request.method == 'POST':
         r_username = request.POST["username"]
@@ -1262,59 +1262,80 @@ def register_restaurant(request):
 
         r_admin_user = request.POST["admin_user"]
         
+        
 
         # r_qr = request.FILES["qrfile"]
+        # adminname = DeveloperAdmin.objects.get(id=r_admin_user)
 
-        adminname = DeveloperAdmin.objects.get(id=r_admin_user)
-       
-        restaurant=RestaurantUser(restaurant_name=r_restaurant_name,
-                                    owner_name=r_owner_name,
-                                    username=r_username,
-                                    type_of=r_type_of,
-                                    password=r_password,
-                                    user_email=r_user_email,
-                                    user_mobile=r_user_mobile,
-                                    profile_photo=r_profile_photo,
-                                    address=r_address,
-                                    location=r_location,
-                                    state=r_state,
-                                    country=r_country,
-                                    tablecount=r_tablecount,
-                                    amount=r_amount,
-                                    tax=r_tax,
-                                    total=r_total,
-                                    duration=r_duration,
-                                    website=r_website,
-                                    agreement=r_agreement,
-                                    admin_name=adminname,
-                                    status="Waiting"
+        User = get_user_model()
+        use = User.objects.filter(username=r_username)
+        user_d = User.objects.get(username=str(r_admin_user))
+        ad_user = AdminUsers.objects.get(admin_user=user_d)
+        if use:
 
-                                    )
-        restaurant.save()
+            messages.error(request, "Username Taken")
 
-        restaurant.access_token_end_date = date.today() + relativedelta(days=+27)
-        if r_duration == "7":
-            end_date = datetime.today() + relativedelta(days=+int(r_duration))
         else:
-            end_date = datetime.today() + relativedelta(months=+int(r_duration))
-        restaurant.end_date = timezone.make_aware(end_date)
-        restaurant.property_code =  "SC" + \
-                        str(restaurant.id).zfill(5)
-        restaurant.save()
-        
-        def range1(start, end):
-            return range(start, end+1)
-        
-        for i in range1(1, int(r_tablecount)):
-            documents = request.FILES.get("qr"+str(i), False)
-            tableqrcodes.objects.create(tableqr=documents,restaurantname_id=restaurant.id)
+            field_name = 'admin_user__username__icontains'
+            admin_user_object = AdminUsers.objects.get(
+                admin_user=current_user)
 
-        # resid=(restaurant.id)
-        # restaurantqr=tableqrcodes(tableqr=r_qr,restaurantname_id=resid)
-        # restaurantqr.save()
+            if r_password == r_password:
+                user = User.objects.create_user(
+                    username=r_username, email=r_user_email, password=r_password, first_name=r_owner_name)
+                user.is_restaurantmenucard = True
+                user.save()
 
-        return redirect("dashboard_admin")
-                                                    
+                
+            
+                restaurant=RestaurantUser(restaurant_name=r_restaurant_name,
+                                            owner_name=r_owner_name,
+                                            # username=r_username,
+                                            type_of=r_type_of,
+                                            password=r_password,
+                                            user_email=r_user_email,
+                                            user_mobile=r_user_mobile,
+                                            profile_photo=r_profile_photo,
+                                            address=r_address,
+                                            location=r_location,
+                                            state=r_state,
+                                            country=r_country,
+                                            tablecount=r_tablecount,
+                                            amount=r_amount,
+                                            tax=r_tax,
+                                            total=r_total,
+                                            duration=r_duration,
+                                            website=r_website,
+                                            agreement=r_agreement,
+                                            admin_name= ad_user,
+                                            status="Waiting"
+
+                                            )
+                restaurant.save()
+
+                restaurant.access_token_end_date = date.today() + relativedelta(days=+27)
+                if r_duration == "7":
+                    end_date = datetime.today() + relativedelta(days=+int(r_duration))
+                else:
+                    end_date = datetime.today() + relativedelta(months=+int(r_duration))
+                restaurant.end_date = timezone.make_aware(end_date)
+                restaurant.property_code =  "SC" + \
+                                str(restaurant.id).zfill(5)
+                restaurant.save()
+                
+                def range1(start, end):
+                    return range(start, end+1)
+                
+                for i in range1(1, int(r_tablecount)):
+                    documents = request.FILES.get("qr"+str(i), False)
+                    tableqrcodes.objects.create(tableqr=documents,restaurantname_id=restaurant.id)
+
+                # resid=(restaurant.id)
+                # restaurantqr=tableqrcodes(tableqr=r_qr,restaurantname_id=resid)
+                # restaurantqr.save()
+
+                return redirect("admin_manage_restaurant")
+                                                
     return render(request,'admin_user/register_restaurant.html',{"admin_users":admin_users})
 
 

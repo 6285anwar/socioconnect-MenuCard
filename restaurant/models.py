@@ -20,6 +20,8 @@ ActiveStatus = (
 
 # Restaurant Model
 class RestaurantUser(models.Model):
+    restaurant_user = models.OneToOneField(
+        DeveloperAdmin, related_name='restaurant_user', on_delete=CASCADE, null=True)
     property_code = models.CharField(max_length=20)
     restaurant_name = models.CharField(max_length=80)
    
@@ -36,7 +38,7 @@ class RestaurantUser(models.Model):
     location = models.CharField(max_length=200, null=True)
     state = models.CharField(max_length=50, null=True)
     country = models.CharField(max_length=50, null=True)
-    admin_name = models.ForeignKey(DeveloperAdmin, on_delete=SET_NULL, null=True)
+    admin_name = models.ForeignKey(AdminUsers, on_delete=SET_NULL, null=True)
     #table count
     tablecount = models.CharField(max_length=15, null=True)
     #payment
