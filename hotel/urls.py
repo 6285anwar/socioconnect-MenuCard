@@ -16,4 +16,6 @@ urlpatterns = [
     path('update_caption', views.update_caption, name="update_caption"),
     path('send_emails', views.send_emails, name="send_emails"),
 
+    path('restaurant_dashboard', views.restaurant_dashboard, name="restaurant_dashboard"),
+
 ]

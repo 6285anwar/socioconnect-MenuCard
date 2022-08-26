@@ -14,6 +14,7 @@ from email.mime.image import MIMEImage
 from .models import AdminUsers
 from hotel.models import HotelUsers, Complaints
 from customer.models import Customer
+from restaurant.models import *
 import calendar
 from django.template.loader import get_template
 from django.conf import settings
@@ -21,6 +22,8 @@ from datetime import date, timedelta, datetime
 from django.contrib.auth import get_user_model
   
 from django.http.response import HttpResponse
+from datetime import date, timedelta, datetime   
+from django.utils import timezone
 
 # Create your views here.
 
@@ -114,20 +117,33 @@ def hotel_login(request):
 
         user = authenticate(request, username=username, password=password)
         if user is not None:
+            
             try:
-                hotel = HotelUsers.objects.get(hotel_user=user)
+                hotel = HotelUsers.objects.get(hotel_user=user) 
+              
             except:
-                messages.info(request, "You are not a registerd hotel")
-                return render(request, 'login.html')
+                try:
+                    rest=RestaurantUser.objects.get(restaurant_user=user)
+                except:
+                    messages.info(request, "You are not a registerd hotel")
+                    return render(request, 'login.html')
 
             if hotel.property_code==property_code and user.is_hotel == True and hotel.other == True and hotel.end_date >= timezone.make_aware(datetime.now()):
                 login(request, user)
                 return redirect('hotel_dashboard')
+            
             if user.is_hotel == True and hotel.property_code==property_code and hotel.express_checkin == True and hotel.end_date >= timezone.make_aware(datetime.now()):
                 login(request, user)
                 return redirect('dashboard_hotel')
+
+            elif rest.property_code==property_code:
+                login(request, user)
+                return redirect('restaurant_dashboard')
+            
+
             else:
                 messages.info(request, "You are not allowed to login")
+
         else:
             messages.info(request, "Invalid credentials")
             return render(request, 'login.html')
@@ -321,3 +337,7 @@ def send_emails(request):
         else:
             return render(request, 'hotels/send_emails.html', {"hotel":hotel, "customer":customer})
 
+
+def restaurant_dashboard(request):
+   
+    return render(request, 'restaurants/restaurant_dashboard.html')

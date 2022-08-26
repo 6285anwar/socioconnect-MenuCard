@@ -62,3 +62,10 @@ class tableqrcodes(models.Model):
 
     tableqr = models.FileField(upload_to='document',null=True)
     restaurantname = models.ForeignKey(RestaurantUser, on_delete=models.CASCADE)
+
+class Restaurantwaiter(models.Model):
+    fullname = models.CharField(max_length=80, null=True)
+    username = models.CharField(max_length=80, null=True)
+    password = models.CharField(max_length=80, null=True)
+
+

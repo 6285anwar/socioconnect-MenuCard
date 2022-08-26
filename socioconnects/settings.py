@@ -256,8 +256,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'noreply@hudels.com'
-EMAIL_HOST_PASSWORD = 'cburqzkzcpiptoto'
+EMAIL_HOST_USER = 'anwar.se6285@gmail.com'
+EMAIL_HOST_PASSWORD = 'powzrvfffszrtktj'
 APPLICATION_EMAIL = 'Admin<noreply@hudels.com>'
 DEFAULT_FROM_EMAIL = 'Admin<noreply@hudels.com>'
 
