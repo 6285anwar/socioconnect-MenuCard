@@ -58,6 +58,12 @@ urlpatterns = [
     path('register_restaurant', views.register_restaurant, name="register_restaurant"),
     path('admin_manage_restaurant', views.admin_manage_restaurant, name="admin_manage_restaurant"),
     path('restaurant_approve/<int:id>',views.restaurant_approve, name="restaurant_approve"),
+    path('admin_restaurant_home',views.admin_restaurant_home, name="admin_restaurant_home"),
+    path('admin_restaurant_fooditemadd',views.admin_restaurant_fooditemadd, name="admin_restaurant_fooditemadd"),
+    path('admin_restaurant_fooditemadd_delete/<int:id>',views.admin_restaurant_fooditemadd_delete, name="admin_restaurant_fooditemadd_delete"),
+
+
+
 
 
 

@@ -64,8 +64,18 @@ class tableqrcodes(models.Model):
     restaurantname = models.ForeignKey(RestaurantUser, on_delete=models.CASCADE)
 
 class Restaurantwaiter(models.Model):
+    restaurant = models.ForeignKey(RestaurantUser, on_delete=models.CASCADE, null=True)
     fullname = models.CharField(max_length=80, null=True)
     username = models.CharField(max_length=80, null=True)
     password = models.CharField(max_length=80, null=True)
 
 
+class RestaurantFoodItem (models.Model):
+    item_name = models.CharField(max_length=80, null=True)
+
+class RestaurantFoodmenu(models.Model):
+    restaurant = models.ForeignKey(RestaurantUser, on_delete=models.CASCADE, null=True)
+    fooditem = models.ForeignKey(RestaurantFoodItem, on_delete=models.CASCADE, null=True)
+    foodname = models.CharField(max_length=80, null=True)
+    price = models.CharField(max_length=80, null=True)
+   

@@ -11,6 +11,12 @@ urlpatterns = [
     path('restaurant_profile', views.restaurant_profile, name="restaurant_profile"),
     path('logout_restaurant', views.logout_restaurant, name="logout_restaurant"),
 
+    path('restaurant_deletewaiter/<int:id>', views.restaurant_deletewaiter, name="restaurant_deletewaiter"),
+    path('restaurant_add_menu', views.restaurant_add_menu, name="restaurant_add_menu"),
+    path('restaurant_add_foodmenu', views.restaurant_add_foodmenu, name="restaurant_add_foodmenu"),
+
+
+
 
 
 

@@ -6,7 +6,7 @@ from dateutil.relativedelta import relativedelta
 import admin_user
 from dateutil import tz
 
-from restaurant.models import RestaurantUser, tableqrcodes
+from restaurant.models import RestaurantFoodItem, RestaurantUser, tableqrcodes
 from .models import AdminUsers, DeveloperAdmin
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -1435,3 +1435,56 @@ def restaurant_approve(request, id):
 
 
     return redirect('admin_manage_restaurant')
+
+
+def admin_restaurant_home(request):
+    try:
+        current_user = request.user
+        current_user.is_admin_user
+    except:
+        messages.info(request,"Please login to your account")
+        return redirect('login')
+    
+    fooditem=RestaurantFoodItem.objects.all()
+
+    return render(request,'admin_user/admin_restaurant_home.html',{'fooditem':fooditem})
+
+    
+
+def admin_restaurant_fooditemadd(request):
+    try:
+        current_user = request.user
+        current_user.is_admin_user
+    except:
+        messages.info(request,"Please login to your account")
+        return redirect('login')
+
+    if request.method == 'POST':
+        r_nameofitem = request.POST["nameofitem"]
+        
+        user=RestaurantFoodItem.objects.filter(item_name=r_nameofitem)
+        if user:
+            user.item_name = "not"
+            messages.error(request, "Food item name is ALREADY EXIST")
+        else:
+
+
+            restaurantfooditem=RestaurantFoodItem(item_name=r_nameofitem)
+            restaurantfooditem.save()
+        
+            return redirect('admin_restaurant_home')
+    return render(request,'admin_user/admin_restaurant_fooditemadd.html')
+
+def admin_restaurant_fooditemadd_delete(request,id):
+    try:
+        current_user = request.user
+        current_user.is_admin_user
+    except:
+        messages.info(request,"Please login to your account")
+        return redirect('login')
+    
+    name=RestaurantFoodItem.objects.get(id=id)
+    name.delete()
+
+    return redirect('admin_restaurant_home')
+    

@@ -1,0 +1,59 @@
+{% extends 'admin_user/admin-base.html' %} {% load static %} {% block content %}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row d-flex justify-content-center ">
+            <div class="col-lg-10 grid-margin stretch-card mt-3">
+                <div class="card ">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">item add form</h4>
+                            {% if messages %}
+                            <span>
+                             
+                      
+                              <div class="messages" style="text-align:center;">
+                                {% for message in messages %}
+                                <div style="height:50px; width:100%;padding-top:15px;" {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</div>
+                                {% endfor %}
+                      
+                              </div>
+                              
+                            </span>
+                            {% endif %}
+                            <form class="forms-sample" method="post" action="admin_restaurant_fooditemadd" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="targetBox" name="nameofitem"
+                                         placeholder="item Name">
+                                </div>
+                                <br>
+                                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                                <!-- <a href="{% url 'admin_restaurant_home' %}"><button class="btn btn-light">Cancel</button></a> -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var capitalize = function(e){
+    // if the first letter is lowercase a-z
+    // ** don't run the replace unless required, to permit selecting of text **
+    if(this.value.match(/^[a-z]/)){
+        // replace the first letter
+        this.value = this.value.replace(/^./,function(letter){
+            // with the uppercase version
+            return letter.toUpperCase();
+        });
+    }
+}
+
+// listen to key up in case of typeing, or pasting via keyboard
+// listen to mouseup in case of pasting via mouse
+// prefer `up` events as the action is complete at that point
+document.getElementById('targetBox').addEventListener('keyup', capitalize);
+document.getElementById('targetBox').addEventListener('mouseup', capitalize);
+</script>
+{% endblock content %}
