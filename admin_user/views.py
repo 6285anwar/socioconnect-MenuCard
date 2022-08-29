@@ -1308,7 +1308,8 @@ def register_restaurant(request):
                                             website=r_website,
                                             agreement=r_agreement,
                                             admin_name= ad_user,
-                                            status="Waiting"
+                                            status="Waiting",
+                                            restaurant_user=user
 
                                             )
                 restaurant.save()

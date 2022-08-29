@@ -3,139 +3,147 @@
 {%block content%}
 
 
-<div class="container-fluid">
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-    </div>
-    <div class="row col-lg-12">
-        <div class="col-lg-10 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Order List</h4>
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Table No.</th>
-                                    <th>Items</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Table 1</td>
-                                    <td>
-                                        <li>Biriyani</li>
-                                        <li>Chicken chilli</li>
-                                    </td>
-                                    <td><button type="button" class="btn btn-sm btn-success" data-toggle="modal"
-                                            data-target="#myModal">Accept</button>
-                                        <button type="button" class="btn btn-sm btn-danger">Reject</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Table 2</td>
-                                    <td>
-                                        <li>Poratta</li>
-                                        <li>Biriyani</li>
-                                        <li>Chicken chilli</li>
-                                    </td>
-                                    <td><button type="button" class="btn btn-sm btn-success" data-toggle="modal"
-                                            data-target="#myModal">Accept</button>
-                                        <button type="button" class="btn btn-sm btn-danger">Reject</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+
+
+
+                <div class="container-fluid">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-2  ">
-            <div class="col-2  col-md-12">
-                <div class="card">
-                    <div class="card-content ">
-                        <div class="buttonclick">
-                            <div class="card-body text-center well ">
-                                <button type="button" class="btn btn-success">T1</button>
-                                <button type="button" class="btn btn-outline-secondary">T2</button>
-                                <button type="button" class="btn btn-success">T3</button>
-                                <button type="button" class="btn btn-outline-secondary">T4</button>
-                                <button type="button" class="btn btn-outline-secondary">T5</button>
-                                <button type="button" class="btn btn-success">T6</button>
-                                <button type="button" class="btn btn-outline-secondary">T7</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="card">
-                    <div class="card-header bg-black"></div>
-                    <div class="card-body">
-                        <div class="container">
-                            <div class="row text-center">
-                                <h5 class="text-uppercase text-center mt-3">Table Number : 1 </h5>
-                            </div>
-                            <div class="row mx-3">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">item</th>
-                                            <th scope="col">Quantity</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Biriyani</td>
-                                            <td> full</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Poratta</td>
-                                            <td>3</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Chicken Gravy</td>
-                                            <td>1</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <form action="">
-                                <div class="row">
-                                    <div class="col-xl-8 text-center">
-                                        <label for="">Assigned to : </label>
-                                        <select class="form-select" id="sel1" name="sellist1">
-                                            <option>Waiter 1</option>
-                                            <option>Waiter 2</option>
-                                            <option>Waiter 3</option>
-                                        </select>
+                    <div class="row col-lg-12">
+                        <div class="col-lg-10 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Order List {{table}}</h4>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Table No.</th>
+                                                    <th>Items</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Table 1</td>
+                                                    <td>
+                                                        <li>Biriyani</li>
+                                                        <li>Chicken chilli</li>
+                                                    </td>
+                                                    <td><button type="button" class="btn btn-sm btn-success"
+                                                            data-toggle="modal" data-target="#myModal">Accept</button>
+                                                        <button type="button"
+                                                            class="btn btn-sm btn-danger">Reject</button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Table 2</td>
+                                                    <td>
+                                                        <li>Poratta</li>
+                                                        <li>Biriyani</li>
+                                                        <li>Chicken chilli</li>
+                                                    </td>
+                                                    <td><button type="button" class="btn btn-sm btn-success"
+                                                            data-toggle="modal" data-target="#myModal">Accept</button>
+                                                        <button type="button"
+                                                            class="btn btn-sm btn-danger">Reject</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                                <hr>
-                                <button type="submit" class="btn btn-primary mt-3 float-right">Assign</button>
-                            </form>
+                            </div>
+                        </div>
+                        <div class="col-2  ">
+                            <div class="col-2  col-md-12">
+                                <div class="card">
+                                    <div class="card-content ">
+                                        <div class="buttonclick">
+                                            <div class="card-body text-center well ">
+                                               
+                                                <button type="button" class="btn btn-success">T1</button>
+                                                <button type="button" class="btn btn-outline-secondary">T2</button>
+                                                <button type="button" class="btn btn-success">T3</button>
+                                                <button type="button" class="btn btn-outline-secondary">T4</button>
+                                                <button type="button" class="btn btn-outline-secondary">T5</button>
+                                                <button type="button" class="btn btn-success">T6</button>
+                                                <button type="button" class="btn btn-outline-secondary">T7</button>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-footer bg-black"></div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card">
+                                    <div class="card-header bg-black"></div>
+                                    <div class="card-body">
+                                        <div class="container">
+                                            <div class="row text-center">
+                                                <h5 class="text-uppercase text-center mt-3">Table Number : 1 </h5>
+                                            </div>
+                                            <div class="row mx-3">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">item</th>
+                                                            <th scope="col">Quantity</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Biriyani</td>
+                                                            <td> full</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Poratta</td>
+                                                            <td>3</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Chicken Gravy</td>
+                                                            <td>1</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <form action="">
+                                                <div class="row">
+                                                    <div class="col-xl-8 text-center">
+                                                        <label for="">Assigned to : </label>
+                                                        <select class="form-select" id="sel1" name="sellist1">
+                                                            <option>Waiter 1</option>
+                                                            <option>Waiter 2</option>
+                                                            <option>Waiter 3</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <button type="submit"
+                                                    class="btn btn-primary mt-3 float-right">Assign</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-black"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 
-{% endblock %}
+                {% endblock %}

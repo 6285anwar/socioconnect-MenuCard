@@ -117,29 +117,37 @@ def hotel_login(request):
 
         user = authenticate(request, username=username, password=password)
         if user is not None:
+            if user.is_restaurantmenucard == True:
+
             
-            try:
-                hotel = HotelUsers.objects.get(hotel_user=user) 
-              
-            except:
                 try:
                     rest=RestaurantUser.objects.get(restaurant_user=user)
+                    if rest.property_code==property_code and user.is_restaurantmenucard == True and rest.end_date >= timezone.make_aware(datetime.now()):
+                        login(request, user)
+                        
+                        return redirect('restaurant_dashboard')
                 except:
                     messages.info(request, "You are not a registerd hotel")
                     return render(request, 'login.html')
 
-            if hotel.property_code==property_code and user.is_hotel == True and hotel.other == True and hotel.end_date >= timezone.make_aware(datetime.now()):
-                login(request, user)
-                return redirect('hotel_dashboard')
-            
-            if user.is_hotel == True and hotel.property_code==property_code and hotel.express_checkin == True and hotel.end_date >= timezone.make_aware(datetime.now()):
-                login(request, user)
-                return redirect('dashboard_hotel')
+            elif user.is_hotel == True:
+                try:
+                   hotel = HotelUsers.objects.get(hotel_user=user) 
 
-            elif rest.property_code==property_code:
-                login(request, user)
-                return redirect('restaurant_dashboard')
-            
+                   if hotel.property_code==property_code and user.is_hotel == True and hotel.other == True and hotel.end_date >= timezone.make_aware(datetime.now()):
+                        login(request, user)
+                        return redirect('hotel_dashboard')
+                    
+                   if user.is_hotel == True and hotel.property_code==property_code and hotel.express_checkin == True and hotel.end_date >= timezone.make_aware(datetime.now()):
+                        login(request, user)
+                        return redirect('dashboard_hotel')
+              
+                except:
+                    messages.info(request, "You are not a registerd hotel")
+                    return render(request, 'login.html')
+
+
+                    
 
             else:
                 messages.info(request, "You are not allowed to login")
@@ -339,5 +347,5 @@ def send_emails(request):
 
 
 def restaurant_dashboard(request):
-   
-    return render(request, 'restaurants/restaurant_dashboard.html')
+    
+        return render(request, 'restaurants/restaurant_dashboard.html')
