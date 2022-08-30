@@ -19,6 +19,15 @@ urlpatterns = [
     path('restaurant_menucard', views.restaurant_menucard, name="restaurant_menucard"),
 
 
+    #restaurant==================================
+
+    path('restaurant_menucard/<str:username>/<int:tableno>', views.restaurant_menucard, name="restaurant_menucard"),
+    path('restaurant_card/<int:tableno>', views.restaurant_card, name="restaurant_card"),
+
+
+
+
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

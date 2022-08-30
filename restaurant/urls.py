@@ -15,6 +15,11 @@ urlpatterns = [
     path('restaurant_add_menu', views.restaurant_add_menu, name="restaurant_add_menu"),
     path('restaurant_add_foodmenu', views.restaurant_add_foodmenu, name="restaurant_add_foodmenu"),
 
+    path('restaurant_edit_menu/<int:id>', views.restaurant_edit_menu, name="restaurant_edit_menu"),
+    path('restaurant_update_menu/<int:id>', views.restaurant_update_menu, name="restaurant_update_menu"),
+    path('restaurant_delete_menu/<int:id>', views.restaurant_delete_menu, name="restaurant_delete_menu"),
+
+
 
 
 

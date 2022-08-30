@@ -1290,7 +1290,7 @@ def register_restaurant(request):
             
                 restaurant=RestaurantUser(restaurant_name=r_restaurant_name,
                                             owner_name=r_owner_name,
-                                            # username=r_username,
+                                            username=r_username,
                                             type_of=r_type_of,
                                             password=r_password,
                                             user_email=r_user_email,

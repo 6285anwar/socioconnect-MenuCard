@@ -232,9 +232,9 @@
         var a = document.getElementById("number").value;
         for (i = 1; i <= a; i++) {
             var textbox = document.createElement("textarea");
-            restname = document.getElementById("restaurantname").value
-            document.getElementById("textboxes").appendChild(textbox).value = "http://hacknasa.si/" + restname + "/" + i;
-
+            restusername = document.getElementById("yourUsername").value
+            document.getElementById("textboxes").appendChild(textbox).value = "http://127.0.0.1:8000/restaurant_menucard/" + restusername + "/" + i;
+           
             if (textbox.value == "") {
                 textbox.style.backgroundColor = "yellow";
             }

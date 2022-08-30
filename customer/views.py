@@ -1,5 +1,9 @@
 from django.shortcuts import render, redirect
 from datetime import date, timedelta,datetime
+
+
+from restaurant.models import RestaurantUser
+import restaurant
 from .models import Customer
 from hotel.models import HotelUsers
 # from sales_executive.serializers import CustomerSerializer
@@ -43,8 +47,7 @@ def sendSMS(apikey, numbers, sender, message):
 #     'Jims Autos', 'This is your message')
 # print (resp)
 
-def restaurant_menucard(request):
-    return render(request, "restaurant_menucard.html")
+
 
 # Index page
 def index(request):
@@ -310,3 +313,27 @@ def email_click(request, id):
         return redirect("https://search.google.com/local/writereview?placeid=" + customer.hotel.google_link)
     if customer.hotel.g_t:
         return redirect(str(customer.hotel.trip_adviser_link))
+
+
+
+
+
+
+#======================  Restaurant =========================
+
+def restaurant_menucard(request,username,tableno):
+
+    restaurant=RestaurantUser.objects.get(username=username)
+
+    tableno=tableno
+
+
+    return render(request, "customer/restaurant_menucard.html",{"rest":restaurant,"tableno":tableno})
+
+
+def restaurant_card(request,tableno):
+
+    tableno=tableno
+    print("tableno :",tableno)
+
+    return redirect('restaurant_menucard')
